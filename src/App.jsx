@@ -9,13 +9,16 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+import QuestionCard from "./components/QuestionCard";
+import { Sidebar } from "lucide-react";
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Header />
-        <main className="min-h-screen bg-gray-950 text-white p-6">
+        <QuestionCard />
+        {/* <main className="min-h-screen bg-gray-950 text-white p-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -25,7 +28,7 @@ export default function App() {
             <Route path="/admin" element={<AdminDashboard />} /> 
           </Routes>
         </main>
-        <Footer />
+        <Footer /> */}
       </AuthProvider>
     </BrowserRouter>
   );
