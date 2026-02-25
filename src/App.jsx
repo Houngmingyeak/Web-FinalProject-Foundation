@@ -9,7 +9,6 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
-import MindStackLeaderboard from "./pages/LeaderBoard";
 
 export default function App() {
   return (
@@ -24,7 +23,6 @@ export default function App() {
             <Route path="/search" element={<SearchPage/>} />
             <Route path="/question/:id" element={<QuestionDetailPage />}/>
             <Route path="/admin" element={<AdminDashboard />} /> 
-            <Route path="/leaderboard" element={<MindStackLeaderboard/>} /> 
           </Routes>
         </main>
         <Footer />
