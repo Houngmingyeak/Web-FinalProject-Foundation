@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiHome } from "react-icons/fi";
 
 const users = [
   { rank: 1, initials: "SM", name: "Sarah Miller", rep: 12450, level: 24, xp: 890, maxXp: 1000 },
@@ -52,7 +53,7 @@ const MedalIcon = ({ color }) => (
 );
 
 const navItems = [
-  { label: "Home",        icon: "🏠" },
+  { label: "Home",        icon: <FiHome /> },
   { label: "Questions",   icon: "❓" },
   { label: "Leaderboard", icon: "🏆" },
   { label: "Challenges",  icon: "⚔️" },

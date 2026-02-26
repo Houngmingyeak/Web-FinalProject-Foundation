@@ -11,6 +11,9 @@ import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProfilePage from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import LeaderBoard from "./pages/LeaderBoard";
+import Sidebar from "./layout/Sidebar";
+import SidebarQuestion from "./layout/SidebarQuestion";
 
 export default function App() {
   return (
@@ -22,6 +25,9 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/leader" element={<LeaderBoard />} />
+            <Route path="/side" element={<Sidebar />} />
+            {/* <Route path="/sideq" element={} /> */}
             <Route
               path="/profile"
               element={
