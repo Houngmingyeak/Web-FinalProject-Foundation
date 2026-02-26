@@ -16,7 +16,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Header />
-        <main className="min-h-screen bg-gray-950 text-white p-6">
+        <main className="bg-white text-white">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
