@@ -15,7 +15,7 @@ export default function Header() {
         {/* Search Bar Section */}
         <div className="flex-1 max-w-xl mx-8 hidden md:block ">
           <div className="flex gap-4 justify-center text-gray-300">
-            <a href="" className="hover:text-blacktransition-colors">
+            <a href="" className="hover:text-black transition-colors">
               Feature
             </a>
             <a href="" className="hover:text-black transition-colors">
