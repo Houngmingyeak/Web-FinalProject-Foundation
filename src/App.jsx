@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+import AboutUsPage from "./pages/AboutUsPage";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/search" element={<SearchPage/>} />
             <Route path="/question/:id" element={<QuestionDetailPage />}/>
             <Route path="/admin" element={<AdminDashboard />} /> 
+            <Route path="/about" element={<AboutUsPage />} />
           </Routes>
         </main>
         <Footer />
