@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TagSelector from '../components/TagSelector';
-import Sidebar from '../layout/SidebarQuestion';
+import Sidebar from '../layout/Sidebar';
 
 const QuestionForm = () => {
   const [title, setTitle] = useState('');
