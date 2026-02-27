@@ -1,18 +1,30 @@
 import { useState } from "react";
+import CherPhengPic from "../assets/images/CherPhengPic.jpg";
+import CherCheatPic from "../assets/images/CherCheatPic.JPG";
+import YeakPic from "../assets/images/YeakPic.JPG";
+import SoriyaPic from "../assets/images/SoriyaPic.jpg";
+import VanPic from "../assets/images/LokbongPic.png";
+import SaveunPic from "../assets/images/SavaunPic.png";
+import LongfuPic from "../assets/images/LongfuPic.jpg";
+import ReachPic from "../assets/images/reachPic.jpg";
+import TeviPic from "../assets/images/TeviPic.png";
+
+
+
 
 const mentors = [
-  { name: "Kim Chansopheng", role: "Mentor", photo: "" },
-  { name: "Srorng Sokcheat", role: "Mentor", photo: "" },
+  { name: "Kim Chansopheng", role: "Mentor", photo: CherPhengPic},
+  { name: "Srorng Sokcheat", role: "Mentor", photo: CherCheatPic },
 ];
 
 const team = [
-  { name: "Houng Mingyeak", role: "Leader", photo: "" },
-  { name: "Sin Soriya", role: "Sub-Leader", photo: "" },
-  { name: "Vin Van", role: "Member", photo: "" },
-  { name: "Chhorn Saveun", role: "Member", photo: "" },
-  { name: "Lim Longfou", role: "Member", photo: "" },
-  { name: "Ches Sovanreach", role: "Member", photo: "" },
-  { name: "Chamreun Molikatvy", role: "Member", photo: "" },
+  { name: "Houng Mingyeak", role: "Leader", photo: YeakPic },
+  { name: "Sin Soriya", role: "Sub-Leader", photo: SoriyaPic},
+  { name: "Vin Van", role: "Member", photo: VanPic },
+  { name: "Chhorn Saveun", role: "Member", photo: SaveunPic},
+  { name: "Lim Longfou", role: "Member", photo: LongfuPic},
+  { name: "Ches Sovanreach", role: "Member", photo: ReachPic},
+  { name: "Chamreun Molikatevy", role: "Member", photo: TeviPic},
 ];
 
 const palette = [
