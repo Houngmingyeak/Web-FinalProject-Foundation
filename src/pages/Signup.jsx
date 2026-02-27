@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../firebase/config";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { Eye, EyeOff } from "lucide-react";
+// import { Eye, EyeOff } from "lucide-react";
 import { LuGithub } from "react-icons/lu";
 
 // ── Brand icons ──────────────────────────────────────────────────────────────
