@@ -26,7 +26,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/leader" element={<LeaderBoard />} />
-            <Route path="/side" element={<Sidebar />} />
+            <Route path="/si" element={} />
             {/* <Route path="/sideq" element={} /> */}
             <Route
               path="/profile"
