@@ -9,22 +9,19 @@ import LongfuPic from "../assets/images/LongfuPic.jpg";
 import ReachPic from "../assets/images/reachPic.jpg";
 import TeviPic from "../assets/images/TeviPic.png";
 
-
-
-
 const mentors = [
-  { name: "Kim Chansopheng", role: "Mentor", photo: CherPhengPic},
+  { name: "Kim Chansopheng", role: "Mentor", photo: CherPhengPic },
   { name: "Srorng Sokcheat", role: "Mentor", photo: CherCheatPic },
 ];
 
 const team = [
   { name: "Houng Mingyeak", role: "Leader", photo: YeakPic },
-  { name: "Sin Soriya", role: "Sub-Leader", photo: SoriyaPic},
+  { name: "Sin Soriya", role: "Sub-Leader", photo: SoriyaPic },
   { name: "Vin Van", role: "Member", photo: VanPic },
-  { name: "Chhorn Saveun", role: "Member", photo: SaveunPic},
-  { name: "Lim Longfou", role: "Member", photo: LongfuPic},
-  { name: "Ches Sovanreach", role: "Member", photo: ReachPic},
-  { name: "Chamreun Molikatevy", role: "Member", photo: TeviPic},
+  { name: "Chhorn Saveun", role: "Member", photo: SaveunPic },
+  { name: "Lim Longfou", role: "Member", photo: LongfuPic },
+  { name: "Ches Sovanreach", role: "Member", photo: ReachPic },
+  { name: "Chamreun Molikatevy", role: "Member", photo: TeviPic },
 ];
 
 const palette = [
@@ -413,15 +410,6 @@ export default function AboutPage() {
         }
         .social-btn:hover { color: #4A7CFF; }
 
-        /* ── Footer ── */
-        footer {
-          text-align: center;
-          padding: 24px;
-          font-size: 13px;
-          color: #c5ccd8;
-          border-top: 1px solid #f0f0f5;
-        }
-
         /* ── Animations ── */
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(20px); }
@@ -506,11 +494,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-
-      <footer>
-        © {new Date().getFullYear()} MindStack · Built by learners, for
-        learners.
-      </footer>
     </div>
   );
 }
