@@ -13,13 +13,17 @@ export default function Header() {
         </div>
 
         {/* Search Bar Section */}
-        <div className="flex-1 max-w-xl mx-8 hidden md:block">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search questions....."
-              className="w-full bg-gray-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
-            />
+        <div className="flex-1 max-w-xl mx-8 hidden md:block ">
+          <div className="flex gap-4 justify-center text-gray-300">
+            <a href="" className="hover:text-black transition-colors">
+              Feature
+            </a>
+            <a href="" className="hover:text-black transition-colors">
+              Testimonials
+            </a>
+            <a href="" className="hover:text-black transition-colors">
+              About us
+            </a>
           </div>
         </div>
 
@@ -27,18 +31,14 @@ export default function Header() {
         <div className="flex items-center space-y-0 space-x-4">
           {/* Theme Toggle Button */}
           <button className="p-2 bg-gray-50 text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-100 transition">
-            {/* Replace with <Sun size={18} /> */}
-            {/* <span className="text-xs">☀</span> */}
             <GoSun />
           </button>
 
           {/* Ask Questions Button */}
           <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
-            {/* Replace with <SquarePen size={18} /> */}
             <span>Log in</span>
           </button>
           <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
-            {/* Replace with <SquarePen size={18} /> */}
             <span>Sign up free</span>
           </button>
         </div>
