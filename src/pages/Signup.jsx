@@ -1,4 +1,4 @@
-//src/pages/Signup.jsx
+// src/pages/Signup.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../firebase/config";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { Eye, EyeOff } from "lucide-react";
+// import { Eye, EyeOff } from "lucide-react";
 import { LuGithub } from "react-icons/lu";
 
 // ── Brand icons ──────────────────────────────────────────────────────────────
@@ -73,189 +73,84 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [oauthLoading, setOauthLoading] = useState(""); // "google" | "github" | ""
-
   const navigate = useNavigate();
 
-  // ── Email / password signup ─────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-
-      await updateProfile(userCredential.user, { displayName: username });
-
-      await createUserDoc(userCredential.user, { displayName: username });
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      await updateProfile(userCredential.user, {
+        displayName: username
+      });
 
       navigate("/");
-    } catch (err) {
-      setError(err.message);
+    } catch (error) {
+      setError(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // ── Google OAuth ────────────────────────────────────────────────────────
-  const handleGoogleSignIn = async () => {
-    setError("");
-    setOauthLoading("google");
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      await createUserDoc(result.user);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setOauthLoading("");
-    }
-  };
-
-  // ── GitHub OAuth ────────────────────────────────────────────────────────
-  const handleGithubSignIn = async () => {
-    setError("");
-    setOauthLoading("github");
-    try {
-      const provider = new GithubAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      await createUserDoc(result.user);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setOauthLoading("");
-    }
-  };
-
-  const busy = loading || !!oauthLoading;
-
-  // ── Render ──────────────────────────────────────────────────────────────
   return (
     <div className="flex items-center justify-center min-h-[80vh]">
-      <div className="bg-white p-8 rounded-xl w-100 shadow-xl border border-gray-800">
-        <h2 className="text-2xl font-bold text-start mb-6 text-black">
-          Create an account
+      <div className="bg-gray-900 p-8 rounded-xl w-96 shadow-xl border border-gray-800">
+        <h2 className="text-2xl font-bold text-center mb-6 text-white">
+          Create Account
         </h2>
 
-        {/* Error banner */}
         {error && (
-          <div className="bg-red-500 text-white p-3 rounded mb-4 text-sm">
+          <div className="bg-red-500 text-white p-3 rounded mb-4">
             {error}
           </div>
         )}
 
-        {/* ── OAuth buttons ─────────────────────────────────────────────── */}
-        <div className="grid grid-cols-2 gap-3 mb-5">
-          <button
-            type="button"
-            onClick={handleGoogleSignIn}
-            disabled={busy}
-            className="flex items-center justify-center gap-2 py-2.5 rounded-[11px] bg-blue-200 hover:bg-blue-300 text-blue-500 font-bold text-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <GoogleIcon />
-            {oauthLoading === "google" ? "Connecting…" : "Google"}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleGithubSignIn}
-            disabled={busy}
-            className="flex items-center justify-center gap-2 py-2.5 rounded-[11px] bg-blue-200 hover:bg-blue-300 text-blue-500 font-bold text-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <LuGithub className="text-black text-[17px]" />
-            {oauthLoading === "github" ? "Connecting…" : "Git Hub"}
-          </button>
-        </div>
-
-        {/* ── Divider ───────────────────────────────────────────────────── */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="flex-1 " />
-          <span className="text-xs text-gray-500 font-bold tracking-widest">
-            Or
-          </span>
-          <div className="flex-1 " />
-        </div>
-
-        {/* ── Email / password form ──────────────────────────────────────── */}
-        <label className="text-sm text-gray-700 font-bold">Username</label>
         <form onSubmit={handleSubmit}>
-          {/* Username */}
           <input
             type="text"
-            placeholder="Enter your name"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            disabled={busy}
-            className="w-full mt-1 pl-4 p-2 mb-4 rounded-[11px] text-gray-700 border border-blue-700 focus:border-blue-500 focus:border-2 focus:outline-none disabled:opacity-50"
+            className="w-full p-3 mb-4 rounded bg-gray-800 text-white border border-gray-700 focus:border-orange-500 focus:outline-none"
           />
 
-          {/* Email */}
-          <label className="text-sm text-gray-700 font-bold">Email</label>
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            disabled={busy}
-            className="w-full mt-1 pl-4 p-2 mb-4 rounded-[11px] text-gray-700 border border-blue-700 focus:border-blue-500 focus:border-2 focus:outline-none disabled:opacity-50"
+            className="w-full p-3 mb-4 rounded bg-gray-800 text-white border border-gray-700 focus:border-orange-500 focus:outline-none"
           />
 
-          {/* Password label row with Forgot link */}
-          <div className="flex items-center justify-between mb-1.5">
-            <label className="text-sm text-gray-700 font-bold">Password</label>
-          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength="6"
+            className="w-full p-3 mb-6 rounded bg-gray-800 text-white border border-gray-700 focus:border-orange-500 focus:outline-none"
+          />
 
-          {/* Password input + eye toggle */}
-          <div className="relative mb-6">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="At least 6 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength="6"
-              disabled={busy}
-              className="w-full pl-4 p-2 pr-11 rounded-[11px] text-gray-700 border border-blue-700 focus:border-blue-500 focus:border-2 focus:outline-none disabled:opacity-50"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
-              tabIndex={-1}
-              aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
-
-          {/* Submit */}
           <button
             type="submit"
-            disabled={busy}
-            className="w-full py-3 rounded-[11px] bg-blue-500 hover:bg-blue-600 text-white font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading}
+            className="w-full py-3 rounded bg-green-500 hover:bg-green-600 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Creating Account..." : "Create Account"}
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
 
-        {/* Footer */}
-        <p className="text-center mt-4 text-gray-400 text-sm">
+        <p className="text-center mt-4 text-gray-400">
           Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-blue-400 hover:text-blue-500 font-medium"
-          >
+          <Link to="/login" className="text-orange-400 hover:text-orange-300">
             Log in
           </Link>
         </p>
