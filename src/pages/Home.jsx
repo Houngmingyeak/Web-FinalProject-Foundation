@@ -27,21 +27,28 @@ const HomePage = () => {
             />
           </div>
           {/* Text Overlay - Positioned absolutely on top of the image */}
-          <div className="absolute inset-40 flex items-center justify-center top-4 ">
-            <div className="flex-1 text-center lg:text-left max-w-xl mx-auto px-4">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-black mb-6">
-                Where developers{" "}
-                <span className="bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent p-4">
+          {/* Text Overlay - Positioned absolutely on top of the image */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center px-4">
+              <h2 className="font-extrabold text-black leading-tight">
+                {/* First Line */}
+                <div className="text-[72px] whitespace-nowrap">
+                  Where develpoers
+                </div>
+
+                {/* Second Line */}
+                <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
                   level up together
-                </span>
+                </div>
               </h2>
-              <p className="text-[17px] text-center text-slate-600 max-w-200 lg:mx-0 mx-auto mb-8">
+
+              <p className="text-[20px] text-slate-600 mt-6 max-w-3xl mx-auto">
                 The gamified Q&A platform that makes sharing knowledge
                 rewarding. Ask questions, earn XP, unlock badges, and climb the
                 leaderboard.
               </p>
 
-              <div className="ml-18 flex gap-4 flex-wrap justify-between items-center lg:justify-start mb-12">
+              <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
                 <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
                   <a href="#" className="flex items-center gap-2">
                     Start for free
@@ -57,7 +64,7 @@ const HomePage = () => {
               </div>
 
               {/* Stats */}
-              <div className="flex gap-8 md:gap-17 flex-wrap justify-center lg:justify-start">
+              <div className="flex gap-8 md:gap-17 flex-wrap justify-center text-center mt-10">
                 <div className="text-center lg:text-left">
                   <div className="text-3xl font-bold text-slate-900">50K+</div>
                   <div className="text-sm text-slate-500">Developers</div>
@@ -125,7 +132,7 @@ const HomePage = () => {
           </div>
           <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
             <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <CgMediaLive className="text-blue-600 text-[30px] mx-auto"  />
+              <CgMediaLive className="text-blue-600 text-[30px] mx-auto" />
             </div>
             <div>
               <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
@@ -136,9 +143,11 @@ const HomePage = () => {
               </p>
             </div>
           </div>
+
+          
           <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
             <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <RiShieldLine className="text-blue-600 text-[25px] mx-auto"  />
+              <RiShieldLine className="text-blue-600 text-[25px] mx-auto" />
             </div>
             <div>
               <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
@@ -151,7 +160,7 @@ const HomePage = () => {
           </div>
           <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
             <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <LuGift className="text-blue-600 text-[25px] mx-auto"  />
+              <LuGift className="text-blue-600 text-[25px] mx-auto" />
             </div>
             <div>
               <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
@@ -164,7 +173,7 @@ const HomePage = () => {
           </div>
           <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
             <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <IoCodeSlash className="text-blue-600 text-[25px] mx-auto"  />
+              <IoCodeSlash className="text-blue-600 text-[25px] mx-auto" />
             </div>
             <div>
               <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
@@ -179,7 +188,7 @@ const HomePage = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 px-8">
+      <section className="py-16 px-8 font-inter">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-900 mb-4">
             How it works
@@ -194,7 +203,7 @@ const HomePage = () => {
               <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-1">
                 <LuMessageSquare className="text-blue-600 text-3xl mx-auto" />
               </div>
-              <p className="text-black">01</p>
+              <p className="text-black font-bold">01</p>
               <h3 className="text-xl text-black font-semibold mb-2">
                 Ask or Answer
               </h3>
@@ -208,7 +217,7 @@ const HomePage = () => {
               <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
                 <CiTrophy className="text-blue-600 text-3xl mx-auto" />
               </div>
-              <p className="text-black">02</p>
+              <p className="text-black font-bold">02</p>
               <h3 className="text-xl text-black font-semibold mb-2">
                 Earn XP & Badges
               </h3>
@@ -222,7 +231,7 @@ const HomePage = () => {
               <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
                 <LuUsers className="text-blue-600 text-3xl mx-auto" />
               </div>
-              <p className="text-black">03</p>
+              <p className="text-black font-bold">03</p>
               <h3 className="text-xl text-black font-semibold mb-2">
                 Climb the Ranks
               </h3>
@@ -439,7 +448,7 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-white text-black text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 rounded-2xl mb-18">
+      <section className="bg-white text-black text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 rounded-2xl my-16">
         <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 ">
           Join 50,000+ developers who are already earning XP, unlocking badges,

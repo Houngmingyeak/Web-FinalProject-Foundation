@@ -10,6 +10,7 @@ import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
 import HomePage from "./pages/Home";
+import AboutPage from "./pages/AboutUsPage";
 
 export default function App() {
   return (
@@ -24,7 +25,8 @@ export default function App() {
             <Route path="/search" element={<SearchPage/>} />
             <Route path="/question/:id" element={<QuestionDetailPage />}/>
             <Route path="/admin" element={<AdminDashboard />} /> 
-            <Route path="/home" element={<HomePage />} /> 
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} /> 
           </Routes>
         </main>
         <Footer />

@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { FaArrowRight } from "react-icons/fa6";
+import { FaAngleRight } from "react-icons/fa";
+import { CgMediaLive } from "react-icons/cg";
+import { RiShieldLine } from "react-icons/ri";
+import { FiUsers } from "react-icons/fi";
 import CherPhengPic from "../assets/images/CherPhengPic.jpg";
 import CherCheatPic from "../assets/images/CherCheatPic.JPG";
 import YeakPic from "../assets/images/YeakPic.JPG";
@@ -8,6 +13,7 @@ import SaveunPic from "../assets/images/SavaunPic.png";
 import LongfuPic from "../assets/images/LongfuPic.jpg";
 import ReachPic from "../assets/images/reachPic.jpg";
 import TeviPic from "../assets/images/TeviPic.png";
+import abtus_background from "../assets/images/abtus_background.png";
 
 const mentors = [
   { name: "Kim Chansopheng", role: "Mentor", photo: CherPhengPic },
@@ -162,7 +168,7 @@ export default function AboutPage() {
   return (
     <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
       {/* Hero */}
-      <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gradient-to-br from-blue-50 to-gray-50 relative overflow-hidden">
+      {/* <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gradient-to-br from-blue-50 to-gray-50 relative overflow-hidden">
         <div className="absolute w-150 h-150 rounded-full bg-gradient-to-r from-blue-500/5 to-transparent top--30 right--30 pointer-events-none" />
         <p className="text-xs font-semibold tracking-wider uppercase text-[#4A7CFF] mb-5 animate-fade-up [animation-delay:100ms]">
           MindStack · About Us
@@ -184,35 +190,144 @@ export default function AboutPage() {
             See more
           </button>
         </div>
-      </div>
+      </div> */}
+      <header className="relative">
+        <div className="relative">
+          {/* Background Image */}
+          <div className="w-full">
+            <img
+              src={abtus_background}
+              alt="Developers collaborating"
+              className="w-full h-auto object-cover opacity-7"
+            />
+          </div>
+          {/* Text Overlay - Positioned absolutely on top of the image */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center px-4">
+              <h2 className="font-extrabold text-black leading-tight">
+                {/* First Line */}
+                <div className="text-[72px] whitespace-nowrap">
+                  Ask. Answer.Collaborate.Grow.
+                </div>
 
+                {/* Second Line */}
+                <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
+                  Built by learners, for learners
+                </div>
+              </h2>
+
+              <p className="text-[20px] text-slate-600 mt-6 max-w-3xl mx-auto">
+                our community-driven forum encourages open discussion, knowledge
+                sharing, and continuous improvement in the world of technology.
+              </p>
+
+              <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
+                <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
+                  <a href="#" className="flex items-center gap-2">
+                    Start for free
+                    <FaArrowRight className="mt-1" />
+                  </a>
+                </div>
+                <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
+                  <a href="#" className="flex items-center gap-2">
+                    See how it works
+                    <FaAngleRight className="mt-1" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
       {/* Purpose */}
-      <div className="py-24 px-6 max-w-4xl mx-auto text-center">
+      <div className="py-24 px-6 max-w-6xl mx-auto text-center">
         <h2 className="text-[clamp(28px,3.5vw,44px)] font-bold tracking-tight mb-3">
           Our Purpose
         </h2>
-        <p className="text-base text-gray-500 leading-relaxed mb-13">
+        <p className="text-base text-[16px] text-gray-500 leading-relaxed mb-13">
           To share knowledge and resources that help learners and developers
           improve their skills.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
-          <div className="bg-white border border-gray-100 rounded-2xl p-8 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/10">
-            <div className="text-2xl mb-4">🛡️</div>
-            <h3 className="text-lg font-bold mb-2.5">Mission</h3>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              To build an inclusive, user-friendly forum where people can freely
-              exchange ideas, ask questions, and share knowledge — connecting
-              people from all backgrounds to grow and solve problems together.
-            </p>
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 w-[520px] h-[275px]">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
+              <RiShieldLine className="text-blue-600 text-[25px] mx-auto" />
+            </div>
+            <div>
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+                Mission
+              </h3>
+              <p className="text-slate-600 text-[15px]">
+                To build an interactive, inclusive, and user-friendly forum
+                where individuals can freely exchange ideas, ask questions, and
+                share valuable knowledge. We aim to create a supportive
+                environment that encourages collaboration, critical thinking,
+                and continuous learning. By connecting people from different
+                backgrounds and skill levels, we strive to empower our community
+                to grow together and solve problems effectively.
+              </p>
+            </div>
           </div>
-          <div className="bg-white border border-gray-100 rounded-2xl p-8 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/10">
-            <div className="text-2xl mb-4">🎯</div>
-            <h3 className="text-lg font-bold mb-2.5">Vision</h3>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              To become a trusted knowledge-sharing platform that inspires
-              innovation and meaningful collaboration worldwide — where
-              knowledge is accessible to everyone and every idea is respected.
-            </p>
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
+              <CgMediaLive className="text-blue-600 text-[30px] mx-auto" />
+            </div>
+            <div>
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+                Vision
+              </h3>
+              <p className="text-slate-600 text-[15px]">
+                To become a leading and trusted knowledge-sharing platform that
+                inspires innovation, continuous learning, and meaningful
+                collaboration worldwide. We envision a global community where
+                knowledge is accessible to everyone, where ideas are respected,
+                and where individuals are motivated to contribute, improve, and
+                make a positive impact through shared expertise.
+              </p>
+            </div>
+          </div>
+        </div> */}
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-left justify-center">
+            {/* Mission Box */}
+            <div className="bg-slate-50 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 flex flex-col">
+              <div className="flex items-center justify-center bg-blue-100 w-12 h-12 rounded-2xl mb-4 hover:bg-blue-200">
+                <RiShieldLine className="text-blue-600 text-[25px]" />
+              </div>
+
+              <div>
+                <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+                  Mission
+                </h3>
+
+                <p className="text-slate-600 text-[15px] leading-relaxed">
+                  To build an interactive, inclusive, and user-friendly forum
+                  where individuals can freely exchange ideas, ask questions,
+                  and share valuable knowledge. We aim to create a supportive
+                  environment that encourages collaboration, critical thinking.
+                </p>
+              </div>
+            </div>
+
+            {/* Vision Box */}
+            <div className="bg-slate-50 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 flex flex-col">
+              <div className="flex items-center justify-center bg-blue-100 w-12 h-12 rounded-2xl mb-4 hover:bg-blue-200">
+                <CgMediaLive className="text-blue-600 text-[30px]" />
+              </div>
+
+              <div>
+                <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+                  Vision
+                </h3>
+
+                <p className="text-slate-600 text-[15px] leading-relaxed">
+                  To become a leading and trusted knowledge-sharing platform
+                  that inspires innovation, continuous learning, and meaningful
+                  collaboration worldwide. We envision a global community where
+                  knowledge is accessible to everyone.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -220,8 +335,9 @@ export default function AboutPage() {
       {/* Team */}
       <div className="bg-blue-50/50 py-20 px-6 pb-25">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-xs font-semibold tracking-wider uppercase text-gray-400 mb-2.5">
-            The people behind it
+          <p className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-black mb-2.5">
+            <FiUsers className="text-sm text-black" />
+            Lead by Developers
           </p>
 
           <h2 className="text-[clamp(24px,3vw,36px)] font-bold tracking-tight mb-9">
