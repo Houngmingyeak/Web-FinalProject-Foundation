@@ -14,7 +14,7 @@ import { GoStarFill } from "react-icons/go";
 
 const HomePage = () => {
   return (
-    <main>
+    <main className="bg-slate-50">
       {/* Hero Section with Image */}
       <header className="relative">
         <div className="relative">
@@ -95,82 +95,82 @@ const HomePage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Feature Cards */}
-          <div className="bg-slate-50 flex-1 items-start flex-co p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-              <LuMessageSquare className="text-blue-600 text-3xl mx-auto" />
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 ">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-xl mb-2 hover:bg-blue-200">
+              <LuMessageSquare className="text-blue-600 text-[25px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
                 Q&A That Rewards
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 text-[15px]">
                 Ask and answer questions. Every contribution earns XP and
                 rewards.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-co p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-              <CiTrophy className="text-blue-600 text-3xl mx-auto" />
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
+              <CiTrophy className="text-blue-600 text-[25px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
                 Leaderboards
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 text-[15px]">
                 Complete globally verified weekly, monthly, and all-time
                 rankings.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-co p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-              <CgMediaLive className="text-blue-600 text-3xl mx-auto" />
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
+              <CgMediaLive className="text-blue-600 text-[30px] mx-auto"  />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
                 Daily Challenges
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 text-[15px]">
                 Complete daily challenges to earn bonus XP and exclusive badges.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-co p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-              <RiShieldLine className="text-blue-600 text-3xl mx-auto" />
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
+              <RiShieldLine className="text-blue-600 text-[25px] mx-auto"  />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
                 Level Up System
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 text-[15px]">
                 Progress through 10 levels with unlockable points and perks.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-co p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-              <LuGift className="text-blue-600 text-3xl mx-auto" />
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
+              <LuGift className="text-blue-600 text-[25px] mx-auto"  />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
                 Badges & Rewards
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 text-[15px]">
                 Earn gold, silver, and bronze badges for your achievements.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-co p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-              <IoCodeSlash className="text-blue-600 text-3xl mx-auto" />
+          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
+              <IoCodeSlash className="text-blue-600 text-[25px] mx-auto"  />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
                 Code-Free Design
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 text-[15px]">
                 Syntax highlighting, markdown support, and code-centric UX.
               </p>
             </div>
@@ -194,7 +194,7 @@ const HomePage = () => {
               <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-1">
                 <LuMessageSquare className="text-blue-600 text-3xl mx-auto" />
               </div>
-              <p className="text-black">03</p>
+              <p className="text-black">01</p>
               <h3 className="text-xl text-black font-semibold mb-2">
                 Ask or Answer
               </h3>
@@ -208,7 +208,7 @@ const HomePage = () => {
               <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
                 <CiTrophy className="text-blue-600 text-3xl mx-auto" />
               </div>
-              <p className="text-black">03</p>
+              <p className="text-black">02</p>
               <h3 className="text-xl text-black font-semibold mb-2">
                 Earn XP & Badges
               </h3>
@@ -241,7 +241,7 @@ const HomePage = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Testimonial 1 */}
-          <div className="bg-slate-50 p-8 rounded-xl border border-slate-200">
+          <div className="bg-white p-8 rounded-xl border border-slate-200">
             <div class="flex items-center text-yellow-300 space-x-1">
               <svg
                 class="w-5 h-5 text-fg-yello"
@@ -299,15 +299,14 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
             </div>
-            <p className="italic text-slate-700 mb-6">
-              "Definitely made me actually enjoy answering questions. The XP
-              system is addictive!"
+            <p className="text-slate-700 my-4">
+              "Definitely made me actually enjoy answering questions."
             </p>
             <p className="font-semibold border-t text-slate-900 ">Sarah M.</p>
             <p className="text-sm text-slate-500">Senior Engineer @ Stripe</p>
           </div>
           {/* Testimonial 2 */}
-          <div className="bg-slate-50 p-8 rounded-xl border border-slate-200">
+          <div className="bg-white p-8 rounded-xl border border-slate-200">
             <div class="flex items-center text-yellow-300 space-x-1">
               <svg
                 class="w-5 h-5 text-fg-yello"
@@ -365,14 +364,14 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
             </div>
-            <p className="italic text-slate-700 mb-6">
+            <p className=" text-slate-700 my-6">
               "This game is so fun! I've been playing it for a while now."
             </p>
             <p className="font-semibold border-t  text-slate-900">James L.</p>
             <p className="text-sm text-slate-500">Full-Stack Dev</p>
           </div>
           {/* Testimonial 3 */}
-          <div className="bg-slate-50 p-8 rounded-xl border border-slate-200">
+          <div className="bg-white p-8 rounded-xl border border-slate-200">
             <div class="flex items-center text-yellow-300 space-x-1">
               <svg
                 class="w-5 h-5 text-fg-yello"
@@ -430,7 +429,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
             </div>
-            <p className="italic text-slate-700 mb-6">
+            <p className=" text-slate-700 my-4">
               "I love this game! It's so much fun and challenging."
             </p>
             <p className="font-semibold border-t  text-slate-900">Erwin W.</p>
@@ -440,15 +439,17 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gray-200 text-white text-center py-14 px-8 max-w-[1220px] mx-auto border-2 rounded-2xl">
+      <section className="bg-white text-black text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 rounded-2xl mb-18">
         <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
-        <p className="text-lg text-white max-w-2xl mx-auto mb-8">
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 ">
           Join 50,000+ developers who are already earning XP, unlocking badges,
           and climbing the leaderboard.
         </p>
         <a
           href="#"
-          className="bg-white text-slate-900 px-8 py-3 rounded-full font-semibold inline-block hover:bg-slate-100 transition"
+          className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold inline-block shadow-md 
+                transform transition duration-300 ease-in-out 
+                hover:-translate-y-2 hover:drop-shadow-lg"
         >
           Get started → the flow
         </a>
