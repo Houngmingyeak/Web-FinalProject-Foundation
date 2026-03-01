@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
 import Header from "./components/Header";
@@ -42,3 +41,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
