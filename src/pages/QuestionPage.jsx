@@ -87,7 +87,7 @@ export default function QuestionsPage() {
       <main className="flex-1 ">
         <h1 className="text-black font-bold text-2xl pl-8 pt-6 ">Question</h1>
         <div className="  px-6 py-8">
-          <div className="flex w-fit border-black mb-5 rounded-lg bg-gray-200 border-0 rounded-2xl p-1">
+          <div className="flex w-fit border-black mb-5 bg-gray-200 border-0 rounded-2xl p-1">
             {["Newest", "Active", "Unansered", "Most Vote"].map((tab) => (
               <button
                 key={tab}
@@ -103,7 +103,7 @@ export default function QuestionsPage() {
               </button>
             ))}
           </div>
-          <div className="">
+          <div>
             <div className="flex flex-col gap-4">
               {questions.map((q) => (
                 <QuestionCard key={q.id} question={q} />
