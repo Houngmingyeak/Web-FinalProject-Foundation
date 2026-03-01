@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiHome } from "react-icons/fi";
+import Sidebar from "../layout/Sidebar";
 
 const users = [
   { rank: 1, initials: "SM", name: "Sarah Miller", rep: 12450, level: 24, xp: 890, maxXp: 1000 },
@@ -72,48 +73,8 @@ export default function Leaderboard() {
     <div className="flex min-h-screen bg-slate-100 font-sans">
 
       {/* ── Sidebar ── */}
-      <aside className="w-56 bg-white border-r border-slate-200 flex flex-col py-6 shrink-0">
-
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-5 pb-7">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold text-lg">
-            M
-          </div>
-          <span className="font-bold text-lg text-slate-800">MindStack</span>
-        </div>
-
-        {/* Nav */}
-        <nav className="flex-1">
-          {navItems.map(({ label, icon }) => (
-            <button
-              key={label}
-              onClick={() => setActiveNav(label)}
-              className={`w-full flex items-center gap-3 px-5 py-2.5 text-sm transition-all duration-150 text-left
-                ${activeNav === label
-                  ? "bg-blue-50 text-blue-600 font-semibold rounded-r-lg"
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-                }`}
-            >
-              <span className="text-base">{icon}</span>
-              {label}
-            </button>
-          ))}
-        </nav>
-
-        {/* Your Progress */}
-        <div className="px-4 mt-4">
-          <p className="text-xs font-semibold text-slate-400 tracking-widest mb-2.5">YOUR PROGRESS</p>
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-7 h-7 rounded-md bg-gradient-to-br from-indigo-500 to-indigo-400 flex items-center justify-center text-white text-xs font-bold">
-              {currentUser.level}
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-800 leading-none">Level {currentUser.level}</p>
-              <p className="text-xs text-slate-400 mt-0.5">{currentUser.xp} / {currentUser.maxXp} XP</p>
-            </div>
-          </div>
-          <XpBar xp={currentUser.xp} maxXp={currentUser.maxXp} />
-        </div>
+      <aside>
+        <Sidebar />
       </aside>
 
       {/* ── Main ── */}

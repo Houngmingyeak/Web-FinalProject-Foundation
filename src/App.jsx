@@ -14,6 +14,7 @@ import QuestionForm from "./pages/Question";
 import ChallengesPage from "./pages/ChallengesPage";
 import Leaderboard from "./pages/LeaderBoard";
 import Account from "./pages/Account";
+import QuestionsPage from "./pages/QuestionPage";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/cha" element={<ChallengesPage />} />
             <Route path="/leader" element={<Leaderboard />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/questions" element={<QuestionsPage />} />
           </Routes>
         </main>
         <Footer />
