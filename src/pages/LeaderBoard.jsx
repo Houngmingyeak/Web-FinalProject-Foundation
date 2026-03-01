@@ -60,7 +60,7 @@ const navItems = [
   { label: "Profile",     icon: "👤" },
 ];
 
-export default function MindStackLeaderboard() {
+export default function Leaderboard() {
   const [activeTab, setActiveTab] = useState("All-time");
   const [activeNav, setActiveNav] = useState("Leaderboard");
 

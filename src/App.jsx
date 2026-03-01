@@ -11,6 +11,9 @@ import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
 import HomePage from "./pages/Home";
 import AboutPage from "./pages/AboutUsPage";
+import QuestionForm from "./pages/Question";
+import ChallengesPage from "./pages/ChallengesPage";
+import Leaderboard from "./pages/LeaderBoard";
 
 export default function App() {
   return (
@@ -22,11 +25,14 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/search" element={<SearchPage/>} />
-            <Route path="/question/:id" element={<QuestionDetailPage />}/>
-            <Route path="/admin" element={<AdminDashboard />} /> 
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/question/:id" element={<QuestionDetailPage />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} /> 
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/que" element={<QuestionForm />} />
+            <Route path="/cha" element={<ChallengesPage />} />
+            <Route path="/leader" element={<Leaderboard />} />
           </Routes>
         </main>
         <Footer />
