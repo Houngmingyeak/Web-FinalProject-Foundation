@@ -15,7 +15,6 @@ import HomePage from "./pages/Home";
 import AboutPage from "./pages/AboutUsPage";
 import QuestionForm from "./pages/Question";
 import ChallengesPage from "./pages/ChallengesPage";
-
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
 import Sidebar from "./layout/Sidebar";
