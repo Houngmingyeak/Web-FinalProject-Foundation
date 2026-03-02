@@ -22,7 +22,7 @@ const mentors = [
 
 const team = [
   { name: "Houng Mingyeak", role: "Leader", photo: YeakPic },
-  { name: "Sin Soriya", role: "Sub-Leader", photo: SoriyaPic },
+  { name: "Yin Soriya", role: "Sub-Leader", photo: SoriyaPic },
   { name: "Vin Van", role: "Member", photo: VanPic },
   { name: "Chhorn Saveun", role: "Member", photo: SaveunPic },
   { name: "Lim Longfou", role: "Member", photo: LongfuPic },
