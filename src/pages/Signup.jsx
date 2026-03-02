@@ -11,7 +11,6 @@ import {
 import { auth, db } from "../firebase/config";
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 // import { Eye, EyeOff } from "lucide-react";
 import { LuGithub } from "react-icons/lu";
 import z from "zod";
@@ -124,8 +123,6 @@ export default function Signup() {
       } else {
         setError("Authentication failed. Please try again.");
       }
-    } catch (error) {
-      setError(error.message);
     } finally {
       setLoading(false);
     }
