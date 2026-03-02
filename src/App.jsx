@@ -9,7 +9,8 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
-import AboutUsPage from "./pages/AboutUsPage";
+import AboutPage from "./pages/AboutPage";
+import ChallengesPage from "./pages/ChallengesPage";
 
 export default function App() {
   return (
@@ -24,7 +25,9 @@ export default function App() {
             <Route path="/search" element={<SearchPage/>} />
             <Route path="/question/:id" element={<QuestionDetailPage />}/>
             <Route path="/admin" element={<AdminDashboard />} /> 
-            <Route path="/about" element={<AboutUsPage />} />
+            <Route path="/about" element={<AboutPage/>} /> 
+            <Route path="/challenge" element={<ChallengesPage/>} />
+
           </Routes>
         </main>
         <Footer />
