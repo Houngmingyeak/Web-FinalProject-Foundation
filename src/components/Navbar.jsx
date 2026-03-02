@@ -19,8 +19,9 @@ const NavBar = () => {
         <a href="#" className="text-slate-700 font-medium hover:text-blue-600 transition">
           Badges
         </a>
-        <button className="bg-blue-600 text-white px-5 py-2 rounded-md font-semibold hover:bg-blue-700 transition">
-          Sign In
+        <button className="bg-blue-600 text-white px-5 py-2 rounded-md font-semibold hover:bg-blue-700 transition"><a href="/login">
+          Login
+          </a>
         </button>
       </div>
     </nav>
