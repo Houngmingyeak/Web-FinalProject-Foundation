@@ -11,14 +11,24 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProfilePage from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/forgot_password";
+<<<<<<< HEAD
+=======
+import HomePage from "./pages/Home";
+import AboutPage from "./pages/AboutUsPage";
+import QuestionForm from "./pages/Question";
+import ChallengesPage from "./pages/ChallengesPage";
+import Leaderboard from "./pages/LeaderBoard";
+import Account from "./pages/Account";
+import QuestionsPage from "./pages/QuestionPage";
+import Sidebar from "./layout/Sidebar";
+>>>>>>> bcd2d96fca68731ffd9a8f4e45cdb69a392e44b0
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Header />
-        <QuestionCard />
-        <main className="min-h-screen w bg-gray-50 text-white ">
+        <main className="bg-white text-white">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -35,6 +45,14 @@ export default function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/question/:id" element={<QuestionDetailPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/que" element={<QuestionForm />} />
+            <Route path="/cha" element={<ChallengesPage />} />
+            <Route path="/leader" element={<Leaderboard />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/questions" element={<QuestionsPage />} />
+            <Route path="/sb" element={<Sidebar />} />
           </Routes>
         </main>
         <Footer />
