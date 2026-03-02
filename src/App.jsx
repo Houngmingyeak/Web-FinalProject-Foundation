@@ -11,8 +11,6 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProfilePage from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/forgot_password";
-<<<<<<< HEAD
-=======
 import HomePage from "./pages/Home";
 import AboutPage from "./pages/AboutUsPage";
 import QuestionForm from "./pages/Question";
@@ -21,7 +19,6 @@ import Leaderboard from "./pages/LeaderBoard";
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
 import Sidebar from "./layout/Sidebar";
->>>>>>> bcd2d96fca68731ffd9a8f4e45cdb69a392e44b0
 
 export default function App() {
   return (
