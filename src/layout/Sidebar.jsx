@@ -36,7 +36,7 @@ const navItems = [
 export default function Sidebar() {
   const location = useLocation();
   return (
-    <aside className="w-72 bg-white border-r border-gray-100 flex flex-col py-4 h-screen sticky top-0">
+    <aside className="w-72 bg-white border-r border-gray-300  border-b border-gray-300 flex flex-col py-4 sticky mb-4">
       {/* Navigation Links */}
       <nav className="flex flex-col gap-0.5 px-4 ">
         {navItems.map(({ label, path, icon }) => (
