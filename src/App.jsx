@@ -15,6 +15,7 @@ import ChallengesPage from "./pages/ChallengesPage";
 import Leaderboard from "./pages/LeaderBoard";
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
+import Sidebar from "./layout/Sidebar";
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/leader" element={<Leaderboard />} />
             <Route path="/account" element={<Account />} />
             <Route path="/questions" element={<QuestionsPage />} />
+                   <Route path="/sb" element={<Sidebar />} />
           </Routes>
         </main>
         <Footer />
