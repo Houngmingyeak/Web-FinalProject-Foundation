@@ -11,6 +11,7 @@ import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
 import Question from "./pages/Question";
+import ForgotPassword from "./pages/ForgotPassword";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +26,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/question/:id" element={<QuestionDetailPage />} />
+          <Route path="/question/:id" element={<QuestionDetailPage />} />  
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
           {/* Protected Routes */}
           <Route

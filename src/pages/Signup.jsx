@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../features/auth/authSlice";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function EyeIcon({ visible }) {
   return visible ? (
@@ -55,12 +55,14 @@ export default function Signup() {
   const { loading, error, success } = useSelector((state) => state.auth);
 
   // Show success toast when registration succeeds
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (success) {
+      navigate("/login"); // Redirect to login page after successful registration
       toast.success("Registration Successful! ✅");
-      window.location.href = "/login"; // Redirect to login page after successful registration
     }
-  }, [success]);
+  }, [success, navigate]);
 
   // Show error toast when there's an error from Redux
   useEffect(() => {
@@ -75,18 +77,13 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     // Validation with toast notifications
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
       toast.error("Please fill in all fields");
       return;
     }
-
+    
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -102,13 +99,17 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white rounded-2xl shadow-2xl w-[520px] p-10">
-        <h2 className="text-3xl font-bold mb-7 text-black">
+      <div className="bg-white rounded-xl shadow-md w-[540px] p-10">
+        <h2 className="text-3xl font-bold mb-2 text-black">
           Create an account
         </h2>
-
+        
+        {/* Added descriptive paragraph */}
+        <p className="text-gray-600 mb-4">
+          Join our community of developers and start sharing knowledge. 
+        </p>
         {/* Social Login */}
-        <div className="flex flex-col-2 gap-4">
+        <div className="flex flex-col-2 gap-4 mb-6">
           {/* Google */}
           <button
             type="button"
@@ -138,9 +139,7 @@ export default function Signup() {
           </button>
         </div>
 
-        <p className="flex items-center justify-center text-gray-500 font-extrabold">
-          or
-        </p>
+        <p className="flex items-center justify-center text-gray-500 font-extrabold">or</p>
 
         {/* Signup Form */}
         <form onSubmit={handleSubmit}>
@@ -216,15 +215,6 @@ export default function Signup() {
             </div>
           </div>
 
-          <p className="text-end text-sm text-gray-600 mb-4">
-            <a
-              href="/forgot-password"
-              className="text-blue-500 hover:underline"
-            >
-              Forgot Password?
-            </a>
-          </p>
-
           {/* Submit */}
           <button
             type="submit"
@@ -235,26 +225,23 @@ export default function Signup() {
           >
             {loading ? "Loading..." : "Create Account"}
           </button>
-        </form>
 
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-500 hover:underline">
-            Login here
-          </Link>
-        </p>
-        {/* Terms and conditions note */}
-        <p className="text-xs text-gray-500 mb-4">
-          By creating an account, you agree to our{" "}
-          <a href="#" className="text-blue-500 hover:underline">
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a href="#" className="text-blue-500 hover:underline">
-            Privacy Policy
-          </a>
-          .
-        </p>
+          {/* Already have an account? */}
+          <p className="text-sm text-gray-600 mt-4 text-center">
+            Already have an account?{" "}
+            <a href="/login" className="text-blue-500 hover:underline">
+              Login
+            </a>
+          </p>
+
+          {/* Terms and conditions note */}
+          <p className="text-xs text-gray-500 mb-4 mt-3">
+            By creating an account, you agree to our{" "}
+            <a href="#" className="text-blue-500 hover:underline">Terms of Service</a>{" "}
+            and{" "}
+            <a href="#" className="text-blue-500 hover:underline">Privacy Policy</a>.
+          </p>
+        </form>
 
         {/* ToastContainer must be included once in your component tree */}
         <ToastContainer position="top-right" autoClose={3000} />
