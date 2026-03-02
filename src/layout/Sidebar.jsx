@@ -1,9 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { IoHomeOutline } from "react-icons/io5";
 import { FaRegQuestionCircle, FaRegUser, FaBookmark } from "react-icons/fa";
 import { LuSwords } from "react-icons/lu";
 import { GoTrophy } from "react-icons/go";
-import { AiFillHome } from "react-icons/ai";
 import { FiHome } from "react-icons/fi";
 import { FaRegBookmark } from "react-icons/fa6";
 

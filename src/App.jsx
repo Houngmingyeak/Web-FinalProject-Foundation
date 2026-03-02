@@ -37,7 +37,7 @@ export default function App() {
             <Route path="/leader" element={<Leaderboard />} />
             <Route path="/account" element={<Account />} />
             <Route path="/questions" element={<QuestionsPage />} />
-                   <Route path="/sb" element={<Sidebar />} />
+            <Route path="/sb" element={<Sidebar />} />
           </Routes>
         </main>
         <Footer />
@@ -45,4 +45,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-
