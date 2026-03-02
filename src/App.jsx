@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+<<<<<<< HEAD
 import HomePage from "./pages/Home";
 import AboutPage from "./pages/AboutUsPage";
 import QuestionForm from "./pages/Question";
@@ -15,6 +16,11 @@ import ChallengesPage from "./pages/ChallengesPage";
 import Leaderboard from "./pages/LeaderBoard";
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
+=======
+import ProfilePage from "./pages/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPassword from "./pages/forgot_password";
+>>>>>>> 3385d912cd0a360f9d0d278d2d2f0450c7f6993b
 
 export default function App() {
   return (
@@ -26,6 +32,18 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+<<<<<<< HEAD
+=======
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+>>>>>>> 3385d912cd0a360f9d0d278d2d2f0450c7f6993b
             <Route path="/search" element={<SearchPage />} />
             <Route path="/question/:id" element={<QuestionDetailPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
