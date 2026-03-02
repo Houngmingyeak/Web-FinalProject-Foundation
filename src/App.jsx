@@ -6,11 +6,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
-import Question from "./pages/Question";
-import QuestionCard from "./components/QuestionCard";
-import QuestionDetail from "./pages/QuestionDetail";
-import AnswerForm from "./components/AnswerForm";
-import QuestionsPage from "./pages/QuestionPage";
+import QuestionDetailPage from "./pages/QuestionDetail";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProfilePage from "./pages/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPassword from "./pages/forgot_password";
 
 export default function App() {
   return (
@@ -23,10 +23,18 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/ask" element={<Question />} />
-            <Route path="/question" element={<QuestionsPage />} />
-            <Route path="/questiondetail" element={<QuestionDetail />} />
+            <Route path="/question/:id" element={<QuestionDetailPage />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
         <Footer />
