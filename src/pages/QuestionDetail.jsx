@@ -25,20 +25,17 @@ export default function QuestionDetai() {
     <div className="flex bg-gray-50 min-h-screen w-full">
       <Sidebar />
       <main className="flex-1 p-4">
-        <button className="text-gray-400 font-medium flex items-center gap-2 mb-4 hover:underline-offset-8">
+        <button className="text-gray-400 font-medium flex items-center gap-2 mb-2 hover:underline-offset-8 hover:text-blue-500 cursor-pointer transition-colors"  >
           <FaArrowLeftLong />
           Back to Question
-        </button>{" "}
-        <div className="text-black text-2xl font-semibold mb-4">
-          <h1>
-            How to implement WebSocket reconnection with exponential backoff in
-            TypeScript?
-          </h1>
-        </div>
-        <div className="flex flex-col gap-4 mb-8">
+        </button>
+        <div className="flex flex-col gap-4 mb-2">
           {questions.map((q) => (
             <QuestionCard key={q.id} question={q} />
           ))}
+        </div>
+        <div>
+          <h1 className="text-black text-2xl font-bold mb-2">Answer</h1>
         </div>
         <div>
           <AnswerCard />

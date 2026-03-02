@@ -12,7 +12,7 @@ export default function AnswerForm() {
       </div>
 
       <div className="flex items-center justify-between mt-3">
-        <div className="text-blue-400">+25 XP for answer</div>
+        <div className="text-blue-600">+25 XP for answer</div>
 
         <button className="bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold px-5 py-2 rounded-xl transition-colors">
           Post Answer
