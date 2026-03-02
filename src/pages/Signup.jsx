@@ -9,9 +9,10 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import { auth, db } from "../firebase/config";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
 import { LuGithub } from "react-icons/lu";
+import z from "zod";
 
 // ── Brand icons ──────────────────────────────────────────────────────────────
 function GoogleIcon() {
@@ -53,7 +54,12 @@ function GitHubIcon() {
 
 // ── Helper: build a Firestore user doc from a Firebase user object ────────────
 async function createUserDoc(user, overrides = {}) {
-  await setDoc(doc(db, "users", user.uid), {
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if (snap.exists()) return; // prevent overwriting existing user
+
+  await setDoc(userRef, {
     uid: user.uid,
     displayName: user.displayName || overrides.displayName || "",
     email: user.email,
@@ -64,9 +70,21 @@ async function createUserDoc(user, overrides = {}) {
     bio: "",
     achievements: { contributions: 0, helpful: 0, solved: 0 },
     createdAt: serverTimestamp(),
-    ...overrides,
   });
 }
+
+const signupSchema = z.object({
+  username: z
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username too long")
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      "Username can only contain letters, numbers, and underscores",
+    ),
+  email: z.string().email("Invalid email format"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function Signup() {
@@ -84,6 +102,12 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    const result = signupSchema.safeParse({ username, email, password });
+    if (!result.success) {
+      // This stops the hacker and shows the error message
+      setError(result.error.errors[0].message);
+      return;
+    }
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -98,7 +122,13 @@ export default function Signup() {
 
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      if (err.code === "auth/popup-closed-by-user") return;
+
+      if (err.code === "auth/account-exists-with-different-credential") {
+        setError("An account already exists with this email.");
+      } else {
+        setError("Authentication failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -114,7 +144,13 @@ export default function Signup() {
       await createUserDoc(result.user);
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      if (err.code === "auth/popup-closed-by-user") return;
+
+      if (err.code === "auth/account-exists-with-different-credential") {
+        setError("An account already exists with this email.");
+      } else {
+        setError("Google authentication failed. Please try again.");
+      }
     } finally {
       setOauthLoading("");
     }
@@ -130,7 +166,13 @@ export default function Signup() {
       await createUserDoc(result.user);
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      if (err.code === "auth/popup-closed-by-user") return;
+
+      if (err.code === "auth/account-exists-with-different-credential") {
+        setError("An account already exists with this email.");
+      } else {
+        setError("GitHub authentication failed. Please try again.");
+      }
     } finally {
       setOauthLoading("");
     }
