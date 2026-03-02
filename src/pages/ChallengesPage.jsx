@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FiHome } from "react-icons/fi";
-import { GrCircleQuestion } from "react-icons/gr";
 import Sidebar from "../layout/Sidebar";
+import { LuSwords } from "react-icons/lu";
+import { HiOutlineLightningBolt } from "react-icons/hi";
 
 const challenges = [
   {
@@ -66,7 +66,7 @@ function ProgressBar({ current, total }) {
   return (
     <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
       <div
-        className="h-full bg-gradient-to-r from-blue-400 to-blue-300 rounded-full transition-[width] duration-700 ease-in-out"
+        className="h-full bg-gradient-to-r from-[#3C83F6] to-[#6B26D9] rounded-full transition-[width] duration-700 ease-in-out"
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -78,7 +78,7 @@ function ChallengeCard({ challenge }) {
   const done = current >= total;
 
   return (
-    <div className="relative flex flex-col gap-3 bg-white border border-slate-200 rounded-2xl p-6 transition-all duration-200 hover:shadow-md hover:shadow-blue-100 hover:border-blue-200">
+    <div className="relative bg-white rounded-2xl border border-slate-100 p-5 flex flex-col justify-between w-[550px] h-[140px] transition-all duration-200 hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 cursor-pointer">
       {done && (
         <span className="absolute top-4 right-4 bg-blue-50 text-blue-500 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full">
           ✓ Complete
@@ -87,7 +87,7 @@ function ChallengeCard({ challenge }) {
 
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-bold text-slate-800">{title}</p>
+          <p className="text-[16px] font-bold text-slate-800">{title}</p>
           <p className="text-xs text-slate-400 mt-0.5">{description}</p>
         </div>
         <span className="shrink-0 text-xs font-semibold text-slate-400 bg-slate-100 rounded-md px-2.5 py-0.5">
@@ -99,14 +99,8 @@ function ChallengeCard({ challenge }) {
         <span className="font-medium text-slate-500">
           {current}/{total}
         </span>
-        <span className="flex items-center gap-1 font-bold text-slate-800">
-          <svg
-            className="w-3.5 h-3.5 text-blue-500"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
+        <span className="flex items-center gap-1 font-bold text-slate-800 text-[12px]">
+          <HiOutlineLightningBolt />
           {xp} XP
         </span>
       </div>
@@ -141,48 +135,30 @@ export default function ChallengesPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-100">
-
-
-
       <div className="flex flex-1">
         {/* Sidebar */}
         <aside>
           <Sidebar />
         </aside>
-          
-        
 
         {/* Main content */}
         <main className="flex-1 px-8 py-8">
           <div className="flex items-center justify-between mb-7">
             <div className="flex items-center gap-3">
-              <svg
-                className="w-7 h-7 text-slate-800"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-              <h1 className="text-2xl font-extrabold text-slate-900">
-                Challenges
-              </h1>
+              <LuSwords className="text-black text-[24px]" />
+              <h1 className="text-[24px] font-bold text-black">Challenges</h1>
             </div>
 
-            <div className="flex items-center gap-0.5 bg-white border border-slate-200 rounded-xl p-1">
+            {/* Filter tabs — gray pill, white active card */}
+            <div className="flex items-center gap-0.5 bg-slate-200/70 rounded-xl p-1">
               {FILTERS.map((f) => (
                 <button
                   key={f}
                   onClick={() => setActiveFilter(f)}
                   className={`px-4 py-1.5 rounded-lg text-sm transition-all ${
                     activeFilter === f
-                      ? "bg-slate-900 text-white font-semibold"
-                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
+                      ? "bg-white text-slate-900 font-semibold shadow-sm"
+                      : "text-slate-500 hover:text-slate-600"
                   }`}
                 >
                   {f}
@@ -198,11 +174,13 @@ export default function ChallengesPage() {
               </p>
             ) : (
               rows.map((row, i) => (
-                <div key={i} className="grid grid-cols-2 gap-4">
+                <div
+                  key={i}
+                  className="flex justify-center gap-20" // smaller gap and centered
+                >
                   {row.map((c) => (
                     <ChallengeCard key={c.id} challenge={c} />
                   ))}
-                  {row.length === 1 && <div />}
                 </div>
               ))
             )}
