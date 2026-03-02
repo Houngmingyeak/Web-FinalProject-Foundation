@@ -8,6 +8,9 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+import ProfilePage from "./pages/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPassword from "./pages/forgot_password";
 import HomePage from "./pages/Home";
 import AboutPage from "./pages/AboutUsPage";
 import QuestionForm from "./pages/Question";
@@ -27,6 +30,15 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/question/:id" element={<QuestionDetailPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
