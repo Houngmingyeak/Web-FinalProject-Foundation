@@ -20,15 +20,13 @@ export default function AnswerCard({ answer }) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-4">
       {/* Answer text */}
-      <p className="text-sm text-gray-700 mb-3">Here is the problem sloving</p>
+      <p className="text-md text-gray-700 mb-3">Here is the problem sloving</p>
 
       {/* Code Block */}
       <div className="rounded-xl overflow-hidden border border-gray-100">
         {/* Code header */}
         <div className="flex items-center justify-between bg-gray-50 border-b border-gray-100 px-4 py-2">
-          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-            asdfasd
-          </span>
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide"></span>
           <button
             onClick={() => navigator.clipboard?.writeText(answer.code)}
             className="flex items-center gap-1 text-xs text-gray-400 hover:text-blue-600 transition-colors"
