@@ -109,18 +109,18 @@ export default function ProfilePage() {
             <div className="flex flex-col md:flex-row md:items-center gap-6">
               <Avatar className="w-20 h-20">
                 <AvatarImage src={userProfile?.avatar} />
-                <AvatarFallback className="text-xl font-bold bg-indigo-100 text-indigo-600">
+                <AvatarFallback className="text-xl text-center font-bold bg-indigo-100 text-indigo-600">
                   {getInitials(userProfile?.displayName || "User")}
                 </AvatarFallback>
               </Avatar>
 
               <div className="flex-1">
                 {editing ? (
-                  <div className="space-y-2">
+                  <div className="space-y-2 ">
                     <input
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
-                      className="text-2xl font-bold"
+                      className="text-2xl font-bold "
                       disabled={loading}
                     />
 
@@ -133,16 +133,16 @@ export default function ProfilePage() {
                   </div>
                 ) : (
                   <>
-                    <h1 className="text-2xl font-bold">
+                    <h1 className="text-2xl font-bold text-black">
                       {userProfile?.displayName}
                     </h1>
 
-                    <p className="text-gray-500 text-sm">
+                    <p className="hidden text-gray-500 text-sm">
                       {userProfile?.email}
                     </p>
 
                     {bio && (
-                      <p className="text-sm mt-2 text-gray-700">{bio}</p>
+                      <p className="text-sm mt-2 text-gray-700 border-cyan-100">{bio}</p>
                     )}
                   </>
                 )}
@@ -150,14 +150,14 @@ export default function ProfilePage() {
 
               {editing ? (
                 <Button onClick={handleUpdateProfile} disabled={loading}>
-                  <FiSave className="mr-2" /> Save
+                  <FiSave className="mr-2 " /> Save
                 </Button>
               ) : (
                 <Button
                   variant="outline"
                   onClick={() => setEditing(true)}
                 >
-                  <FiEdit2 className="mr-2" /> Edit
+                  <FiEdit2 className="mr-2 " /> Edit
                 </Button>
               )}
             </div>
@@ -177,20 +177,19 @@ export default function ProfilePage() {
 
           {/* BADGES */}
           <Card className="p-6 rounded-2xl shadow-sm border bg-white mb-6">
-            <h2 className="font-semibold mb-4">Badges</h2>
-
+            <h2 className="font-semibold text-black mb-4">Badges</h2>
             <div className="grid grid-cols-3 gap-4 text-center">
-              <BadgeBox value="3" label="Gold" color="yellow" />
+              <BadgeBox value="3" label="Gold" color="amber" /> 
               <BadgeBox value="8" label="Silver" color="gray" />
               <BadgeBox value="15" label="Bronze" color="orange" />
             </div>
           </Card>
 
           {/* STATS */}
-          <Card className="p-6 rounded-2xl shadow-sm border bg-white mb-6">
-            <h2 className="font-semibold mb-4">Stats</h2>
+          <Card className="p-6 rounded-2xl shadow-sm border bg-white  mb-6">
+            <h2 className="font-semibold mb-4 text-black">Stats</h2>
 
-            <div className="grid grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-4 gap-4 text-black text-center">
               <StatBox value="4,720" label="XP Earned" />
               <StatBox value={userQuestions.length} label="Questions" />
               <StatBox value={userAnswers.length} label="Answers" />
