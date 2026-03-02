@@ -23,5 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
+.vscode
+
 # Personal files / notes
 myNpm.md
