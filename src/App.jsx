@@ -7,8 +7,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
-import AdminDashboard from "./pages/AdminDashboard";
-import ProfilePage from "./pages/Profile";
+// import AdminDashboard from "./pages/AdminDashboard";
+// import ProfilePage from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/forgot_password";
 import HomePage from "./pages/Home";
@@ -18,6 +18,7 @@ import ChallengesPage from "./pages/ChallengesPage";
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
 import Sidebar from "./layout/Sidebar";
+import Leaderboard from "./pages/LeaderBoard";
 
 export default function App() {
   return (
@@ -34,13 +35,13 @@ export default function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <ProfilePage />
+                  {/* <ProfilePage /> */}
                 </ProtectedRoute>
               }
             />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/question/:id" element={<QuestionDetailPage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            {/* <Route path="/admin" element={<AdminDashboard />} /> */}
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/que" element={<QuestionForm />} />
