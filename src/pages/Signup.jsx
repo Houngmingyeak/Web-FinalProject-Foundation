@@ -114,6 +114,7 @@ export default function Signup() {
         displayName: username
       });
 
+      await createUserDoc(userCredential.user, { displayName: username });
       navigate("/");
     } catch (err) {
       if (err.code === "auth/popup-closed-by-user") return;
@@ -121,7 +122,7 @@ export default function Signup() {
       if (err.code === "auth/account-exists-with-different-credential") {
         setError("An account already exists with this email.");
       } else {
-        setError("Authentication failed. Please try again.");
+        setError(err.message || "Authentication failed. Please try again.");
       }
     } finally {
       setLoading(false);
