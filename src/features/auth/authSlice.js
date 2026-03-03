@@ -147,5 +147,83 @@ const authSlice = createSlice({
   },
 });
 
+/* =========================
+   SEND OTP
+========================= */
+export const sendOtp = createAsyncThunk(
+  "auth/sendOtp",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await fetch(
+        "https://forum-istad-api.cheat.casa/api/v1/auth/forgot-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) return rejectWithValue(data.message);
+
+      return data.message;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+/* =========================
+   VERIFY OTP
+========================= */
+export const verifyOtp = createAsyncThunk(
+  "auth/verifyOtp",
+  async ({ email, otp }, { rejectWithValue }) => {
+    try {
+      const res = await fetch(
+        "https://forum-istad-api.cheat.casa/api/v1/auth/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) return rejectWithValue(data.message);
+
+      return "OTP Verified";
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+/* =========================
+   RESET PASSWORD
+========================= */
+export const resetPasswordWithOtp = createAsyncThunk(
+  "auth/resetPasswordWithOtp",
+  async ({ email, otp, newPassword }, { rejectWithValue }) => {
+    try {
+      const res = await fetch(
+        "https://forum-istad-api.cheat.casa/api/v1/auth/reset-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp, newPassword }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) return rejectWithValue(data.message);
+
+      return "Password reset successful";
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 export const { logout, resetState } = authSlice.actions;
 export default authSlice.reducer;
