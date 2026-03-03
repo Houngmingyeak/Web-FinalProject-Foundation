@@ -14,6 +14,7 @@ import LongfuPic from "../assets/images/LongfuPic.jpg";
 import ReachPic from "../assets/images/reachPic.jpg";
 import TeviPic from "../assets/images/TeviPic.png";
 import abtus_background from "../assets/images/abtus_background.png";
+import { Link } from "react-router-dom";
 
 const mentors = [
   { name: "Kim Chansopheng", role: "Mentor", photo: CherPhengPic },
@@ -167,30 +168,6 @@ function MemberCard({ name, role, photo }) {
 export default function AboutPage() {
   return (
     <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
-      {/* Hero */}
-      {/* <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gradient-to-br from-blue-50 to-gray-50 relative overflow-hidden">
-        <div className="absolute w-150 h-150 rounded-full bg-gradient-to-r from-blue-500/5 to-transparent top--30 right--30 pointer-events-none" />
-        <p className="text-xs font-semibold tracking-wider uppercase text-[#4A7CFF] mb-5 animate-fade-up [animation-delay:100ms]">
-          MindStack · About Us
-        </p>
-        <h1 className="text-[clamp(44px,6vw,76px)] font-bold leading-tight tracking-tighter mb-5 animate-fade-up [animation-delay:200ms]">
-          Ask. Answer.
-          <br />
-          Collaborate. Grow.
-        </h1>
-        <p className="text-lg text-gray-500 leading-relaxed max-w-md mb-9 animate-fade-up [animation-delay:300ms]">
-          A community-driven forum built for learners and developers to share
-          ideas, ask questions, and grow together.
-        </p>
-        <div className="flex gap-3 flex-wrap justify-center animate-fade-up [animation-delay:400ms]">
-          <button className="bg-gray-900 text-white border-none px-7 py-3 rounded-full text-sm font-semibold cursor-pointer font-sans hover:opacity-75 transition-opacity">
-            Start for free →
-          </button>
-          <button className="bg-none text-gray-500 border-2 border-gray-200 px-7 py-3 rounded-full text-sm font-medium cursor-pointer font-sans hover:border-[#4A7CFF] hover:text-[#4A7CFF] transition-colors">
-            See more
-          </button>
-        </div>
-      </div> */}
       <header className="relative">
         <div className="relative">
           {/* Background Image */}
@@ -223,10 +200,10 @@ export default function AboutPage() {
 
               <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
                 <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                  <a href="#" className="flex items-center gap-2">
+                  <Link to="/questions" className="flex items-center gap-2">
                     Start for free
                     <FaArrowRight className="mt-1" />
-                  </a>
+                  </Link>
                 </div>
                 <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
                   <a href="#" className="flex items-center gap-2">
