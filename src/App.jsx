@@ -8,7 +8,6 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
-import ProfilePage from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/forgot_password";
 import HomePage from "./pages/Home";
@@ -19,6 +18,7 @@ import Leaderboard from "./pages/LeaderBoard";
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
 import Sidebar from "./layout/Sidebar";
+import BookmarkCard from "./pages/BookMarkCard";
 
 export default function App() {
   return (
@@ -31,25 +31,18 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <ProfilePage />
-                </ProtectedRoute>
-              }
-            />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/question/:id" element={<QuestionDetailPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/que" element={<QuestionForm />} />
-            <Route path="/cha" element={<ChallengesPage />} />
-            <Route path="/leader" element={<Leaderboard />} />
+            <Route path="/challenges" element={<ChallengesPage />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/account" element={<Account />} />
             <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/sb" element={<Sidebar />} />
+            <Route path="/saves" element={<BookmarkCard />} />
           </Routes>
         </main>
         <Footer />

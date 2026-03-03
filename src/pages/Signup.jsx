@@ -11,7 +11,6 @@ import {
 import { auth, db } from "../firebase/config";
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 // import { Eye, EyeOff } from "lucide-react";
 import { LuGithub } from "react-icons/lu";
 import z from "zod";
@@ -115,6 +114,7 @@ export default function Signup() {
         displayName: username
       });
 
+      await createUserDoc(userCredential.user, { displayName: username });
       navigate("/");
     } catch (err) {
       if (err.code === "auth/popup-closed-by-user") return;
@@ -122,10 +122,8 @@ export default function Signup() {
       if (err.code === "auth/account-exists-with-different-credential") {
         setError("An account already exists with this email.");
       } else {
-        setError("Authentication failed. Please try again.");
+        setError(err.message || "Authentication failed. Please try again.");
       }
-    } catch (error) {
-      setError(error.message);
     } finally {
       setLoading(false);
     }
