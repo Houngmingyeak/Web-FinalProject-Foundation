@@ -41,10 +41,35 @@ const navItems = [
 export default function Sidebar() {
   const location = useLocation();
   return (
-    <aside className="w-72 bg-white border-r border-gray-300  border-b border-gray-300 flex flex-col py-4 sticky mb-4">
-      {/* Navigation Links */}
-      <nav className="flex flex-col gap-0.5 px-4">
-        {navItems.map(({ label, path, icon }) => (
+    <aside className="w-72 bg-white border-r border-gray-300 border-b border-gray-300 flex flex-col py-4 sticky mb-4">
+      <nav className="flex flex-col gap-0.5 px-4 text-black text-sm font-medium">
+        {/* <div className=" items-center gap-2.5 px-3 rounded-lg text-md font-medium transition-color"> */}
+        <Link to="/" className="flex items-center gap-2.5 px-3 ">
+          <FiHome />
+          Home
+        </Link>
+        <Link to="/question" className="flex items-center gap-2.5 px-3 ">
+          <FaRegQuestionCircle />
+          Question
+        </Link>
+        <Link to="/leaderboard" className="flex items-center gap-2.5 px-3 ">
+          <GoTrophy />
+          Leaderborad
+        </Link>
+        <Link to="" className="flex items-center gap-2.5 px-3 ">
+          <LuSwords />
+          Challange
+        </Link>
+        <Link to="" className="flex items-center gap-2.5 px-3 ">
+          <FaRegBookmark />
+          Save
+        </Link>
+        <Link to="" className="flex items-center gap-2.5 px-3 ">
+          <FaRegUser />
+          Profile
+        </Link>
+
+        {/* {navItems.map(({ label, path, icon }) => (
           <Link
             key={label}
             to={path}
@@ -57,7 +82,7 @@ export default function Sidebar() {
             {icon}
             {label}
           </Link>
-        ))}
+        ))} */}
       </nav>
 
       {/* XP Progress at the bottom */}
