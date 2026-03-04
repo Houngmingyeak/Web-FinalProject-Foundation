@@ -1,15 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
-import { IoHomeOutline } from "react-icons/io5";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import { FaRegQuestionCircle, FaRegUser, FaBookmark } from "react-icons/fa";
 import { LuSwords } from "react-icons/lu";
-import { FaRegUser } from "react-icons/fa";
 import { GoTrophy } from "react-icons/go";
+import { FiHome } from "react-icons/fi";
+import { FaRegBookmark } from "react-icons/fa6";
 
 const navItems = [
   {
     label: "Home",
     path: "/",
-    icon: <IoHomeOutline />,
+    icon: <FiHome />,
   },
   {
     label: "Questions",
@@ -27,6 +27,11 @@ const navItems = [
     icon: <LuSwords />,
   },
   {
+    label: "Saves",
+    path: "/bookmarks",
+    icon: <FaRegBookmark />,
+  },
+  {
     label: "Profile",
     path: "/profile",
     icon: <FaRegUser />,
@@ -38,7 +43,7 @@ export default function Sidebar() {
   return (
     <aside className="w-72 bg-white border-r border-gray-100 flex flex-col py-4 h-screen sticky top-0">
       {/* Navigation Links */}
-      <nav className="flex flex-col gap-0.5 px-4 ">
+      <nav className="flex flex-col gap-0.5 px-4">
         {navItems.map(({ label, path, icon }) => (
           <Link
             key={label}
@@ -54,9 +59,9 @@ export default function Sidebar() {
           </Link>
         ))}
       </nav>
-
+        
       {/* XP Progress at the bottom */}
-      <div className=" px-4 mt-2">
+      <div className="px-4 mt-2">
         <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-3">
           Your Progress
         </p>

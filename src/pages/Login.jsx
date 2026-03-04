@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function EyeIcon({ visible }) {
-  // Stroke color now adapts to dark mode via currentColor or specific dark class
   const strokeClass = "stroke-gray-600 dark:stroke-gray-300";
   return visible ? (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -13,11 +13,7 @@ function EyeIcon({ visible }) {
         className={strokeClass}
         strokeWidth="1.5"
       />
-      <path
-        d="M3 3L17 17"
-        className={strokeClass}
-        strokeWidth="1.5"
-      />
+      <path d="M3 3L17 17" className={strokeClass} strokeWidth="1.5" />
     </svg>
   ) : (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -26,13 +22,7 @@ function EyeIcon({ visible }) {
         className={strokeClass}
         strokeWidth="1.5"
       />
-      <circle
-        cx="10"
-        cy="10"
-        r="2.5"
-        className={strokeClass}
-        strokeWidth="1.5"
-      />
+      <circle cx="10" cy="10" r="2.5" className={strokeClass} strokeWidth="1.5" />
     </svg>
   );
 }
@@ -42,7 +32,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
 
@@ -51,9 +40,11 @@ export default function Login() {
 
   const { loading, error, user } = useSelector((state) => state.auth);
 
+  // បញ្ជូនទៅកាន់ /questions ពេល user មានតម្លៃ (login ជោគជ័យ)
   useEffect(() => {
     if (user) {
-      navigate("/");
+      toast.success("ចូលប្រើជោគជ័យ! 🎉");
+      navigate("/questions");
     }
   }, [user, navigate]);
 
@@ -65,11 +56,17 @@ export default function Login() {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      alert("Please enter both email and password");
+      toast.error("សូមបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់");
       return;
     }
 
-    dispatch(loginUser({ ...formData, remember }));
+    // ប្រសិនបើចង់ប្រាកដថា navigate កើតឡើងភ្លាមៗ អាចប្រើ .then()
+    dispatch(loginUser({ ...formData, remember })).then((action) => {
+      if (action.meta.requestStatus === "fulfilled") {
+        // បើចង់បង្ហាញ toast និង navigate ត្រង់នេះក៏បាន
+        // ប៉ុន្តែយើងមាន useEffect រួចហើយ
+      }
+    });
   };
 
   return (
@@ -82,7 +79,7 @@ export default function Login() {
           Welcome back! Please sign in to continue.
         </p>
 
-        {/* Social Login Buttons */}
+        {/* ប៊ូតុងចូលប្រើតាមរយៈបណ្តាញសង្គម */}
         <div className="mb-6 flex gap-4">
           <button
             type="button"
@@ -104,29 +101,28 @@ export default function Login() {
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
               alt="GitHub"
-              className="w-6 h-6 dark:invert" // Invert GitHub logo in dark mode
+              className="w-6 h-6 dark:invert"
             />
             GitHub
           </button>
         </div>
 
-        {/* Divider */}
+        {/* បន្ទាត់ខណ្ឌចែក */}
         <div className="flex items-center mb-6">
           <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
           <span className="px-3 text-gray-400 dark:text-gray-500 text-sm">or</span>
           <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
         </div>
 
-        {/* Error Message */}
+        {/* បង្ហាញកំហុស */}
         {error && (
           <div className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-lg mb-4">
-            {error.message || error}
+            {error}
           </div>
         )}
 
-        {/* Email/Password Form */}
+        {/* ទម្រង់បញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់ */}
         <form onSubmit={handleSubmit}>
-          {/* Email */}
           <div className="mb-5">
             <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">
               Email
@@ -138,10 +134,10 @@ export default function Login() {
               onChange={handleChange}
               placeholder="Enter your email"
               className="w-full h-12 border border-blue-400 dark:border-blue-600 rounded-xl px-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+              required
             />
           </div>
 
-          {/* Password */}
           <div className="mb-3">
             <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">
               Password
@@ -154,6 +150,7 @@ export default function Login() {
                 onChange={handleChange}
                 placeholder="Enter your password"
                 className="w-full h-12 border border-blue-400 dark:border-blue-600 rounded-xl px-4 pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+                required
               />
               <button
                 type="button"
@@ -165,7 +162,7 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Remember + Forgot */}
+          {/* ចងចាំខ្ញុំ និងភ្លេចពាក្យសម្ងាត់ */}
           <div className="flex items-center justify-between mb-6">
             <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <input
@@ -185,7 +182,7 @@ export default function Login() {
             </Link>
           </div>
 
-          {/* Submit Button */}
+          {/* ប៊ូតុងចូលប្រើ */}
           <button
             type="submit"
             disabled={loading}
@@ -199,7 +196,7 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Signup Link */}
+        {/* តំណភ្ជាប់ទៅកាន់ការចុះឈ្មោះ */}
         <p className="text-center text-gray-600 dark:text-gray-300 text-sm mt-6">
           Don't have an account?{" "}
           <Link

@@ -9,6 +9,8 @@ import { RiShieldLine } from "react-icons/ri";
 import { LuGift } from "react-icons/lu";
 import { IoCodeSlash } from "react-icons/io5";
 import { LuUsers } from "react-icons/lu";
+import { GoStarFill } from "react-icons/go";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -44,10 +46,10 @@ const HomePage = () => {
 
               <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
                 <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                  <a href="#" className="flex items-center gap-2">
+                  <Link to="/questions" className="flex items-center gap-2">
                     Start for free
                     <FaArrowRight className="mt-1" />
-                  </a>
+                  </Link>
                 </div>
                 <div className="inline-flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-black dark:text-white px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                   <a href="#" className="flex items-center gap-2">

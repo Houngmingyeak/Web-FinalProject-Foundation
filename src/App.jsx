@@ -1,61 +1,61 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useContext } from "react";
-import { ThemeContext } from "./context/ThemeContext";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ProtectedRoute from "./components/ProtectedRoute";
-
-import Home from "./pages/Home";
+import  Home  from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import SearchPage from "./pages/Search";
+import ChallengesPage from "./pages/ChallengesPage";
+import Account from "./pages/Account";
+import QuestionsPage from "./pages/QuestionPage";
+import Leaderboard from "./pages/Leaderboard";
+import BookmarkCard from "./pages/BookMarkCard";
 import QuestionDetailPage from "./pages/QuestionDetail";
-import AdminDashboard from "./pages/AdminDashboard";
-import ForgotPassword from "./pages/ForgotPassword";
-import Question from "./pages/Question";
+
+function Layout() {
+  return (
+    <div className="min-h-screen flex flex-col bg-[var(--bg-color)] transition-colors duration-300">
+      <Header />
+      <main className="flex-1 p-6">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 export default function App() {
-  // optional: read theme if you want to debug or extend
-  const { mode } = useContext(ThemeContext);
-
   return (
     <BrowserRouter>
-      {/* Global Layout Wrapper */}
-      <div className="min-h-screen flex flex-col bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
-        
-        <Header />
-        <main className="min-h-screen p-6">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/question/:id" element={<QuestionDetailPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="challenges" element={<ChallengesPage />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/questions" element={<QuestionsPage />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/bookmarks" element={<BookmarkCard />} />
+          <Route path="/question/:id" element={<QuestionDetailPage />} />
 
-            {/* Protected Routes */}
-            <Route
-              path="/ask"
-              element={
-                <ProtectedRoute>
-                  <Question />
-                </ProtectedRoute>
-              }
-            />
+        </Route>
+      </Routes>
 
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={document.documentElement.classList.contains('dark') ? 'dark' : 'light'}
+      />
     </BrowserRouter>
   );
 }
