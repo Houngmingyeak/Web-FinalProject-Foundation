@@ -1,4 +1,5 @@
-import { FaRegEye } from "react-icons/fa";
+import { useState } from "react";
+import { FaRegEye, FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 function ChatIcon() {
@@ -10,15 +11,32 @@ function EyeIcon() {
 }
 
 export default function QuestionCard({ question }) {
+  const [bookmarked, setBookmarked] = useState(false);
+
   if (!question) return null;
 
   return (
-
     <div
-      className="bg-white border border-gray-200 rounded-lg px-5 py-4 
+      className="relative bg-white border border-gray-200 rounded-lg px-5 py-4 
                  hover:border-gray-300 hover:shadow-lg hover:-translate-y-1 
                  transition-all duration-200 cursor-pointer"
     >
+      {/* Bookmark Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setBookmarked(!bookmarked);
+        }}
+        className="absolute top-4 right-4 text-gray-400 
+                   hover:text-yellow-500 transition-colors duration-200"
+      >
+        {bookmarked ? (
+          <FaBookmark className="text-yellow-400 text-lg" />
+        ) : (
+          <FaRegBookmark className="text-lg" />
+        )}
+      </button>
+
       {/* Title */}
       <h3 className="text-[16px] font-bold text-gray-900 hover:text-blue-600 transition-colors leading-snug mb-1.5">
         {question.title}
@@ -41,7 +59,7 @@ export default function QuestionCard({ question }) {
         ))}
       </div>
 
-      {/* Footer: author left, stats right */}
+      {/* Footer */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span

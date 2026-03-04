@@ -1,6 +1,7 @@
 import React from "react";
 import MindStack from "../assets/Mindstack.png";
 import { GoSun } from "react-icons/go";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -18,12 +19,12 @@ export default function Header() {
             <a href="" className="hover:text-black transition-colors">
               Feature
             </a>
-            <a href="" className="hover:text-black transition-colors">
+            <a  href="" className="hover:text-black transition-colors">
               Testimonials
             </a>
-            <a href="" className="hover:text-black transition-colors">
+            <Link to="/about" className="hover:text-black transition-colors">
               About us
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -38,9 +39,9 @@ export default function Header() {
           <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
             <span>Log in</span>
           </button>
-          <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
+          <Link to="/signu" className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
             <span>Sign up free</span>
-          </button>
+          </Link>
         </div>
       </div>
     </header>
