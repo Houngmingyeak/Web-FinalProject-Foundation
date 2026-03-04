@@ -12,11 +12,8 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
-import Question from "./pages/Question";
 import ForgotPassword from "./pages/ForgotPassword";
-
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Question from "./pages/Question";
 
 export default function App() {
   // optional: read theme if you want to debug or extend
@@ -28,8 +25,7 @@ export default function App() {
       <div className="min-h-screen flex flex-col bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
         
         <Header />
-
-        <main className="flex-1">
+        <main className="min-h-screen bg-gray-950 text-white p-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -58,15 +54,7 @@ export default function App() {
             />
           </Routes>
         </main>
-
         <Footer />
-
-        {/* Toastify - supports dark automatically */}
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          theme={mode === "dark" ? "dark" : "light"}
-        />
       </div>
     </BrowserRouter>
   );
