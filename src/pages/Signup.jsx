@@ -1,4 +1,3 @@
-// src/pages/Signup.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -11,7 +10,6 @@ import {
 import { auth, db } from "../firebase/config";
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
-// import { Eye, EyeOff } from "lucide-react";
 import { LuGithub } from "react-icons/lu";
 import z from "zod";
 
@@ -108,10 +106,14 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
       await updateProfile(userCredential.user, {
-        displayName: username
+        displayName: username,
       });
 
       await createUserDoc(userCredential.user, { displayName: username });
@@ -173,6 +175,8 @@ export default function Signup() {
     }
   };
 
+  const [oauthLoading, setOauthLoading] = useState(""); // ✅ ADD THIS
+
   const busy = loading || !!oauthLoading;
 
   // ── Render ──────────────────────────────────────────────────────────────
@@ -184,9 +188,7 @@ export default function Signup() {
         </h2>
 
         {error && (
-          <div className="bg-red-500 text-white p-3 rounded mb-4">
-            {error}
-          </div>
+          <div className="bg-red-500 text-white p-3 rounded mb-4">{error}</div>
         )}
 
         <form onSubmit={handleSubmit}>

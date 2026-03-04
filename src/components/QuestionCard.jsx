@@ -17,8 +17,8 @@ export default function QuestionCard({ question }) {
 
   return (
     <div
-      className="relative bg-white border border-gray-200 rounded-lg px-5 py-4 
-                 hover:border-gray-300 hover:shadow-lg hover:-translate-y-1 
+      className="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-5 py-4 
+                 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-lg hover:-translate-y-1 
                  transition-all duration-200 cursor-pointer"
     >
       {/* Bookmark Button */}
@@ -27,23 +27,23 @@ export default function QuestionCard({ question }) {
           e.stopPropagation();
           setBookmarked(!bookmarked);
         }}
-        className="absolute top-4 right-4 text-gray-400 
+        className="absolute top-4 right-4 text-gray-400 dark:text-gray-500
                    hover:text-yellow-500 transition-colors duration-200"
       >
         {bookmarked ? (
-          <FaBookmark className="text-yellow-400 text-lg" />
+          <FaBookmark className="text-yellow-400 text-xl" />
         ) : (
-          <FaRegBookmark className="text-lg" />
+          <FaRegBookmark className="text-xl" />
         )}
       </button>
 
       {/* Title */}
-      <h3 className="text-[16px] font-bold text-gray-900 hover:text-blue-600 transition-colors leading-snug mb-1.5">
+      <h3 className="text-[18px] font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors leading-snug mb-1.5 pr-8">
         {question.title}
       </h3>
 
       {/* Excerpt */}
-      <p className="text-[14px] text-gray-500 leading-relaxed mb-3 line-clamp-1">
+      <p className="text-[16px] text-gray-500 dark:text-gray-400 leading-relaxed mb-3 line-clamp-1">
         {question.excerpt}
       </p>
 
@@ -52,7 +52,7 @@ export default function QuestionCard({ question }) {
         {question.tags.map((tag) => (
           <span
             key={tag}
-            className="px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-blue-50 text-blue-600 border border-blue-100"
+            className="px-2.5 py-0.5 rounded-full text-[13px] font-medium bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800"
           >
             {tag}
           </span>
@@ -63,16 +63,16 @@ export default function QuestionCard({ question }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span
-            className={`w-5 h-5 rounded-full ${question.author.color} flex items-center justify-center text-[12px] font-bold text-white shrink-0`}
+            className={`w-6 h-6 rounded-full ${question.author.color} flex items-center justify-center text-[13px] font-bold text-white shrink-0`}
           >
             {question.author.initials}
           </span>
-          <span className="text-[12px] text-gray-600 font-medium">
+          <span className="text-[14px] text-gray-600 dark:text-gray-300 font-medium">
             {question.author.name}
           </span>
         </div>
 
-        <div className="flex items-center gap-4 text-gray-400 text-xs">
+        <div className="flex items-center gap-4 text-gray-400 dark:text-gray-500 text-[14px]">
           <span className="flex items-center gap-1">
             <ChatIcon />
             {question.comments}

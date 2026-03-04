@@ -76,39 +76,40 @@ const questions = [
   },
 ];
 
-const tabs = ["Newest ", "Active", "Unanswered", "Most Voted"];
-
 export default function QuestionsPage() {
   const [activeTab, setActiveTab] = useState("Active");
 
   return (
-    <div className="flex bg-gray-50 ">
+    <div className="flex bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <Sidebar />
-      <main className="flex-1 ">
-        <h1 className="text-black font-bold text-[24px] pl-8 pt-6 ">Question</h1>
-        <div className="  px-6 py-8">
-          <div className="flex w-fit border-black mb-5 bg-gray-200 border-0 rounded-2xl p-1">
-            {["Newest", "Active", "Unansered", "Most Vote"].map((tab) => (
+      <main className="flex-1">
+        <h1 className="text-black dark:text-white font-bold text-[24px] pl-8 pt-6">
+          Questions
+        </h1>
+        <div className="px-6 py-8">
+          {/* Tabs */}
+          <div className="flex w-fit mb-5 bg-gray-200 dark:bg-gray-700 rounded-2xl p-1">
+            {["Newest", "Active", "Unanswered", "Most Voted"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={` rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150
+                className={`rounded-2xl px-4 py-1.5 text-[18px] font-medium transition-all duration-150
                   ${
                     activeTab === tab
-                      ? "bg-slate-50 text-black"
-                      : "text-slate-400 hover:bg-slate-50"
+                      ? "bg-white dark:bg-gray-900 text-black dark:text-white"
+                      : "text-slate-400 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-800"
                   }`}
               >
                 {tab}
               </button>
             ))}
           </div>
-          <div>
-            <div className="flex flex-col gap-4">
-              {questions.map((q) => (
-                <QuestionCard key={q.id} question={q} />
-              ))}
-            </div>
+
+          {/* Question Cards */}
+          <div className="flex flex-col gap-4">
+            {questions.map((q) => (
+              <QuestionCard key={q.id} question={q} />
+            ))}
           </div>
         </div>
       </main>

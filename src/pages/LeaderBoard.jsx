@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { GoTrophy } from "react-icons/go";
 import Sidebar from "../layout/Sidebar";
-import { LuMedal } from "react-icons/lu";
-import { LuCrown } from "react-icons/lu";
+import { LuMedal, LuCrown } from "react-icons/lu";
+
 const users = [
   {
     rank: 1,
@@ -103,7 +103,7 @@ const Avatar = ({ initials, size = "md" }) => {
 
   return (
     <div
-      className={`${sizeClass} rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center font-bold text-indigo-600 shrink-0`}
+      className={`${sizeClass} rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 dark:from-blue-900 dark:to-indigo-900 flex items-center justify-center font-bold text-indigo-600 dark:text-indigo-300 shrink-0`}
     >
       {initials}
     </div>
@@ -111,7 +111,7 @@ const Avatar = ({ initials, size = "md" }) => {
 };
 
 const XpBar = ({ xp, maxXp }) => (
-  <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
+  <div className="flex-1 h-2 bg-slate-200 dark:bg-gray-700 rounded-full overflow-hidden">
     <div
       className="h-full bg-gradient-to-r from-[#3C83F6] to-[#6B26D9] rounded-full transition-all duration-500"
       style={{ width: `${(xp / maxXp) * 100}%` }}
@@ -126,35 +126,35 @@ export default function Leaderboard() {
   const rankOrder = [2, 1, 3];
 
   return (
-    <div className="flex min-h-screen bg-slate-100 font-sans">
-      {/* Sidebar */}
+    <div className="flex min-h-screen bg-slate-100 dark:bg-gray-900 font-sans transition-colors duration-300">
       <aside>
         <Sidebar />
       </aside>
 
-      {/* Main */}
       <main className="flex-1 p-8 overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-7">
           <div className="flex items-center gap-3">
-            <span className="text-[24px] text-black font">
+            <span className="text-[26px] text-black dark:text-white">
               <GoTrophy />
             </span>
-            <h1 className="text-2xl font-bold text-slate-900">Leaderboard</h1>
+            <h1 className="text-[24px] font-bold text-slate-900 dark:text-white">
+              Leaderboard
+            </h1>
           </div>
 
           {/* Tabs */}
-          <div className="flex bg-slate-200/70 rounded-xl p-1 gap-0.5">
+          <div className="flex bg-slate-200/70 dark:bg-gray-800 rounded-xl p-1 gap-0.5">
             {["Weekly", "Monthly", "All-time"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-1.5 text-sm font-medium transition-all duration-150 rounded-lg
-        ${
-          activeTab === tab
-            ? "bg-white text-slate-900 shadow-sm"
-            : "text-slate-400 hover:text-slate-500"
-        }`}
+                className={`px-4 py-1.5 text-[16px] font-medium transition-all duration-150 rounded-lg
+                  ${
+                    activeTab === tab
+                      ? "bg-white dark:bg-gray-700 text-slate-900 dark:text-white shadow-sm"
+                      : "text-slate-400 dark:text-gray-500 hover:text-slate-500 dark:hover:text-gray-300"
+                  }`}
               >
                 {tab}
               </button>
@@ -166,17 +166,16 @@ export default function Leaderboard() {
         <div className="grid grid-cols-3 gap-4 mb-5">
           {top3.map((user, i) => {
             const rank = rankOrder[i];
-
             return (
               <div
                 key={user.name}
-                className="bg-white rounded-2xl px-5 py-6 flex flex-col items-center
-                border border-slate-200 shadow-sm
-                transition-all duration-300
-                hover:-translate-y-2
-                hover:shadow-xl
-                hover:shadow-indigo-100
-                hover:border-indigo-200"
+                className="bg-white dark:bg-gray-800 rounded-2xl px-5 py-6 flex flex-col items-center
+                  border border-slate-200 dark:border-gray-700 shadow-sm
+                  transition-all duration-300
+                  hover:-translate-y-2
+                  hover:shadow-xl
+                  hover:shadow-indigo-100 dark:hover:shadow-indigo-900/30
+                  hover:border-indigo-200 dark:hover:border-indigo-700"
               >
                 <div className="mb-3">
                   {rank === 1 ? (
@@ -191,20 +190,19 @@ export default function Leaderboard() {
 
                 <Avatar initials={user.initials} size="lg" />
 
-                <p className="mt-3 font-semibold text-slate-900 text-sm">
+                <p className="mt-3 font-semibold text-slate-900 dark:text-white text-[16px]">
                   {user.name}
                 </p>
-
-                <p className="text-amber-500 font-bold text-sm mb-3">
+                <p className="text-amber-500 font-bold text-[15px] mb-3">
                   {user.rep.toLocaleString()} rep
                 </p>
 
                 <div className="w-full flex items-center gap-2">
-                  <span className="text-xs text-black font-medium whitespace-nowrap">
+                  <span className="text-[13px] text-black dark:text-gray-300 font-medium whitespace-nowrap">
                     Lv.{user.level}
                   </span>
                   <XpBar xp={user.xp} maxXp={user.maxXp} />
-                  <span className="text-xs text-slate-400 whitespace-nowrap">
+                  <span className="text-[13px] text-slate-400 dark:text-gray-500 whitespace-nowrap">
                     {user.xp}/{user.maxXp}
                   </span>
                 </div>
@@ -218,24 +216,24 @@ export default function Leaderboard() {
           {users.slice(3).map((user) => (
             <div
               key={user.name}
-              className="bg-white border border-slate-200 rounded-xl px-5 py-3.5 flex items-center gap-3.5 shadow-sm
-              transition-all duration-300
-              hover:-translate-y-1.5
-              hover:shadow-lg
-              hover:border-indigo-200"
+              className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl px-5 py-3.5 flex items-center gap-3.5 shadow-sm
+                transition-all duration-300
+                hover:-translate-y-1.5
+                hover:shadow-lg
+                hover:border-indigo-200 dark:hover:border-indigo-700"
             >
-              <span className="text-sm font-bold text-slate-400 w-6 text-center">
+              <span className="text-[15px] font-bold text-slate-400 dark:text-gray-500 w-6 text-center">
                 #{user.rank}
               </span>
 
               <Avatar initials={user.initials} size="sm" />
 
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-slate-900 text-sm mb-1">
+                <p className="font-semibold text-slate-900 dark:text-white text-[16px] mb-1">
                   {user.name}
                 </p>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-black font-medium whitespace-nowrap">
+                  <span className="text-[13px] text-black dark:text-gray-300 font-medium whitespace-nowrap">
                     Lv.{user.level}
                   </span>
                   <XpBar xp={user.xp} maxXp={user.maxXp} />
@@ -243,10 +241,10 @@ export default function Leaderboard() {
               </div>
 
               <div className="flex flex-col items-end gap-1">
-                <span className="text-amber-500 font-bold text-sm">
+                <span className="text-amber-500 font-bold text-[16px]">
                   {user.rep.toLocaleString()}
                 </span>
-                <div className="flex gap-1.5 text-xs text-slate-400">
+                <div className="flex gap-1.5 text-[13px] text-slate-400 dark:text-gray-500">
                   <span>🥇{user.gold}</span>
                   <span>🥈{user.silver}</span>
                   <span>🥉{user.bronze}</span>
