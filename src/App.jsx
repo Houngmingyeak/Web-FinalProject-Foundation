@@ -8,6 +8,16 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+import ForgotPassword from "./pages/forgot_password";
+import ProtectedRoute from "./components/ProtectedRoute";
+// import ProfilePage from "./pages/ProfilePage";
+import HomePage from "./pages/Home";
+import AboutPage from "./pages/AboutUsPage";
+import QuestionForm from "./pages/QuestionDetail";
+import ChallengesPage from "./pages/ChallengesPage";
+import Leaderboard from "./pages/Leaderboard";
+import Account from "./pages/Account";
+import QuestionsPage from "./pages/QuestionPage";
 export default function App() {
   return (
     <BrowserRouter>
@@ -23,7 +33,7 @@ export default function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <ProfilePage />
+                  {/* <ProfilePage /> */}
                 </ProtectedRoute>
               }
             />

@@ -9,19 +9,11 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import { auth, db } from "../firebase/config";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-// import { Eye, EyeOff } from "lucide-react";
-=======
-import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
-import { Eye, EyeOff } from "lucide-react";
->>>>>>> 3385d912cd0a360f9d0d278d2d2f0450c7f6993b
-=======
+
+
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
 // import { Eye, EyeOff } from "lucide-react";
->>>>>>> d2978f0a7b7818826d214c6f2be561fb6b989518
 import { LuGithub } from "react-icons/lu";
 import z from "zod";
 
@@ -126,13 +118,10 @@ export default function Signup() {
 
       await createUserDoc(userCredential.user, { displayName: username });
       navigate("/");
-<<<<<<< HEAD
-<<<<<<< HEAD
-    } catch (error) {
-      setError(error.message);
-=======
-=======
->>>>>>> d2978f0a7b7818826d214c6f2be561fb6b989518
+
+
+
+
     } catch (err) {
       if (err.code === "auth/popup-closed-by-user") return;
 
@@ -141,20 +130,16 @@ export default function Signup() {
       } else {
         setError(err.message || "Authentication failed. Please try again.");
       }
-<<<<<<< HEAD
->>>>>>> 3385d912cd0a360f9d0d278d2d2f0450c7f6993b
-=======
->>>>>>> d2978f0a7b7818826d214c6f2be561fb6b989518
+
+
     } finally {
       setLoading(false);
     }
   };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> d2978f0a7b7818826d214c6f2be561fb6b989518
+
+
+
   // ── Google OAuth ────────────────────────────────────────────────────────
   const handleGoogleSignIn = async () => {
     setError("");
@@ -201,11 +186,6 @@ export default function Signup() {
 
   const busy = loading || !!oauthLoading;
 
-  // ── Render ──────────────────────────────────────────────────────────────
-<<<<<<< HEAD
->>>>>>> 3385d912cd0a360f9d0d278d2d2f0450c7f6993b
-=======
->>>>>>> d2978f0a7b7818826d214c6f2be561fb6b989518
   return (
     <div className="flex items-center justify-center min-h-[80vh]">
       <div className="bg-gray-900 p-8 rounded-xl w-96 shadow-xl border border-gray-800">
