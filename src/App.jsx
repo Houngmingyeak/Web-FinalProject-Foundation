@@ -1,14 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./hooks/useAuth";
+import { useContext } from "react";
+import { ThemeContext } from "./context/ThemeContext";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import QuestionDetailPage from "./pages/QuestionDetail";
 // import AdminDashboard from "./pages/AdminDashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
-import ForgotPassword from "./pages/forgot_password";
 import HomePage from "./pages/Home";
 import AboutPage from "./pages/AboutUsPage";
 import QuestionForm from "./pages/Question";
@@ -16,16 +18,22 @@ import ChallengesPage from "./pages/ChallengesPage";
 import Leaderboard from "./pages/LeaderBoard";
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
-import Sidebar from "./layout/Sidebar";
-import BookmarkCard from "./pages/BookMarkCard";
 import SearchPage from "./pages/Search";
+import ForgotPassword from "./pages/ForgotPassword";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
+  // optional: read theme if you want to debug or extend
+  const { mode } = useContext(ThemeContext);
+
   return (
     <BrowserRouter>
-      <AuthProvider>
+      {/* Global Layout Wrapper */}
+      <div className="min-h-screen flex flex-col bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
+        
         <Header />
-        <main className="bg-white text-black">
+        <main className="bg-white text-white">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -37,17 +45,22 @@ export default function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/que" element={<QuestionForm />} />
-            <Route path="/challenges" element={<ChallengesPage />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/cha" element={<ChallengesPage />} />
+            <Route path="/leader" element={<Leaderboard />} />
             <Route path="/account" element={<Account />} />
             <Route path="/questions" element={<QuestionsPage />} />
-            <Route path="/sb" element={<Sidebar />} />
-            <Route path="/saves" element={<BookmarkCard />} />
           </Routes>
         </main>
+
         <Footer />
-      </AuthProvider>
+
+        {/* Toastify - supports dark automatically */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          theme={mode === "dark" ? "dark" : "light"}
+        />
+      </div>
     </BrowserRouter>
   );
 }
-

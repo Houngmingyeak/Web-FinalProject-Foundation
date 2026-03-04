@@ -1,5 +1,4 @@
 import React from "react";
-// If you're using a local image, import it like this:
 import heroImage from "../assets/Herosection.png";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa";
@@ -15,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <main className="bg-slate-50">
+    <main className="bg-slate-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Hero Section with Image */}
       <header className="relative">
         <div className="relative">
@@ -24,26 +23,22 @@ const HomePage = () => {
             <img
               src={heroImage}
               alt="Developers collaborating"
-              className="w-full h-auto object-cover opacity-7"
+              className="w-full h-auto object-cover opacity-70"
             />
           </div>
-          {/* Text Overlay - Positioned absolutely on top of the image */}
-          {/* Text Overlay - Positioned absolutely on top of the image */}
+          {/* Text Overlay */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center px-4">
-              <h2 className="font-extrabold text-black leading-tight">
-                {/* First Line */}
+              <h2 className="font-extrabold text-black dark:text-white leading-tight">
                 <div className="text-[72px] whitespace-nowrap">
-                  Where develpoers
+                  Where developers
                 </div>
-
-                {/* Second Line */}
                 <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
                   level up together
                 </div>
               </h2>
 
-              <p className="text-[20px] text-slate-600 mt-6 max-w-3xl mx-auto">
+              <p className="text-[20px] text-slate-600 dark:text-slate-300 mt-6 max-w-3xl mx-auto">
                 The gamified Q&A platform that makes sharing knowledge
                 rewarding. Ask questions, earn XP, unlock badges, and climb the
                 leaderboard.
@@ -56,7 +51,7 @@ const HomePage = () => {
                     <FaArrowRight className="mt-1" />
                   </Link>
                 </div>
-                <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
+                <div className="inline-flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-black dark:text-white px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                   <a href="#" className="flex items-center gap-2">
                     See how it works
                     <FaAngleRight className="mt-1" />
@@ -67,22 +62,36 @@ const HomePage = () => {
               {/* Stats */}
               <div className="flex gap-8 md:gap-17 flex-wrap justify-center text-center mt-10">
                 <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">50K+</div>
-                  <div className="text-sm text-slate-500">Developers</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                    50K+
+                  </div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">
+                    Developers
+                  </div>
                 </div>
                 <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">120K+</div>
-                  <div className="text-sm text-slate-500">
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                    120K+
+                  </div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">
                     Questions Answered
                   </div>
                 </div>
                 <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">2M+</div>
-                  <div className="text-sm text-slate-500">XP Earned</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                    2M+
+                  </div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">
+                    XP Earned
+                  </div>
                 </div>
                 <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">98%</div>
-                  <div className="text-sm text-slate-500">Satisfaction</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                    98%
+                  </div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">
+                    Satisfaction
+                  </div>
                 </div>
               </div>
             </div>
@@ -90,97 +99,95 @@ const HomePage = () => {
         </div>
       </header>
 
-      {/* Rest of your components remain the same... */}
       {/* Features Section */}
       <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 mb-4">
+        <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-4">
           Everything you need to grow
         </h2>
-        <p className="text-lg text-slate-600 text-center max-w-[500px] mx-auto mb-12">
+        <p className="text-lg text-slate-600 dark:text-slate-300 text-center max-w-[500px] mx-auto mb-12">
           A developer community built with gratification at its core. Every
           action earns rewards.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Feature Cards */}
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 ">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-xl mb-2 hover:bg-blue-200">
-              <LuMessageSquare className="text-blue-600 text-[25px] mx-auto" />
+          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+              <LuMessageSquare className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
                 Q&A That Rewards
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
                 Ask and answer questions. Every contribution earns XP and
                 rewards.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <CiTrophy className="text-blue-600 text-[25px] mx-auto" />
+          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+              <CiTrophy className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
                 Leaderboards
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
                 Complete globally verified weekly, monthly, and all-time
                 rankings.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <CgMediaLive className="text-blue-600 text-[30px] mx-auto" />
+          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+              <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[30px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
                 Daily Challenges
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
                 Complete daily challenges to earn bonus XP and exclusive badges.
               </p>
             </div>
           </div>
 
-          
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <RiShieldLine className="text-blue-600 text-[25px] mx-auto" />
+          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+              <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
                 Level Up System
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
                 Progress through 10 levels with unlockable points and perks.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <LuGift className="text-blue-600 text-[25px] mx-auto" />
+          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+              <LuGift className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
                 Badges & Rewards
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
                 Earn gold, silver, and bronze badges for your achievements.
               </p>
             </div>
           </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <IoCodeSlash className="text-blue-600 text-[25px] mx-auto" />
+          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+              <IoCodeSlash className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                Code-Free Design
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
+                Code-Friendly Design
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
                 Syntax highlighting, markdown support, and code-centric UX.
               </p>
             </div>
@@ -191,52 +198,52 @@ const HomePage = () => {
       {/* How It Works */}
       <section className="py-16 px-8 font-inter">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-900 mb-4">
+          <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-4">
             How it works
           </h2>
-          <p className="text-lg text-slate-600 text-center max-w-2xl mx-auto mb-12">
+          <p className="text-lg text-slate-600 dark:text-slate-300 text-center max-w-2xl mx-auto mb-12">
             Three simple steps to start leveling up.
           </p>
 
           <div className="flex flex-wrap gap-8 justify-center">
             {/* Step 1 */}
             <div className="flex-1 min-w-[250px] text-center p-6">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-1">
-                <LuMessageSquare className="text-blue-600 text-3xl mx-auto" />
+              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-2xl mb-4 mx-auto">
+                <LuMessageSquare className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
               </div>
-              <p className="text-black font-bold">01</p>
-              <h3 className="text-xl text-black font-semibold mb-2">
+              <p className="text-black dark:text-white font-bold">01</p>
+              <h3 className="text-xl text-black dark:text-white font-semibold mb-2">
                 Ask or Answer
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-300">
                 Find questions or help others with expert answers. Every
                 interaction earns XP.
               </p>
             </div>
             {/* Step 2 */}
-            <div className="flex-1 min-w-[250px] text-center p-6 ">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-                <CiTrophy className="text-blue-600 text-3xl mx-auto" />
+            <div className="flex-1 min-w-[250px] text-center p-6">
+              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-2xl mb-4 mx-auto">
+                <CiTrophy className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
               </div>
-              <p className="text-black font-bold">02</p>
-              <h3 className="text-xl text-black font-semibold mb-2">
+              <p className="text-black dark:text-white font-bold">02</p>
+              <h3 className="text-xl text-black dark:text-white font-semibold mb-2">
                 Earn XP & Badges
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-300">
                 Watch your progress level up. Unlock gold, silver, and bronze
                 badges.
               </p>
             </div>
             {/* Step 3 */}
-            <div className="flex-1 min-w-[250px] text-center p-6 ">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-                <LuUsers className="text-blue-600 text-3xl mx-auto" />
+            <div className="flex-1 min-w-[250px] text-center p-6">
+              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-2xl mb-4 mx-auto">
+                <LuUsers className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
               </div>
-              <p className="text-black font-bold">03</p>
-              <h3 className="text-xl text-black font-semibold mb-2">
+              <p className="text-black dark:text-white font-bold">03</p>
+              <h3 className="text-xl text-black dark:text-white font-semibold mb-2">
                 Climb the Ranks
               </h3>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-300">
                 Rise through 50 levels and compete on the global leaderboard!
               </p>
             </div>
@@ -246,225 +253,125 @@ const HomePage = () => {
 
       {/* Testimonials */}
       <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 mb-12">
+        <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-12">
           What devs are saying
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Testimonial 1 */}
-          <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center text-yellow-300 space-x-1">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center space-x-1 mb-4">
+              {[...Array(4)].map((_, i) => (
+                <svg
+                  key={i}
+                  className="w-5 h-5 fill-current text-yellow-400"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                </svg>
+              ))}
               <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-disabled"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
+                className="w-5 h-5 fill-current text-gray-300 dark:text-gray-600"
                 viewBox="0 0 24 24"
               >
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
             </div>
-            <p className="text-slate-700 my-4">
+            <p className="text-slate-700 dark:text-slate-300 my-4">
               "Definitely made me actually enjoy answering questions."
             </p>
-            <p className="font-semibold border-t text-slate-900 ">Sarah M.</p>
-            <p className="text-sm text-slate-500">Senior Engineer @ Stripe</p>
+            <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
+              <p className="font-semibold text-slate-900 dark:text-white">
+                Sarah M.
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Senior Engineer @ Stripe
+              </p>
+            </div>
           </div>
+
           {/* Testimonial 2 */}
-          <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center text-yellow-300 space-x-1">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center space-x-1 mb-4">
+              {[...Array(4)].map((_, i) => (
+                <svg
+                  key={i}
+                  className="w-5 h-5 fill-current text-yellow-400"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                </svg>
+              ))}
               <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-disabled"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
+                className="w-5 h-5 fill-current text-gray-300 dark:text-gray-600"
                 viewBox="0 0 24 24"
               >
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
             </div>
-            <p className=" text-slate-700 my-6">
-              "This game is so fun! I've been playing it for a while now."
+            <p className="text-slate-700 dark:text-slate-300 my-4">
+              "This platform is so fun! I've been using it for a while now."
             </p>
-            <p className="font-semibold border-t  text-slate-900">James L.</p>
-            <p className="text-sm text-slate-500">Full-Stack Dev</p>
+            <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
+              <p className="font-semibold text-slate-900 dark:text-white">
+                James L.
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Full-Stack Dev
+              </p>
+            </div>
           </div>
+
           {/* Testimonial 3 */}
-          <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center text-yellow-300 space-x-1">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
+            <div className="flex items-center space-x-1 mb-4">
+              {[...Array(4)].map((_, i) => (
+                <svg
+                  key={i}
+                  className="w-5 h-5 fill-current text-yellow-400"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                </svg>
+              ))}
               <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                className="w-5 h-5 text-fg-disabled"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
+                className="w-5 h-5 fill-current text-gray-300 dark:text-gray-600"
                 viewBox="0 0 24 24"
               >
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
             </div>
-            <p className=" text-slate-700 my-4">
-              "I love this game! It's so much fun and challenging."
+            <p className="text-slate-700 dark:text-slate-300 my-4">
+              "I love this platform! It's so much fun and challenging."
             </p>
-            <p className="font-semibold border-t  text-slate-900">Erwin W.</p>
-            <p className="text-sm text-slate-500">Tech Lead @ Netflix</p>
+            <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
+              <p className="font-semibold text-slate-900 dark:text-white">
+                Erwin W.
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Tech Lead @ Netflix
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-16 px-8 max-w-7xl mx-auto">
-      <div className="bg-white text-black text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 rounded-2xl my-16">
-        <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 ">
-          Join 50,000+ developers who are already earning XP, unlocking badges,
-          and climbing the leaderboard.
-        </p>
-        <a
-          href="#"
-          className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold inline-block shadow-md 
+        <div className="bg-white dark:bg-gray-800 text-black dark:text-white text-center py-14 px-8 border-2 border-slate-200 dark:border-gray-700 rounded-2xl">
+          <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+            Join 50,000+ developers who are already earning XP, unlocking badges,
+            and climbing the leaderboard.
+          </p>
+          <Link
+            to="/signup"
+            className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold inline-block shadow-md 
                 transform transition duration-300 ease-in-out 
                 hover:-translate-y-2 hover:drop-shadow-lg"
-        >
-          Get started → the flow
-        </a>
-      </div>
+          >
+            Get started →
+          </Link>
+        </div>
       </section>
     </main>
   );

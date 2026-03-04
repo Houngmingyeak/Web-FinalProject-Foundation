@@ -1,17 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import MindStack from "../assets/Mindstack.png";
 import { GoSun } from "react-icons/go";
-import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header className="w-full bg-white border-b border-gray-100 shadow-sm">
+    <header className="w-full bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-3 px-6 md:px-16">
         {/* Logo Section */}
-        <div className="flex items-center space-x-2">
-          <img src={MindStack} alt="" className="w-8 h-8" />
-          <p className="text-xl font-bold text-gray-900">MindStack</p>
-        </div>
+        <Link to="/" className="flex items-center space-x-2">
+          <img src={MindStack} alt="MindStack Logo" className="w-8 h-8" />
+          <p className="text-xl font-bold text-gray-900 dark:text-white">MindStack</p>
+        </Link>
 
         {/* Search Bar Section */}
         <div className="flex-1 max-w-xl mx-8 hidden md:block ">
@@ -19,12 +19,12 @@ export default function Header() {
             <a href="" className="hover:text-black transition-colors">
               Feature
             </a>
-            <a  href="" className="hover:text-black transition-colors">
+            <a href="" className="hover:text-black transition-colors">
               Testimonials
             </a>
-            <Link to="/about" className="hover:text-black transition-colors">
+            <a href="" className="hover:text-black transition-colors">
               About us
-            </Link>
+            </a>
           </div>
         </div>
 
@@ -39,9 +39,9 @@ export default function Header() {
           <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
             <span>Log in</span>
           </button>
-          <Link to="/signu" className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
+          <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
             <span>Sign up free</span>
-          </Link>
+          </button>
         </div>
       </div>
     </header>

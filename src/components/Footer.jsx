@@ -9,13 +9,13 @@ import { CiLinkedin } from "react-icons/ci";
 
 const Footer = () => {
   return (
-    <footer className="bg-white text-black py-8 px-4 md:px-8 lg:px-16">
+    <footer className="bg-white dark:bg-gray-900 text-black dark:text-gray-200 py-8 px-4 md:px-8 lg:px-16">
       <div className="max-w-7xl mx-auto">
         {/* Top section: About, Contact, etc. */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 border-b border-gray-700">
           {/* Column 1: Sponsored & Organized, About, Get in touch */}
           <div>
-            <h3 className="text-black text-xl font-bold mb-4">Sponsored and Organized by</h3>
+            <h3 className="text-black dark:text-gray-100 text-xl font-bold mb-4">Sponsored and Organized by</h3>
             <img src={Img} alt="iSTAD Logo" className="w-50 h-20 object-contain" />
             <p className="pt-3 text-sm w-60 text-center">Institute of Science and Technology advance Development</p>
           </div>
@@ -43,12 +43,12 @@ const Footer = () => {
           </div>
 {/* change color icon */}
           <div className="text-center">
-            <h3 className="text-black text-xl font-bold mb-4">Get in touch With us</h3>
+            <h3 className="text-black dark:text-gray-100 text-xl font-bold mb-4">Get in touch With us</h3>
             <div className="flex gap-8 items-center justify-center">
-                <CiFacebook className="text-black text-2xl" />
-                <PiTelegramLogo className="text-black text-2xl" />
-                <CgMail className="text-black text-2xl" />
-                <CiLinkedin className="text-black text-2xl" />   
+                <CiFacebook className="text-black dark:text-white text-2xl" />
+                <PiTelegramLogo className="text-black dark:text-white text-2xl" />
+                <CgMail className="text-black dark:text-white text-2xl" />
+                <CiLinkedin className="text-black dark:text-white text-2xl" />   
             </div>
             <form className="max-w-sm mx-auto mt-4">   
                 <label htmlFor="search" className="block mb-2.5 text-sm font-medium text-heading sr-only ">write your message here........</label>
