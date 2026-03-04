@@ -1,5 +1,7 @@
-// src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useContext } from "react";
+import { ThemeContext } from "./context/ThemeContext";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -17,39 +19,55 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
+  // optional: read theme if you want to debug or extend
+  const { mode } = useContext(ThemeContext);
+
   return (
     <BrowserRouter>
-      <Header />
-      <main className="bg-white min-h-[100vh]">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/question/:id" element={<QuestionDetailPage />} />  
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+      {/* Global Layout Wrapper */}
+      <div className="min-h-screen flex flex-col bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
+        
+        <Header />
 
-          {/* Protected Routes */}
-          <Route
-            path="/ask"
-            element={
-              <ProtectedRoute>
-                <Question />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </main>
-      <Footer />
-      <ToastContainer position="top-right" autoClose={3000} />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/question/:id" element={<QuestionDetailPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/ask"
+              element={
+                <ProtectedRoute>
+                  <Question />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </main>
+
+        <Footer />
+
+        {/* Toastify - supports dark automatically */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          theme={mode === "dark" ? "dark" : "light"}
+        />
+      </div>
     </BrowserRouter>
   );
 }
