@@ -252,9 +252,9 @@ const HomePage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Testimonial 1 */}
           <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div class="flex items-center text-yellow-300 space-x-1">
+            <div className="flex items-center text-yellow-300 space-x-1">
               <svg
-                class="w-5 h-5 text-fg-yello"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -265,7 +265,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -276,7 +276,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -287,7 +287,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -298,7 +298,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-disabled"
+                className="w-5 h-5 text-fg-disabled"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -317,9 +317,9 @@ const HomePage = () => {
           </div>
           {/* Testimonial 2 */}
           <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div class="flex items-center text-yellow-300 space-x-1">
+            <div className="flex items-center text-yellow-300 space-x-1">
               <svg
-                class="w-5 h-5 text-fg-yello"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -330,7 +330,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -341,7 +341,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -352,7 +352,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -363,7 +363,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-disabled"
+                className="w-5 h-5 text-fg-disabled"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -382,9 +382,9 @@ const HomePage = () => {
           </div>
           {/* Testimonial 3 */}
           <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div class="flex items-center text-yellow-300 space-x-1">
+            <div className="flex items-center text-yellow-300 space-x-1">
               <svg
-                class="w-5 h-5 text-fg-yello"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -395,7 +395,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -406,7 +406,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -417,7 +417,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-yellow"
+                className="w-5 h-5 text-fg-yellow"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -428,7 +428,7 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
               <svg
-                class="w-5 h-5 text-fg-disabled"
+                className="w-5 h-5 text-fg-disabled"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -449,7 +449,8 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-white text-black text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 rounded-2xl my-16">
+      <section className="py-16 px-8 max-w-7xl mx-auto">
+      <div className="bg-white text-black text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 rounded-2xl my-16">
         <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 ">
           Join 50,000+ developers who are already earning XP, unlocking badges,
@@ -463,6 +464,7 @@ const HomePage = () => {
         >
           Get started → the flow
         </a>
+      </div>
       </section>
     </main>
   );

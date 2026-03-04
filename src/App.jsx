@@ -5,48 +5,44 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import SearchPage from "./pages/Search";
 import QuestionDetailPage from "./pages/QuestionDetail";
-import AdminDashboard from "./pages/AdminDashboard";
-import ForgotPassword from "./pages/forgot_password";
+// import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import ProfilePage from "./pages/ProfilePage";
+import ForgotPassword from "./pages/forgot_password";
 import HomePage from "./pages/Home";
 import AboutPage from "./pages/AboutUsPage";
-import QuestionForm from "./pages/QuestionDetail";
+import QuestionForm from "./pages/Question";
 import ChallengesPage from "./pages/ChallengesPage";
-import Leaderboard from "./pages/Leaderboard";
+import Leaderboard from "./pages/LeaderBoard";
 import Account from "./pages/Account";
 import QuestionsPage from "./pages/QuestionPage";
+import Sidebar from "./layout/Sidebar";
+import BookmarkCard from "./pages/BookMarkCard";
+import SearchPage from "./pages/Search";
+
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Header />
-        <main className="bg-white text-white">
+        <main className="bg-white text-black">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  {/* <ProfilePage /> */}
-                </ProtectedRoute>
-              }
-            />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/question/:id" element={<QuestionDetailPage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            {/* <Route path="/admin" element={<AdminDashboard />} /> */}
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/que" element={<QuestionForm />} />
-            <Route path="/cha" element={<ChallengesPage />} />
-            <Route path="/leader" element={<Leaderboard />} />
+            <Route path="/challenges" element={<ChallengesPage />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/account" element={<Account />} />
             <Route path="/questions" element={<QuestionsPage />} />
+            <Route path="/sb" element={<Sidebar />} />
+            <Route path="/saves" element={<BookmarkCard />} />
           </Routes>
         </main>
         <Footer />
