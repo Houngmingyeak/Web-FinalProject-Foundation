@@ -25,7 +25,7 @@ export default function App() {
       <div className="min-h-screen flex flex-col bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
         
         <Header />
-        <main className="min-h-screen bg-gray-950 text-white p-6">
+        <main className="min-h-screen p-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

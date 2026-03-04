@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MindStack from "../assets/Mindstack.png";
 import ThemeToggle from "./ThemeToggle.jsx";
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  // Detect scroll to add shadow
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="w-full bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-sm">
+    <header
+      className={`w-full bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50 transition-shadow duration-300 ${
+        scrolled ? "shadow-md" : ""
+      }`}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between py-3 px-6 md:px-16">
         {/* Logo Section */}
         <Link to="/" className="flex items-center space-x-2">
