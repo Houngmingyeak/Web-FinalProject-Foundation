@@ -34,7 +34,7 @@ export default function Sidebar() {
             {icon}
             {label}
           </Link>
-        ))}
+        ))} 
       </nav>
 
       {/* XP Progress */}
