@@ -1,5 +1,5 @@
 {
-  "name": "vithi_stack",
+  "name": "mind_stack",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -26,6 +26,8 @@
     "lucide-react": "^0.575.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.2",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.6.0",

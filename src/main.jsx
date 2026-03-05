@@ -8,6 +8,8 @@ import { store } from "./app/store.js";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 // authentication context
 import { AuthProvider } from "./hooks/useAuth.jsx";
+// import "./index.css";
+import "./App.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
