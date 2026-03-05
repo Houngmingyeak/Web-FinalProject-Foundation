@@ -1,9 +1,9 @@
 
 // src/pages/Signup.jsx
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify"; // យក ToastContainer ចេញ
+// import { Link, useNavigate } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// import { toast } from "react-toastify"; // យក ToastContainer ចេញ
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -16,7 +16,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { LuGithub } from "react-icons/lu";
 import z from "zod";
 
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../features/auth/authSlice";

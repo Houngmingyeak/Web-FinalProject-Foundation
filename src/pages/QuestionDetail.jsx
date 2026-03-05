@@ -1,4 +1,3 @@
-<<<<<<<<< Temporary merge branch 1
 // src/pages/QuestionDetail.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -25,9 +24,14 @@ import {
   FiMessageCircle,
   FiEye,
 } from "react-icons/fi";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import Sidebar from "../layout/Sidebar";
+import AnswerForm from "../components/AnswerForm";
+import AnswerCard from "../components/AnswerCard";
+import QuestionCard from "../components/QuestionCard";
 
 export default function QuestionDetailPage() {
-  const { id } = useParams(); // Changed from params.id
+  const { id } = useParams();
   const navigate = useNavigate();
   const { currentUser, userProfile } = useAuth();
   const [question, setQuestion] = useState(null);
@@ -39,6 +43,7 @@ export default function QuestionDetailPage() {
   const [userLamps, setUserLamps] = useState(new Set());
   const [userFavorites, setUserFavorites] = useState(new Set());
   const [error, setError] = useState("");
+  const [relatedQuestions, setRelatedQuestions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,6 +78,21 @@ export default function QuestionDetailPage() {
           answersData.sort((a, b) => (b.lampCount || 0) - (a.lampCount || 0));
           setAnswers(answersData);
 
+          // Fetch related questions (same tags)
+          if (questionData.tags && questionData.tags.length > 0) {
+            const questionsRef = collection(db, "questions");
+            const relatedQuery = query(
+              questionsRef,
+              where("tags", "array-contains-any", questionData.tags.slice(0, 3)),
+              where("__name__", "!=", id)
+            );
+            const relatedSnap = await getDocs(relatedQuery);
+            const relatedData = relatedSnap.docs
+              .map(doc => ({ id: doc.id, ...doc.data() }))
+              .slice(0, 3);
+            setRelatedQuestions(relatedData);
+          }
+
           // Fetch user lamps and favorites
           if (currentUser) {
             const lampsSet = new Set();
@@ -97,6 +117,8 @@ export default function QuestionDetailPage() {
             setUserLamps(lampsSet);
             setUserFavorites(favoritesSet);
           }
+        } else {
+          setError("Question not found");
         }
       } catch (error) {
         console.error("Error fetching question:", error);
@@ -126,10 +148,11 @@ export default function QuestionDetailPage() {
 
     try {
       const answersRef = collection(db, "answers");
-      await addDoc(answersRef, {
+      const newAnswer = {
         questionId: id,
         authorId: currentUser.uid,
-        authorName: userProfile?.displayName || currentUser.email,
+        authorName: userProfile?.displayName || currentUser.email?.split('@')[0] || "Anonymous",
+        authorAvatar: userProfile?.photoURL || null,
         content: answerContent.trim(),
         code: answerCode.trim() || "",
         createdAt: Timestamp.now(),
@@ -137,7 +160,9 @@ export default function QuestionDetailPage() {
         comments: 0,
         lampCount: 0,
         userLamps: {},
-      });
+      };
+
+      await addDoc(answersRef, newAnswer);
 
       // Update question answer count
       const questionRef = doc(db, "questions", id);
@@ -244,6 +269,7 @@ export default function QuestionDetailPage() {
         await addDoc(favoritesRef, {
           userId: currentUser.uid,
           answerId,
+          questionId: id,
           addedAt: Timestamp.now(),
         });
         setUserFavorites((prev) => new Set(prev).add(answerId));
@@ -253,25 +279,32 @@ export default function QuestionDetailPage() {
     }
   };
 
+  const copyCodeToClipboard = (code) => {
+    navigator.clipboard.writeText(code);
+    alert("Code copied to clipboard!");
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-950">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading...</p>
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading question...</p>
         </div>
       </div>
     );
   }
 
-  if (!question) {
+  if (error || !question) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-950">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
-          <p className="text-gray-400 text-lg mb-4">Question not found</p>
+          <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
+            {error || "Question not found"}
+          </p>
           <Link
             to="/"
-            className="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg"
+            className="inline-block px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition"
           >
             Back to Questions
           </Link>
@@ -279,266 +312,264 @@ export default function QuestionDetailPage() {
       </div>
     );
   }
-=========
-import React from "react";
-import Sidebar from "../layout/Sidebar";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import AnswerForm from "../components/AnswerForm";
-import AnswerCard from "../components/AnswerCard";
-import QuestionCard from "../components/QuestionCard";
 
-const questions = [
-  {
-    id: 1,
-    title:
-      "How to implement WebSocket reconnection with exponential backoff in TypeScript?",
-    excerpt:
-      "I'm building a real-time chat application and need a robust reconnection strategy. The current implementation fails silently.",
-    tags: ["typescript", "websocket", "real-time"],
-    author: { initials: "SM", name: "Sarah Miller", color: "bg-violet-500" },
-    comments: 7,
-    views: 1240,
-    time: "2h ago",
-  },
-];
->>>>>>>>> Temporary merge branch 2
-
-export default function QuestionDetai() {
   return (
-<<<<<<<<< Temporary merge branch 1
-    <div className="min-h-screen bg-gray-950 text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 mb-6"
-        >
-          <FiArrowLeft size={18} />
-          Back to Questions
-        </Link>
+    <div className="flex bg-gray-50 dark:bg-gray-900 min-h-screen w-full">
+      <Sidebar />
+      <main className="flex-1 p-4 md:p-6 lg:p-8">
+        <div className="max-w-5xl mx-auto">
+          {/* Back button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="text-gray-600 dark:text-gray-400 font-medium flex items-center gap-2 mb-4 hover:text-blue-500 dark:hover:text-blue-400 transition"
+          >
+            <FaArrowLeftLong />
+            Back to Questions
+          </button>
 
-        <div className="bg-gray-900 p-8 rounded-xl border border-gray-800 mb-8">
-          <div className="flex items-start justify-between mb-4">
-            <h1 className="text-3xl font-bold text-white flex-1">
-              {question.title}
-            </h1>
-            <span
-              className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                question.status === "open"
-                  ? "bg-blue-100 text-blue-800"
-                  : question.status === "resolved"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-800"
-              }`}
-            >
-              {question.status}
-            </span>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-4">
-            {question.tags?.map((tag) => (
+          {/* Question Detail */}
+          <div className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-xl border border-gray-200 dark:border-gray-700 mb-8 shadow-sm">
+            <div className="flex items-start justify-between mb-4">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white flex-1">
+                {question.title}
+              </h1>
               <span
-                key={tag}
-                className="px-2 py-1 bg-gray-800 text-gray-300 rounded-full text-xs border border-gray-700"
+                className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                  question.status === "open"
+                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                    : question.status === "resolved"
+                    ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
+                    : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                }`}
               >
-                {tag}
+                {question.status || "Open"}
               </span>
-            ))}
-          </div>
+            </div>
 
-          <div className="text-sm text-gray-400 mb-6">
-            Asked by{" "}
-            <span className="font-semibold text-gray-300">
-              {question.authorName}
-            </span>{" "}
-            •{" "}
-            {formatDistanceToNow(question.createdAt.toDate(), {
-              addSuffix: true,
-            })}{" "}
-            • {question.viewCount} views
-          </div>
-
-          <div className="prose prose-invert max-w-none mb-6">
-            <p className="whitespace-pre-wrap text-gray-300">
-              {question.description}
-            </p>
-            {question.code && (
-              <div className="bg-gray-800 p-4 rounded-lg font-mono text-sm overflow-x-auto mt-4 text-gray-300">
-                <pre>{question.code}</pre>
+            {/* Tags */}
+            {question.tags && question.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {question.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs border border-blue-100 dark:border-blue-800"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             )}
-          </div>
-        </div>
 
-        {/* Answers Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-6 text-white">
-            {answers.length} Answers
-          </h2>
+            {/* Meta info */}
+            <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
+              <span>
+                Asked by{" "}
+                <span className="font-semibold text-gray-700 dark:text-gray-300">
+                  {question.authorName || "Anonymous"}
+                </span>
+              </span>
+              {question.createdAt && (
+                <span>
+                  • {formatDistanceToNow(question.createdAt.toDate(), { addSuffix: true })}
+                </span>
+              )}
+              <span className="flex items-center gap-1">
+                <FiEye size={14} />
+                {question.viewCount || 0} views
+              </span>
+            </div>
 
-          <div className="space-y-6">
-            {answers.map((answer) => (
-              <div
-                key={answer.id}
-                className="bg-gray-900 p-6 rounded-xl border border-gray-800"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex flex-col gap-2">
+            {/* Description */}
+            <div className="prose prose-gray dark:prose-invert max-w-none mb-6">
+              <p className="whitespace-pre-wrap text-gray-700 dark:text-gray-300">
+                {question.description}
+              </p>
+              {question.code && (
+                <div className="bg-gray-800 p-4 rounded-lg font-mono text-sm overflow-x-auto mt-4 text-gray-200">
+                  <div className="flex justify-between items-start">
+                    <pre className="flex-1">{question.code}</pre>
                     <button
-                      onClick={() => handleLamp(answer.id)}
-                      className={`flex flex-col items-center gap-1 px-2 py-2 rounded transition ${
-                        userLamps.has(answer.id)
-                          ? "bg-orange-500 text-white"
-                          : "bg-gray-800 hover:bg-gray-700 text-gray-300"
-                      }`}
-                      title="Mark as helpful"
+                      onClick={() => copyCodeToClipboard(question.code)}
+                      className="ml-2 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition"
+                      title="Copy code"
                     >
-                      <FiSun size={20} />
-                      <span className="text-xs font-semibold">
-                        {answer.lampCount || 0}
-                      </span>
+                      <FiCopy size={16} />
                     </button>
-                    <button
-                      onClick={() => handleFavorite(answer.id)}
-                      className={`flex flex-col items-center gap-1 px-2 py-2 rounded transition ${
-                        userFavorites.has(answer.id)
-                          ? "bg-red-500 text-white"
-                          : "bg-gray-800 hover:bg-gray-700 text-gray-300"
-                      }`}
-                      title="Save to favorites"
-                    >
-                      <FiHeart size={20} />
-                    </button>
-                  </div>
-
-                  <div className="flex-1">
-                    <div className="prose prose-invert max-w-none mb-4">
-                      <p className="whitespace-pre-wrap text-gray-300">
-                        {answer.content}
-                      </p>
-                      {answer.code && (
-                        <div className="bg-gray-800 p-4 rounded-lg font-mono text-sm overflow-x-auto mt-4">
-                          <div className="flex justify-between items-start">
-                            <pre className="flex-1 text-gray-300">
-                              {answer.code}
-                            </pre>
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(answer.code);
-                                alert("Code copied!");
-                              }}
-                              className="ml-2 p-2 bg-orange-500 hover:bg-orange-600 text-white rounded"
-                              title="Copy code"
-                            >
-                              <FiCopy size={16} />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="text-sm text-gray-400">
-                      Answered by{" "}
-                      <span className="font-semibold text-gray-300">
-                        {answer.authorName}
-                      </span>{" "}
-                      •{" "}
-                      {formatDistanceToNow(answer.createdAt.toDate(), {
-                        addSuffix: true,
-                      })}
-                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Post Answer Section */}
-        {currentUser ? (
-          <div className="bg-gray-900 p-8 rounded-xl border border-gray-800">
-            <h2 className="text-xl font-bold mb-6 text-white">Your Answer</h2>
+          {/* Answers Section */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              {answers.length} {answers.length === 1 ? "Answer" : "Answers"}
+            </h2>
 
-            {error && (
-              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                {error}
+            {answers.length === 0 ? (
+              <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-gray-200 dark:border-gray-700 text-center">
+                <p className="text-gray-500 dark:text-gray-400">
+                  No answers yet. Be the first to answer!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {answers.map((answer) => (
+                  <div
+                    key={answer.id}
+                    className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm"
+                  >
+                    <div className="flex items-start gap-4">
+                      {/* Voting buttons */}
+                      <div className="flex flex-col gap-2">
+                        <button
+                          onClick={() => handleLamp(answer.id)}
+                          className={`flex flex-col items-center gap-1 px-2 py-2 rounded-lg transition ${
+                            userLamps.has(answer.id)
+                              ? "bg-orange-500 text-white"
+                              : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                          }`}
+                          title="Mark as helpful"
+                        >
+                          <FiSun size={20} />
+                          <span className="text-xs font-semibold">
+                            {answer.lampCount || 0}
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleFavorite(answer.id)}
+                          className={`flex flex-col items-center gap-1 px-2 py-2 rounded-lg transition ${
+                            userFavorites.has(answer.id)
+                              ? "bg-red-500 text-white"
+                              : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+                          }`}
+                          title="Save to favorites"
+                        >
+                          <FiHeart size={20} />
+                        </button>
+                      </div>
+
+                      {/* Answer content */}
+                      <div className="flex-1">
+                        <div className="prose prose-gray dark:prose-invert max-w-none mb-4">
+                          <p className="whitespace-pre-wrap text-gray-700 dark:text-gray-300">
+                            {answer.content}
+                          </p>
+                          {answer.code && (
+                            <div className="bg-gray-800 p-4 rounded-lg font-mono text-sm overflow-x-auto mt-4">
+                              <div className="flex justify-between items-start">
+                                <pre className="flex-1 text-gray-200">
+                                  {answer.code}
+                                </pre>
+                                <button
+                                  onClick={() => copyCodeToClipboard(answer.code)}
+                                  className="ml-2 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition"
+                                  title="Copy code"
+                                >
+                                  <FiCopy size={16} />
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          Answered by{" "}
+                          <span className="font-semibold text-gray-700 dark:text-gray-300">
+                            {answer.authorName}
+                          </span>{" "}
+                          • {formatDistanceToNow(answer.createdAt.toDate(), { addSuffix: true })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
+          </div>
 
-            <form onSubmit={handlePostAnswer} className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold mb-2 text-gray-300">
-                  Solution
-                </label>
-                <textarea
-                  value={answerContent}
-                  onChange={(e) => setAnswerContent(e.target.value)}
-                  placeholder="Share your solution..."
-                  className="w-full min-h-32 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  disabled={submittingAnswer}
-                />
+          {/* Related Questions */}
+          {relatedQuestions.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+                Related Questions
+              </h2>
+              <div className="grid gap-4">
+                {relatedQuestions.map((q) => (
+                  <QuestionCard key={q.id} question={q} />
+                ))}
               </div>
+            </div>
+          )}
 
-              <div>
-                <label className="block text-sm font-semibold mb-2 text-gray-300">
-                  Code (Optional)
-                </label>
-                <textarea
-                  value={answerCode}
-                  onChange={(e) => setAnswerCode(e.target.value)}
-                  placeholder="Paste your code here..."
-                  className="w-full min-h-24 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          {/* Post Answer Form */}
+          {currentUser ? (
+            <div className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+              <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">
+                Your Answer
+              </h2>
+
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handlePostAnswer} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+                    Solution
+                  </label>
+                  <textarea
+                    value={answerContent}
+                    onChange={(e) => setAnswerContent(e.target.value)}
+                    placeholder="Share your solution..."
+                    rows={6}
+                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:opacity-50"
+                    disabled={submittingAnswer}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+                    Code (Optional)
+                  </label>
+                  <textarea
+                    value={answerCode}
+                    onChange={(e) => setAnswerCode(e.target.value)}
+                    placeholder="Paste your code here..."
+                    rows={4}
+                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:opacity-50"
+                    disabled={submittingAnswer}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={submittingAnswer}
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={submittingAnswer}
+                >
+                  {submittingAnswer ? "Posting..." : "Post Answer"}
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-gray-200 dark:border-gray-700 text-center">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                Sign in to post an answer
+              </p>
+              <Link
+                to="/login"
+                className="inline-block px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition"
               >
-                {submittingAnswer ? "Posting..." : "Post Answer"}
-              </button>
-            </form>
-          </div>
-        ) : (
-          <div className="bg-gray-900 p-8 rounded-xl border border-gray-800 text-center">
-            <p className="text-gray-400 mb-4">Sign in to post an answer</p>
-            <Link
-              to="/login"
-              className="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg"
-            >
-              Log In
-            </Link>
-          </div>
-        )}
-      </div>
-=========
-    <div className="flex bg-gray-50 min-h-screen w-full">
-      <Sidebar />
-      <main className="flex-1 p-4">
-        <button className="text-gray-400 font-medium flex items-center gap-2 mb-4 hover:underline-offset-8">
-          <FaArrowLeftLong />
-          Back to Question
-        </button>{" "}
-        <div className="text-black text-2xl font-semibold mb-4">
-          <h1>
-            How to implement WebSocket reconnection with exponential backoff in
-            TypeScript?
-          </h1>
-        </div>
-        <div className="flex flex-col gap-4 mb-8">
-          {questions.map((q) => (
-            <QuestionCard key={q.id} question={q} />
-          ))}
-        </div>
-        <div>
-          <AnswerCard />
-        </div>
-        <div className="max-w-8xl">
-          <AnswerForm />
+                Log In
+              </Link>
+            </div>
+          )}
         </div>
       </main>
->>>>>>>>> Temporary merge branch 2
     </div>
   );
 }
