@@ -31,7 +31,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/question/:id" element={<QuestionDetailPage />} />
+            <Route path="/questions/:id" element={<QuestionDetailPage />} />
             {/* <Route path="/admin" element={<AdminDashboard />} /> */}
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />

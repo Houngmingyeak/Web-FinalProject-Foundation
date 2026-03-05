@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaRegEye, FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function ChatIcon() {
   return <IoChatboxEllipsesOutline />;
@@ -16,7 +17,7 @@ export default function QuestionCard({ question }) {
   if (!question) return null;
 
   return (
-    <div
+    <Link to={`/questions/${question.id}`}><div
       className="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-5 py-4 
                  hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-lg hover:-translate-y-1 
                  transition-all duration-200 cursor-pointer"
@@ -84,6 +85,6 @@ export default function QuestionCard({ question }) {
           <span>{question.time}</span>
         </div>
       </div>
-    </div>
+    </div></Link>
   );
 }
