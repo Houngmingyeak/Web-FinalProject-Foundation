@@ -3,29 +3,61 @@ import { useGetPostsQuery } from "../features/post/postsApi"; // adjust path
 import Sidebar from "../layout/Sidebar";
 import QuestionCard from "../components/QuestionCard";
 
-// Helper functions (unchanged)
-const formatTimeAgo = (dateString) => { /* ... */ };
-const getInitials = (name) => { /* ... */ };
-const getAvatarColor = (name) => { /* ... */ };
+// ── Helper functions ──────────────────────────────────────────────
 
+// Format a date string to "X minutes/hours/days ago"
+const formatTimeAgo = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const now = new Date();
+  const diff = Math.floor((now - date) / 1000); // difference in seconds
+
+  if (diff < 60) return `${diff} seconds ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+  return `${Math.floor(diff / 86400)} days ago`;
+};
+
+// Get initials from a full name
+const getInitials = (name) => {
+  if (!name) return "U";
+  const parts = name.split(" ");
+  return parts.length > 1
+    ? parts[0][0].toUpperCase() + parts[1][0].toUpperCase()
+    : name[0].toUpperCase();
+};
+
+// Generate a color based on the name (for avatars)
+const getAvatarColor = (name) => {
+  const colors = ["#F87171", "#FBBF24", "#34D399", "#60A5FA", "#A78BFA"];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash += name.charCodeAt(i);
+  return colors[hash % colors.length];
+};
+
+// ── Tabs ─────────────────────────────────────────────────────────
 const tabs = ["Newest", "Active", "Unansered", "Most Vote"];
 
 export default function QuestionsPage() {
   const [activeTab, setActiveTab] = useState("Newest");
-  
-  // Use RTK Query hook
+
+  // RTK Query hook
   const { data: posts = [], isLoading, error } = useGetPostsQuery();
 
-  // Sorting/filtering function (applied client‑side)
+  // Client-side sorting/filtering
   const getSortedPosts = () => {
     if (!posts.length) return [];
     switch (activeTab) {
       case "Newest":
-        return [...posts].sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+        return [...posts].sort(
+          (a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+        );
       case "Active":
-        return [...posts].sort((a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate));
+        return [...posts].sort(
+          (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate)
+        );
       case "Unansered":
-        return posts.filter(post => post.comments?.length === 0);
+        return posts.filter((post) => post.comments?.length === 0);
       case "Most Vote":
         return [...posts].sort((a, b) => b.score - a.score);
       default:
@@ -39,23 +71,22 @@ export default function QuestionsPage() {
   if (error) return <p className="text-center text-red-500">Error: {error.message}</p>;
 
   return (
-    <div className="flex bg-gray-50">
+    <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />
       <main className="flex-1">
-        <h1 className="text-black font-bold text-[24px] pl-8 pt-6">Question</h1>
+        <h1 className="text-black font-bold text-[24px] pl-8 pt-6">Questions</h1>
         <div className="px-6 py-8">
           {/* Tabs */}
-          <div className="flex w-fit border-black mb-5 bg-gray-200 border-0 rounded-2xl p-1">
+          <div className="flex w-fit mb-5 bg-gray-200 border-0 rounded-2xl p-1">
             {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150
-                  ${
-                    activeTab === tab
-                      ? "bg-slate-50 text-black"
-                      : "text-slate-400 hover:bg-slate-50"
-                  }`}
+                className={`rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150 ${
+                  activeTab === tab
+                    ? "bg-slate-50 text-black"
+                    : "text-slate-400 hover:bg-slate-50"
+                }`}
               >
                 {tab}
               </button>
@@ -72,7 +103,8 @@ export default function QuestionsPage() {
                     id: post.id,
                     title: post.title,
                     excerpt:
-                      post.body?.substring(0, 150) + (post.body?.length > 150 ? "..." : ""),
+                      post.body?.substring(0, 150) +
+                      (post.body?.length > 150 ? "..." : ""),
                     tags: post.tagResponses?.map((tag) => tag.tagName) || [],
                     author: {
                       initials: getInitials(post.ownerDisplayName),
