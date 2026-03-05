@@ -6,12 +6,16 @@ import { Provider } from "react-redux";
 import { store } from "./app/store.js";
 // theme context for light/dark mode
 import { ThemeProvider } from "./context/ThemeContext.jsx";
+// authentication context
+import { AuthProvider } from "./hooks/useAuth.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
       <Provider store={store}>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>

@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { FaRegEye, FaRegBookmark, FaBookmark } from "react-icons/fa";
+=======
+import { FaRegEye } from "react-icons/fa";
+>>>>>>> e3e57d61109d78a9feebfad18e41891e8a901437
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { FiMessageCircle, FiEye } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 function ChatIcon() {
   return <IoChatboxEllipsesOutline />;
@@ -11,32 +17,29 @@ function EyeIcon() {
 }
 
 export default function QuestionCard({ question }) {
-  const [bookmarked, setBookmarked] = useState(false);
-
   if (!question) return null;
 
+<<<<<<< HEAD
   return (
     <div
       className="relative bg-white border border-gray-200 rounded-lg px-5 py-4 
+=======
+  const {
+    author = {},
+    comments = 0,
+    views = 0,
+    time = "",
+    id,
+  } = question;
+
+  return (
+    <Link
+      to={`/question/${id}`}
+      className="block bg-white border border-gray-200 rounded-lg px-5 py-4 
+>>>>>>> e3e57d61109d78a9feebfad18e41891e8a901437
                  hover:border-gray-300 hover:shadow-lg hover:-translate-y-1 
                  transition-all duration-200 cursor-pointer"
     >
-      {/* Bookmark Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setBookmarked(!bookmarked);
-        }}
-        className="absolute top-4 right-4 text-gray-400 
-                   hover:text-yellow-500 transition-colors duration-200"
-      >
-        {bookmarked ? (
-          <FaBookmark className="text-yellow-400 text-lg" />
-        ) : (
-          <FaRegBookmark className="text-lg" />
-        )}
-      </button>
-
       {/* Title */}
       <h3 className="text-[16px] font-bold text-gray-900 hover:text-blue-600 transition-colors leading-snug mb-1.5">
         {question.title}
@@ -59,32 +62,40 @@ export default function QuestionCard({ question }) {
         ))}
       </div>
 
-      {/* Footer */}
+      {/* Footer: author left, stats right */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span
-            className={`w-5 h-5 rounded-full ${question.author.color} flex items-center justify-center text-[12px] font-bold text-white shrink-0`}
+            className={`w-5 h-5 rounded-full ${author.color || "bg-gray-400"} flex items-center justify-center text-[12px] font-bold text-white shrink-0`}
           >
-            {question.author.initials}
+            {author.initials || "?"}
           </span>
           <span className="text-[12px] text-gray-600 font-medium">
-            {question.author.name}
+            {author.name || "Unknown"}
           </span>
         </div>
 
-        <div className="flex items-center gap-4 text-gray-400 text-xs">
-          <span className="flex items-center gap-1">
-            <ChatIcon />
-            {question.comments}
-          </span>
-          <span className="flex items-center gap-1">
-            <EyeIcon />
-            {question.views.toLocaleString()}
-          </span>
-          <span>{question.time}</span>
+        <div className="flex items-center justify-between text-sm text-gray-400">
+          <div className="flex gap-4">
+            <div className="flex items-center gap-1">
+              <FiMessageCircle className="w-4 h-4" />
+              <span>{comments} answer{comments !== 1 ? 's' : ''}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <FiEye className="w-4 h-4" />
+              <span>{views} view{views !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+          <div className="text-xs">
+            by <span className="font-semibold text-gray-300">{author.name || "Unknown"}</span> {time}
+          </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </Link>
+>>>>>>> e3e57d61109d78a9feebfad18e41891e8a901437
   );
 }
 

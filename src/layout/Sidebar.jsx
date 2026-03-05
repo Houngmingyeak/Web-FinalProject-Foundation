@@ -28,7 +28,7 @@ const navItems = [
   },
   {
     label: "Saves",
-    path: "/saves",
+    path: "/bookmarks",
     icon: <FaRegBookmark />,
   },
   {
