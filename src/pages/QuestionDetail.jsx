@@ -25,7 +25,7 @@ export default function QuestionDetai() {
     <div className="flex bg-gray-50 min-h-screen w-full">
       <Sidebar />
       <main className="flex-1 p-4">
-        <button className="text-gray-400 font-medium flex items-center gap-2 mb-2 hover:underline-offset-8 hover:text-blue-500 cursor-pointer transition-colors"  >
+        <button className="text-gray-400 font-medium flex items-center gap-2 mb-2 hover:underline-offset-8 hover:text-blue-500 cursor-pointer transition-colors">
           <FaArrowLeftLong />
           Back to Question
         </button>
@@ -47,4 +47,3 @@ export default function QuestionDetai() {
     </div>
   );
 }
-

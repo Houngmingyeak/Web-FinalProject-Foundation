@@ -83,16 +83,21 @@ export default function QuestionsPage() {
 
   return (
     <div className="flex bg-gray-50 ">
-      <Sidebar />
+      {/* <Sidebar /> */}
+      <div className="sm:hidden md:hidden lg:block">
+        <Sidebar />
+      </div>
       <main className="flex-1 ">
-        <h1 className="text-black font-bold text-[24px] pl-8 pt-6 ">Question</h1>
-        <div className="  px-6 py-8">
+        <h1 className="text-black font-bold text-[24px] pl-8 pt-2 ">
+          Question
+        </h1>
+        <div className="  px-6 py-2">
           <div className="flex w-fit border-black mb-5 bg-gray-200 border-0 rounded-2xl p-1">
-            {["Newest", "Active", "Unansered", "Most Vote"].map((tab) => (
+            {["Newest", "Active", "Unanswered", "Most Vote"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={` rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150
+                className={` rounded-2xl px-2 py-1.5 stext-sm font-medium transition-all duration-150
                   ${
                     activeTab === tab
                       ? "bg-slate-50 text-black"

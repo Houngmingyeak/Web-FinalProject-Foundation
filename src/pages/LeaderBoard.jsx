@@ -3,6 +3,7 @@ import { GoTrophy } from "react-icons/go";
 import Sidebar from "../layout/Sidebar";
 import { LuMedal } from "react-icons/lu";
 import { LuCrown } from "react-icons/lu";
+import { useState, useEffect } from "react";
 const users = [
   {
     rank: 1,
@@ -100,6 +101,22 @@ const Avatar = ({ initials, size = "md" }) => {
       : size === "sm"
         ? "w-9 h-9 text-xs"
         : "w-12 h-12 text-sm";
+
+// const LeaderBoard = ( ) => {
+//   const [data , setData ] = useState([])
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try{
+//         const res = await fetch ('https://forum-istad-api.cheat.casa/api/v1');
+//         const result = await res.jason();
+//       setData(result);
+//       }catch(error){
+//         console.error("Error fetching data",error);
+//     };
+//     fetchData();
+//   }
+// },[]);
 
   return (
     <div

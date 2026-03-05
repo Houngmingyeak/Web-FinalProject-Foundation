@@ -16,75 +16,64 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
   return (
     <main className="bg-slate-50">
-      {/* Hero Section with Image */}
-      <header className="relative">
-        <div className="relative">
-          {/* Background Image */}
-          <div className="w-full">
+      {/* Background Image */}
+      {/* <div className="w-full">
             <img
               src={heroImage}
               alt="Developers collaborating"
               className="w-full h-auto object-cover opacity-7"
             />
+          </div> */}
+      {/* Text Overlay - Positioned absolutely on top of the image */}
+      {/* Text Overlay - Positioned absolutely on top of the image */}
+
+      <header className="relative overflow-hidden">
+        <div className="relative min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center">
+          {/* Background Image Container */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src={heroImage}
+              alt="Developers collaborating"
+              className="w-full h-full object-cover opacity-10" // Increased opacity slightly for visibility
+            />
           </div>
-          {/* Text Overlay - Positioned absolutely on top of the image */}
-          {/* Text Overlay - Positioned absolutely on top of the image */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center px-4">
-              <h2 className="font-extrabold text-black leading-tight">
-                {/* First Line */}
-                <div className="text-[72px] whitespace-nowrap">
-                  Where develpoers
-                </div>
 
-                {/* Second Line */}
-                <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
-                  level up together
-                </div>
-              </h2>
-
-              <p className="text-[20px] text-slate-600 mt-6 max-w-3xl mx-auto">
-                The gamified Q&A platform that makes sharing knowledge
-                rewarding. Ask questions, earn XP, unlock badges, and climb the
-                leaderboard.
-              </p>
-
-              <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
-                <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                  <Link to="/questions" className="flex items-center gap-2">
-                    Start for free
-                    <FaArrowRight className="mt-1" />
-                  </Link>
-                </div>
-                <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
-                  <a href="#" className="flex items-center gap-2">
-                    See how it works
-                    <FaAngleRight className="mt-1" />
-                  </a>
-                </div>
+          {/* Text Overlay */}
+          <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            <h2 className="font-extrabold text-black leading-tight tracking-tight">
+              {/* First Line */}
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] lg:whitespace-nowrap">
+                Ask Answer Collaborate Grow
               </div>
 
-              {/* Stats */}
-              <div className="flex gap-8 md:gap-17 flex-wrap justify-center text-center mt-10">
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">50K+</div>
-                  <div className="text-sm text-slate-500">Developers</div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">120K+</div>
-                  <div className="text-sm text-slate-500">
-                    Questions Answered
-                  </div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">2M+</div>
-                  <div className="text-sm text-slate-500">XP Earned</div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900">98%</div>
-                  <div className="text-sm text-slate-500">Satisfaction</div>
-                </div>
+              {/* Second Line */}
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px]  bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mt-2">
+                Built by learners for learners
               </div>
+            </h2>
+
+            <p className="text-base sm:text-lg md:text-[20px] text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
+              Our community-driven forum encourages open discussion, knowledge
+              sharing, and continuous improvement in the world of technology.
+            </p>
+
+            {/* Buttons Container */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10 mb-8">
+              <Link
+                to="/questions"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+              >
+                Start for free
+                <FaArrowRight size={14} />
+              </Link>
+
+              <a
+                href="#"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-200 bg-gray-50 text-black px-8 py-3.5 rounded-2xl font-semibold hover:bg-gray-50 transition"
+              >
+                See how it works
+                <FaAngleRight size={14} />
+              </a>
             </div>
           </div>
         </div>
@@ -145,7 +134,6 @@ const HomePage = () => {
             </div>
           </div>
 
-          
           <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
             <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
               <RiShieldLine className="text-blue-600 text-[25px] mx-auto" />
@@ -246,7 +234,7 @@ const HomePage = () => {
 
       {/* Testimonials */}
       <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 mb-12">
+        <h2 className="sm:text-3xl font-bold text-center md:text-4xl font-bold text-center lg:text-4xl font-bold text-center text-slate-900 mb-12">
           What devs are saying
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

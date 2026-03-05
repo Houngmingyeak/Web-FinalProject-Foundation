@@ -22,7 +22,7 @@ export default function QuestionCard({ question }) {
                  transition-all duration-200 cursor-pointer"
     >
       {/* Bookmark Button */}
-      <button
+      {/* <button
         onClick={(e) => {
           e.stopPropagation();
           setBookmarked(!bookmarked);
@@ -35,10 +35,30 @@ export default function QuestionCard({ question }) {
         ) : (
           <FaRegBookmark className="text-lg" />
         )}
+      </button> */}
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          const newStatus = !bookmarked;
+          setBookmarked(newStatus);
+
+          // Only show success if we are ADDING the bookmark
+          if (newStatus) {
+            alert("Success to save the question");
+          }
+        }}
+        className="absolute top-4 right-4 text-gray-400 hover:text-yellow-500 transition-colors duration-200"
+      >
+        {bookmarked ? (
+          <FaBookmark className="text-yellow-400 text-lg" />
+        ) : (
+          <FaRegBookmark className="text-lg" />
+        )}
       </button>
 
       {/* Title */}
-      <h3 className="text-[16px] font-bold text-gray-900 hover:text-blue-600 transition-colors leading-snug mb-1.5">
+      <h3 className="text-[16px] font-bold text-gray-900 line-clamp-1  hover:text-blue-600 transition-colors leading-snug mb-1.5">
         {question.title}
       </h3>
 
@@ -87,4 +107,3 @@ export default function QuestionCard({ question }) {
     </div>
   );
 }
-

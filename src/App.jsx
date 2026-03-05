@@ -11,12 +11,15 @@ import AboutPage from "./pages/AboutUsPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import QuestionsPage from "./pages/QuestionPage";
 import BookmarkCard from "./pages/BookMarkCard";
+import HeaderSecond from "./components/HeaderSecond";
+import Leaderboard from "./pages/LeaderBoard";
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Header />
+        {/* <Header /> */}
+        <HeaderSecond />
         <main className="bg-white text-black">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -25,12 +28,13 @@ export default function App() {
             <Route path="/questiondetail" element={<QuestionDetailPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/saves" element={<BookmarkCard />} />
           </Routes>
         </main>
-        <Footer />
+        <Footer className="mt-4" />
       </AuthProvider>
     </BrowserRouter>
   );

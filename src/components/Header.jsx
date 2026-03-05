@@ -16,13 +16,13 @@ export default function Header() {
         {/* Search Bar Section */}
         <div className="flex-1 max-w-xl mx-8 hidden md:block ">
           <div className="flex gap-4 justify-center text-gray-300">
-            <a href="" className="hover:text-black transition-colors">
+            <Link to="/" className="hover:text-black transition-colors">
               Feature
-            </a>
-            <a  href="" className="hover:text-black transition-colors">
+            </Link>
+            <Link to="questions" className="hover:text-black transition-colors">
               Testimonials
-            </a>
-            <Link to="/about" className="hover:text-black transition-colors">
+            </Link>
+            <Link to="about" className="hover:text-black transition-colors">
               About us
             </Link>
           </div>
@@ -39,9 +39,9 @@ export default function Header() {
           <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
             <span>Log in</span>
           </button>
-          <Link to="/signu" className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
+          <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
             <span>Sign up free</span>
-          </Link>
+          </button>
         </div>
       </div>
     </header>

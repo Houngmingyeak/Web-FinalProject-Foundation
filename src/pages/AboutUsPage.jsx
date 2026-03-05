@@ -168,9 +168,9 @@ function MemberCard({ name, role, photo }) {
 export default function AboutPage() {
   return (
     <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
-      <header className="relative">
+      {/* <header className="relative">
         <div className="relative">
-          {/* Background Image */}
+     
           <div className="w-full">
             <img
               src={abtus_background}
@@ -178,16 +178,15 @@ export default function AboutPage() {
               className="w-full h-auto object-cover opacity-7"
             />
           </div>
-          {/* Text Overlay - Positioned absolutely on top of the image */}
+       
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center px-4">
               <h2 className="font-extrabold text-black leading-tight">
-                {/* First Line */}
+             
                 <div className="text-[72px] whitespace-nowrap">
                   Ask. Answer.Collaborate.Grow.
                 </div>
 
-                {/* Second Line */}
                 <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
                   Built by learners, for learners
                 </div>
@@ -215,7 +214,75 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+      </header> */}
+
+      <header className="relative overflow-hidden">
+        <div className="relative min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center">
+          {/* Background Image Container */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src={abtus_background}
+              alt="Developers collaborating"
+              className="w-full h-full object-cover opacity-10" // Increased opacity slightly for visibility
+            />
+          </div>
+
+          {/* Text Overlay */}
+          <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            <h2 className="font-extrabold text-black leading-tight tracking-tight">
+              {/* First Line */}
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] lg:whitespace-nowrap">
+                Ask Answer Collaborate Grow
+              </div>
+
+              {/* Second Line */}
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px]  bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mt-2">
+                Built by learners for learners
+              </div>
+            </h2>
+
+            <p className="text-base sm:text-lg md:text-[20px] text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
+              Our community-driven forum encourages open discussion, knowledge
+              sharing, and continuous improvement in the world of technology.
+            </p>
+
+             {/* <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
+                            <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
+                              <Link to="/questions" className="flex items-center gap-2">
+                                Start for free
+                                <FaArrowRight className="mt-1" />
+                              </Link>
+                            </div>
+                            <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
+                              <a href="#" className="flex items-center gap-2">
+                                See how it works
+                                <FaAngleRight className="mt-1" />
+                              </a>
+                            </div>
+                          </div> */}
+
+            {/* Buttons Container */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10 mb-8">
+              <Link
+                to="/questions"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+              >
+                Start for free
+                <FaArrowRight size={14} />
+              </Link>
+
+              <a
+                href="#"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-200 bg-gray-50 text-black px-8 py-3.5 rounded-2xl font-semibold hover:bg-gray-50 transition"
+              >
+                See how it works
+                <FaAngleRight size={14} />
+              </a>
+            </div>
+          </div>
+        </div>
       </header>
+
       {/* Purpose */}
       <div className="py-24 px-6 max-w-6xl mx-auto text-center">
         <h2 className="text-[clamp(28px,3.5vw,44px)] font-bold tracking-tight mb-3">
@@ -264,20 +331,22 @@ export default function AboutPage() {
             </div>
           </div>
         </div> */}
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-left justify-center">
+        <div className="flex justify-center px-4 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 w-full max-w-6xl justify-items-center">
             {/* Mission Box */}
-            <div className="bg-slate-50 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 flex flex-col">
-              <div className="flex items-center justify-center bg-blue-100 w-12 h-12 rounded-2xl mb-4 hover:bg-blue-200">
-                <RiShieldLine className="text-blue-600 text-[25px]" />
+            <div className="bg-slate-50 w-full lg:w-[512px] min-h-[280px] p-6 md:p-8 rounded-xl border border-slate-200 flex flex-col transition-all">
+              {/* Icon Container: Responsive width/height */}
+              <div className="flex items-center justify-center bg-blue-100 w-10 h-10 md:w-12 md:h-12 rounded-2xl mb-4 hover:bg-blue-200 transition-colors">
+                <RiShieldLine className="text-blue-600 text-lg md:text-xl lg:text-2xl" />
               </div>
 
               <div>
-                <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+                {/* Title: text-base on mobile, text-lg on tablet/laptop */}
+                <h3 className="text-base md:text-lg lg:text-lg font-semibold text-slate-900 mb-2 md:mb-3">
                   Mission
                 </h3>
-
-                <p className="text-slate-600 text-[15px] leading-relaxed">
+                {/* Paragraph: text-sm on mobile, text-base on tablet/laptop */}
+                <p className="text-slate-600 text-sm md:text-base lg:text-[15px] leading-relaxed">
                   To build an interactive, inclusive, and user-friendly forum
                   where individuals can freely exchange ideas, ask questions,
                   and share valuable knowledge. We aim to create a supportive
@@ -287,17 +356,16 @@ export default function AboutPage() {
             </div>
 
             {/* Vision Box */}
-            <div className="bg-slate-50 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 flex flex-col">
-              <div className="flex items-center justify-center bg-blue-100 w-12 h-12 rounded-2xl mb-4 hover:bg-blue-200">
-                <CgMediaLive className="text-blue-600 text-[30px]" />
+            <div className="bg-slate-50 w-full lg:w-[512px] min-h-[280px] p-6 md:p-8 rounded-xl border border-slate-200 flex flex-col transition-all">
+              <div className="flex items-center justify-center bg-blue-100 w-10 h-10 md:w-12 md:h-12 rounded-2xl mb-4 hover:bg-blue-200 transition-colors">
+                <CgMediaLive className="text-blue-600 text-xl md:text-2xl lg:text-[30px]" />
               </div>
 
               <div>
-                <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+                <h3 className="text-base md:text-lg lg:text-lg font-semibold text-slate-900 mb-2 md:mb-3">
                   Vision
                 </h3>
-
-                <p className="text-slate-600 text-[15px] leading-relaxed">
+                <p className="text-slate-600 text-sm md:text-base lg:text-[15px] leading-relaxed">
                   To become a leading and trusted knowledge-sharing platform
                   that inspires innovation, continuous learning, and meaningful
                   collaboration worldwide. We envision a global community where
