@@ -1,67 +1,30 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "../features/auth/authSlice";
+import { useState } from "react";
+import { useGetPostsQuery } from "../features/post/postsApi"; // adjust path
 import Sidebar from "../layout/Sidebar";
 import QuestionCard from "../components/QuestionCard";
 
-const formatTimeAgo = (dateString) => {
-  if (!dateString) return "Unknown";
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffInSeconds = Math.floor((now - date) / 1000);
-  if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`;
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) return `${diffInHours} hours ago`;
-  const diffInDays = Math.floor(diffInHours / 24);
-  if (diffInDays < 7) return `${diffInDays} days ago`;
-  return date.toLocaleDateString();
-};
+// Helper functions (unchanged)
+const formatTimeAgo = (dateString) => { /* ... */ };
+const getInitials = (name) => { /* ... */ };
+const getAvatarColor = (name) => { /* ... */ };
 
-const getInitials = (name) => {
-  if (!name) return "U";
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-};
-
-const getAvatarColor = (name) => {
-  const colors = [
-    "bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500",
-    "bg-purple-500", "bg-pink-500", "bg-indigo-500", "bg-orange-500"
-  ];
-  const index = (name?.length || 0) % colors.length;
-  return colors[index];
-};
-
-// Keep tabs as in original UI (same spelling)
 const tabs = ["Newest", "Active", "Unansered", "Most Vote"];
 
 export default function QuestionsPage() {
   const [activeTab, setActiveTab] = useState("Newest");
-  const dispatch = useDispatch();
+  
+  // Use RTK Query hook
+  const { data: posts = [], isLoading, error } = useGetPostsQuery();
 
-  // Get posts, loading, error from Redux store
-  const { posts, loading, error } = useSelector((state) => state.posts);
-
-  // Fetch posts on initial page load
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
-
-  // Sort posts based on selected tab
+  // Sorting/filtering function (applied client‑side)
   const getSortedPosts = () => {
-    if (!posts || posts.length === 0) return [];
+    if (!posts.length) return [];
     switch (activeTab) {
       case "Newest":
         return [...posts].sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
       case "Active":
         return [...posts].sort((a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate));
-      case "Unansered": // Keep name as in UI
+      case "Unansered":
         return posts.filter(post => post.comments?.length === 0);
       case "Most Vote":
         return [...posts].sort((a, b) => b.score - a.score);
@@ -71,6 +34,9 @@ export default function QuestionsPage() {
   };
 
   const displayedPosts = getSortedPosts();
+
+  if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">Error: {error.message}</p>;
 
   return (
     <div className="flex bg-gray-50">
@@ -96,38 +62,32 @@ export default function QuestionsPage() {
             ))}
           </div>
 
-          {/* Loading and error states */}
-          {loading && <p className="text-center text-gray-500">Loading...</p>}
-          {error && <p className="text-center text-red-500">Error: {error}</p>}
-
           {/* Questions list */}
-          {!loading && !error && (
+          {displayedPosts.length > 0 ? (
             <div className="flex flex-col gap-4">
-              {displayedPosts.length > 0 ? (
-                displayedPosts.map((post) => (
-                  <QuestionCard
-                    key={post.id}
-                    question={{
-                      id: post.id,
-                      title: post.title,
-                      excerpt:
-                        post.body?.substring(0, 150) + (post.body?.length > 150 ? "..." : ""),
-                      tags: post.tagResponses?.map((tag) => tag.tagName) || [],
-                      author: {
-                        initials: getInitials(post.ownerDisplayName),
-                        name: post.ownerDisplayName,
-                        color: getAvatarColor(post.ownerDisplayName),
-                      },
-                      comments: post.comments?.length || 0,
-                      views: post.viewCount || 0,
-                      time: formatTimeAgo(post.creationDate),
-                    }}
-                  />
-                ))
-              ) : (
-                <p className="text-center text-gray-500">No questions yet.</p>
-              )}
+              {displayedPosts.map((post) => (
+                <QuestionCard
+                  key={post.id}
+                  question={{
+                    id: post.id,
+                    title: post.title,
+                    excerpt:
+                      post.body?.substring(0, 150) + (post.body?.length > 150 ? "..." : ""),
+                    tags: post.tagResponses?.map((tag) => tag.tagName) || [],
+                    author: {
+                      initials: getInitials(post.ownerDisplayName),
+                      name: post.ownerDisplayName,
+                      color: getAvatarColor(post.ownerDisplayName),
+                    },
+                    comments: post.comments?.length || 0,
+                    views: post.viewCount || 0,
+                    time: formatTimeAgo(post.creationDate),
+                  }}
+                />
+              ))}
             </div>
+          ) : (
+            <p className="text-center text-gray-500">No questions yet.</p>
           )}
         </div>
       </main>

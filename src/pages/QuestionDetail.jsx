@@ -1,33 +1,38 @@
-import { useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPostById, fetchAnswersByQuestionId, createPost, resetCreateState } from '../features/auth/authSlice';
-import { formatDistanceToNow } from 'date-fns';
-import { FiArrowLeft, FiSun, FiHeart, FiCopy, FiMessageCircle, FiEye } from 'react-icons/fi';
 import { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { formatDistanceToNow } from 'date-fns';
+import { FiArrowLeft, FiSun, FiHeart } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import {
+  useGetPostByIdQuery,
+  useCreatePostMutation,
+} from '../features/post/postsApi';
+import { selectCurrentUser } from '../features/auth/authSlice';
 
 export default function QuestionDetailPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { currentUser } = useSelector((state) => state.auth); // Assuming auth slice has user
-  const { currentPost, answers, loading, error, answersLoading, answersError } = useSelector((state) => state.posts);
+  const currentUser = useSelector(selectCurrentUser);
   const [answerContent, setAnswerContent] = useState('');
   const [answerCode, setAnswerCode] = useState('');
-  const [submittingAnswer, setSubmittingAnswer] = useState(false);
   const [localError, setLocalError] = useState('');
 
-  // For lamps and favorites - using local state for UI only (no backend)
+  // Fetch post details (including comments)
+  const {
+    data: currentPost,
+    isLoading: postLoading,
+    error: postError,
+  } = useGetPostByIdQuery(id);
+
+  // Comments are the answers (from API response)
+  const answers = currentPost?.comments || [];
+
+  // Create answer mutation (for posting new answer)
+  const [createAnswer, { isLoading: submittingAnswer }] = useCreatePostMutation();
+
+  // Local UI state for lamps and favorites (UI only, no API)
   const [userLamps, setUserLamps] = useState(new Set());
   const [userFavorites, setUserFavorites] = useState(new Set());
-
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchPostById(id));
-      dispatch(fetchAnswersByQuestionId(id));
-    }
-  }, [id, dispatch]);
 
   const handlePostAnswer = async (e) => {
     e.preventDefault();
@@ -40,29 +45,23 @@ export default function QuestionDetailPage() {
       return;
     }
 
-    setSubmittingAnswer(true);
     setLocalError('');
 
     try {
-      // Create answer as a post with parentId = question id
-      await dispatch(createPost({
+      await createAnswer({
         title: '', // Answers might not have title
         body: answerContent.trim(),
         postTypeId: 2, // Assuming 2 for answer
         parentId: parseInt(id),
         tagIds: [],
         code: answerCode.trim() || undefined,
-      })).unwrap();
+      }).unwrap();
 
       toast.success('Answer posted successfully!');
       setAnswerContent('');
       setAnswerCode('');
-      // Refresh answers
-      dispatch(fetchAnswersByQuestionId(id));
     } catch (err) {
-      setLocalError(err.message || 'Failed to post answer');
-    } finally {
-      setSubmittingAnswer(false);
+      setLocalError(err?.data?.message || 'Failed to post answer');
     }
   };
 
@@ -71,8 +70,7 @@ export default function QuestionDetailPage() {
       toast.error('Please log in to add a lamp');
       return;
     }
-    // Toggle local state (UI only)
-    setUserLamps(prev => {
+    setUserLamps((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(answerId)) {
         newSet.delete(answerId);
@@ -88,8 +86,7 @@ export default function QuestionDetailPage() {
       toast.error('Please log in to save favorites');
       return;
     }
-    // Toggle local state (UI only)
-    setUserFavorites(prev => {
+    setUserFavorites((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(answerId)) {
         newSet.delete(answerId);
@@ -100,16 +97,19 @@ export default function QuestionDetailPage() {
     });
   };
 
-  if (loading) {
+  if (postLoading) {
     return <div className="flex items-center justify-center min-h-screen bg-gray-950">Loading...</div>;
   }
 
-  if (error || !currentPost) {
+  if (postError || !currentPost) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-950">
         <div className="text-center">
           <p className="text-gray-400 text-lg mb-4">Question not found</p>
-          <Link to="/" className="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg">
+          <Link
+            to="/"
+            className="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg"
+          >
             Back to Questions
           </Link>
         </div>
@@ -128,12 +128,14 @@ export default function QuestionDetailPage() {
         <div className="bg-gray-900 p-8 rounded-xl border border-gray-800 mb-8">
           <div className="flex items-start justify-between mb-4">
             <h1 className="text-3xl font-bold text-white flex-1">{currentPost.title}</h1>
-            {/* Status not available from API, maybe remove or derive */}
           </div>
 
           <div className="flex flex-wrap gap-2 mb-4">
             {currentPost.tagResponses?.map((tag) => (
-              <span key={tag.id} className="px-2 py-1 bg-gray-800 text-gray-300 rounded-full text-xs border border-gray-700">
+              <span
+                key={tag.id}
+                className="px-2 py-1 bg-gray-800 text-gray-300 rounded-full text-xs border border-gray-700"
+              >
                 {tag.tagName}
               </span>
             ))}
@@ -146,19 +148,15 @@ export default function QuestionDetailPage() {
 
           <div className="prose prose-invert max-w-none mb-6">
             <p className="whitespace-pre-wrap text-gray-300">{currentPost.body}</p>
-            {/* Code might be separate field? Not in API, so omit */}
           </div>
         </div>
 
         {/* Answers Section */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-6 text-white">{answers?.length || 0} Answers</h2>
-
-          {answersLoading && <p>Loading answers...</p>}
-          {answersError && <p className="text-red-500">Error loading answers</p>}
+          <h2 className="text-2xl font-bold mb-6 text-white">{answers.length} Answers</h2>
 
           <div className="space-y-6">
-            {answers?.map((answer) => (
+            {answers.map((answer) => (
               <div key={answer.id} className="bg-gray-900 p-6 rounded-xl border border-gray-800">
                 <div className="flex items-start gap-4">
                   <div className="flex flex-col gap-2">
@@ -189,18 +187,20 @@ export default function QuestionDetailPage() {
 
                   <div className="flex-1">
                     <div className="prose prose-invert max-w-none mb-4">
-                      <p className="whitespace-pre-wrap text-gray-300">{answer.body}</p>
-                      {/* Code not separate in API */}
+                      <p className="whitespace-pre-wrap text-gray-300">{answer.text}</p>
                     </div>
 
                     <div className="text-sm text-gray-400">
-                      Answered by <span className="font-semibold text-gray-300">{answer.ownerDisplayName}</span> •{' '}
+                      Answered by <span className="font-semibold text-gray-300">{answer.userDisplayName}</span> •{' '}
                       {formatDistanceToNow(new Date(answer.creationDate), { addSuffix: true })}
                     </div>
                   </div>
                 </div>
               </div>
             ))}
+            {answers.length === 0 && (
+              <p className="text-gray-400 text-center py-4">No answers yet. Be the first to answer!</p>
+            )}
           </div>
         </div>
 
@@ -250,8 +250,8 @@ export default function QuestionDetailPage() {
         ) : (
           <div className="bg-gray-900 p-8 rounded-xl border border-gray-800 text-center">
             <p className="text-gray-400 mb-4">Sign in to post an answer</p>
-            <Link 
-              to="/login" 
+            <Link
+              to="/login"
               className="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg"
             >
               Log In

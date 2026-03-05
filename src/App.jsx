@@ -28,7 +28,7 @@ function Layout() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -40,7 +40,6 @@ export default function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/bookmarks" element={<BookmarkCard />} />
           <Route path="/question/:id" element={<QuestionDetailPage />} />
-
         </Route>
       </Routes>
 

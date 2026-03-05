@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../features/auth/authSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { 
+  GoogleAuthProvider, 
+  GithubAuthProvider, 
+  signInWithPopup 
+} from 'firebase/auth';
+import { auth } from '../firebase/config'; // នាំចូល Firebase auth
+import { 
+  useLoginMutation, 
+  useGoogleLoginMutation, 
+  useGithubLoginMutation 
+} from '../features/auth/authApi';
 
 function EyeIcon({ visible }) {
   const strokeClass = "stroke-gray-600 dark:stroke-gray-300";
@@ -28,45 +37,70 @@ function EyeIcon({ visible }) {
 }
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
-
-  const dispatch = useDispatch();
+  const [oauthLoading, setOauthLoading] = useState(''); // 'google' ឬ 'github'
   const navigate = useNavigate();
 
-  const { loading, error, user } = useSelector((state) => state.auth);
-
-  // បញ្ជូនទៅកាន់ /questions ពេល user មានតម្លៃ (login ជោគជ័យ)
-  useEffect(() => {
-    if (user) {
-      toast.success("ចូលប្រើជោគជ័យ! 🎉");
-      navigate("/questions");
-    }
-  }, [user, navigate]);
+  const [login, { isLoading }] = useLoginMutation();
+  const [googleLogin] = useGoogleLoginMutation();
+  const [githubLogin] = useGithubLoginMutation();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!formData.email || !formData.password) {
-      toast.error("សូមបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់");
+      toast.error('សូមបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់');
       return;
     }
+    try {
+      await login({ email: formData.email, password: formData.password }).unwrap();
+      toast.success('ចូលប្រើជោគជ័យ! 🎉');
+      navigate('/questions');
+    } catch (err) {
+      toast.error(err?.data?.message || 'ការចូលប្រើបរាជ័យ');
+    }
+  };
 
-    // ប្រសិនបើចង់ប្រាកដថា navigate កើតឡើងភ្លាមៗ អាចប្រើ .then()
-    dispatch(loginUser({ ...formData, remember })).then((action) => {
-      if (action.meta.requestStatus === "fulfilled") {
-        // បើចង់បង្ហាញ toast និង navigate ត្រង់នេះក៏បាន
-        // ប៉ុន្តែយើងមាន useEffect រួចហើយ
+  const handleGoogleSignIn = async () => {
+    setOauthLoading('google');
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const firebaseToken = await result.user.getIdToken();
+      await googleLogin({ token: firebaseToken }).unwrap();
+      toast.success('ចូលប្រើជាមួយ Google ជោគជ័យ! 🎉');
+      navigate('/questions');
+    } catch (err) {
+      if (err.code === 'auth/popup-closed-by-user') {
+        // អ្នកប្រើបានបិទ popup ដោយខ្លួនឯង
+        return;
       }
-    });
+      toast.error(err?.data?.message || 'ការចូលប្រើជាមួយ Google បរាជ័យ');
+    } finally {
+      setOauthLoading('');
+    }
+  };
+
+  const handleGithubSignIn = async () => {
+    setOauthLoading('github');
+    try {
+      const provider = new GithubAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const firebaseToken = await result.user.getIdToken();
+      await githubLogin({ token: firebaseToken }).unwrap();
+      toast.success('ចូលប្រើជាមួយ GitHub ជោគជ័យ! 🎉');
+      navigate('/questions');
+    } catch (err) {
+      if (err.code === 'auth/popup-closed-by-user') return;
+      toast.error(err?.data?.message || 'ការចូលប្រើជាមួយ GitHub បរាជ័យ');
+    } finally {
+      setOauthLoading('');
+    }
   };
 
   return (
@@ -79,12 +113,15 @@ export default function Login() {
           Welcome back! Please sign in to continue.
         </p>
 
-        {/* ប៊ូតុងចូលប្រើតាមរយៈបណ្តាញសង្គម */}
+        {/* Social login buttons */}
         <div className="mb-6 flex gap-4">
           <button
             type="button"
-            onClick={() => alert("Google login coming soon!")}
-            className="w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3"
+            disabled={oauthLoading === 'google'}
+            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${
+              oauthLoading === 'google' ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            onClick={handleGoogleSignIn}
           >
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/32px-Google_%22G%22_logo.svg.png"
@@ -95,8 +132,11 @@ export default function Login() {
           </button>
           <button
             type="button"
-            onClick={() => alert("GitHub login coming soon!")}
-            className="w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3"
+            disabled={oauthLoading === 'github'}
+            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${
+              oauthLoading === 'github' ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            onClick={handleGithubSignIn}
           >
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
@@ -107,21 +147,12 @@ export default function Login() {
           </button>
         </div>
 
-        {/* បន្ទាត់ខណ្ឌចែក */}
         <div className="flex items-center mb-6">
           <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
           <span className="px-3 text-gray-400 dark:text-gray-500 text-sm">or</span>
           <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
         </div>
 
-        {/* បង្ហាញកំហុស */}
-        {error && (
-          <div className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-lg mb-4">
-            {error}
-          </div>
-        )}
-
-        {/* ទម្រង់បញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់ */}
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
             <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">
@@ -162,7 +193,6 @@ export default function Login() {
             </div>
           </div>
 
-          {/* ចងចាំខ្ញុំ និងភ្លេចពាក្យសម្ងាត់ */}
           <div className="flex items-center justify-between mb-6">
             <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <input
@@ -173,7 +203,6 @@ export default function Login() {
               />
               Remember me
             </label>
-
             <Link
               to="/forgot-password"
               className="text-sm text-blue-500 dark:text-blue-400 hover:underline"
@@ -182,21 +211,19 @@ export default function Login() {
             </Link>
           </div>
 
-          {/* ប៊ូតុងចូលប្រើ */}
           <button
             type="submit"
-            disabled={loading}
+            disabled={isLoading}
             className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
-              loading
+              isLoading
                 ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 hover:shadow-lg"
             }`}
           >
-            {loading ? "Logging in..." : "Login"}
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        {/* តំណភ្ជាប់ទៅកាន់ការចុះឈ្មោះ */}
         <p className="text-center text-gray-600 dark:text-gray-300 text-sm mt-6">
           Don't have an account?{" "}
           <Link
