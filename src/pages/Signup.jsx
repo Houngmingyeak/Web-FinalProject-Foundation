@@ -1,64 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify"; // យក ToastContainer ចេញ
 import {
-  createUserWithEmailAndPassword,
-  updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
 } from "firebase/auth";
 import { auth, db } from "../firebase/config";
-import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
-import { LuGithub } from "react-icons/lu";
-import z from "zod";
+import { registerUser, resetState } from "../features/auth/authSlice";
 
-// ── Brand icons ──────────────────────────────────────────────────────────────
-function GoogleIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
-      <path
-        d="M44.5 20H24v8.5h11.8C34.1 33.9 29.6 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6-6C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.6 20-21 0-1.3-.2-2.7-.5-4z"
-        fill="#FFC107"
-      />
-      <path
-        d="M6.3 14.7l7 5.1C15.2 16.2 19.3 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6-6C34.6 5.1 29.6 3 24 3 16.3 3 9.7 7.9 6.3 14.7z"
-        fill="#FF3D00"
-      />
-      <path
-        d="M24 45c5.5 0 10.4-1.9 14.2-5.1l-6.6-5.6C29.5 35.9 26.9 37 24 37c-5.6 0-10.3-3.8-11.9-9l-6.9 5.3C8.9 41.1 15.9 45 24 45z"
-        fill="#4CAF50"
-      />
-      <path
-        d="M44.5 20H24v8.5h11.8c-.8 2.4-2.3 4.4-4.3 5.8l6.6 5.6C42.3 36.2 45 30.6 45 24c0-1.3-.2-2.7-.5-4z"
-        fill="#1976D2"
-      />
-    </svg>
-  );
+// Icons
+function EyeIcon({ visible }) {
+  return visible ? <EyeOff width={20} height={20} /> : <Eye width={20} height={20} />;
 }
 
-function GitHubIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="text-white"
-    >
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-    </svg>
-  );
-}
-
-// ── Helper: build a Firestore user doc from a Firebase user object ────────────
+// Helper function for Firestore (សម្រាប់ OAuth)
 async function createUserDoc(user, overrides = {}) {
-  const userRef = doc(db, "users", user.uid);
-  const snap = await getDoc(userRef);
-
-  if (snap.exists()) return; // prevent overwriting existing user
-
-  await setDoc(userRef, {
+  await setDoc(doc(db, "users", user.uid), {
     uid: user.uid,
     displayName: user.displayName || overrides.displayName || "",
     email: user.email,
@@ -69,172 +30,271 @@ async function createUserDoc(user, overrides = {}) {
     bio: "",
     achievements: { contributions: 0, helpful: 0, solved: 0 },
     createdAt: serverTimestamp(),
+    ...overrides,
   });
 }
 
-const signupSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .max(20, "Username too long")
-    .regex(
-      /^[a-zA-Z0-9_]+$/,
-      "Username can only contain letters, numbers, and underscores",
-    ),
-  email: z.string().email("Invalid email format"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-// ── Main component ────────────────────────────────────────────────────────────
 export default function Signup() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [localError, setLocalError] = useState("");
+  const [oauthLoading, setOauthLoading] = useState("");
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading, error, success } = useSelector((state) => state.auth);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    const result = signupSchema.safeParse({ username, email, password });
-    if (!result.success) {
-      // This stops the hacker and shows the error message
-      setError(result.error.errors[0].message);
-      return;
+  // បង្ហាញ error ពី Redux
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(resetState());
     }
-    setLoading(true);
+  }, [error, dispatch]);
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-
-      await updateProfile(userCredential.user, {
-        displayName: username,
-      });
-
-      await createUserDoc(userCredential.user, { displayName: username });
-      navigate("/");
-    } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") return;
-
-      if (err.code === "auth/account-exists-with-different-credential") {
-        setError("An account already exists with this email.");
-      } else {
-        setError(err.message || "Authentication failed. Please try again.");
-      }
-    } finally {
-      setLoading(false);
+  // ពេលចុះឈ្មោះជោគជ័យ
+  useEffect(() => {
+    if (success) {
+      toast.success("Account created successfully! ✅");
+      // ពន្យារពេលបន្តិចដើម្បីឱ្យ toast បង្ហាញមុនផ្លាស់ប្តូរទំព័រ
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     }
+  }, [success, navigate]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ── Google OAuth ────────────────────────────────────────────────────────
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLocalError("");
+
+    const { username, email, password, confirmPassword } = formData;
+
+    // ពិនិត្យពាក្យសម្ងាត់
+    if (password !== confirmPassword) {
+      setLocalError("ពាក្យសម្ងាត់មិនដូចគ្នា");
+      return;
+    }
+    if (password.length < 6) {
+      setLocalError("ពាក្យសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ ៦ តួអក្សរ");
+      return;
+    }
+
+    // បញ្ជូនទិន្នន័យទៅ API ដោយបន្ថែម confirmPassword
+    dispatch(registerUser({
+      username,
+      email,
+      password,
+      confirmPassword,   // field នេះត្រូវការដោយ API
+    }));
+  };
+
+  // OAuth handlers
   const handleGoogleSignIn = async () => {
-    setError("");
+    setLocalError("");
     setOauthLoading("google");
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       await createUserDoc(result.user);
+      toast.success("Google sign-up successful! ✅");
       navigate("/");
     } catch (err) {
       if (err.code === "auth/popup-closed-by-user") return;
-
       if (err.code === "auth/account-exists-with-different-credential") {
-        setError("An account already exists with this email.");
+        setLocalError("An account already exists with this email.");
       } else {
-        setError("Google authentication failed. Please try again.");
+        setLocalError("Google authentication failed. Please try again.");
       }
     } finally {
       setOauthLoading("");
     }
   };
 
-  // ── GitHub OAuth ────────────────────────────────────────────────────────
   const handleGithubSignIn = async () => {
-    setError("");
+    setLocalError("");
     setOauthLoading("github");
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(auth, provider);
       await createUserDoc(result.user);
+      toast.success("GitHub sign-up successful! ✅");
       navigate("/");
     } catch (err) {
       if (err.code === "auth/popup-closed-by-user") return;
-
       if (err.code === "auth/account-exists-with-different-credential") {
-        setError("An account already exists with this email.");
+        setLocalError("An account already exists with this email.");
       } else {
-        setError("GitHub authentication failed. Please try again.");
+        setLocalError("GitHub authentication failed. Please try again.");
       }
     } finally {
       setOauthLoading("");
     }
   };
 
-  const [oauthLoading, setOauthLoading] = useState(""); // ✅ ADD THIS
-
-  const busy = loading || !!oauthLoading;
-
-  // ── Render ──────────────────────────────────────────────────────────────
   return (
-    <div className="flex items-center justify-center min-h-[80vh]">
-      <div className="bg-gray-900 p-8 rounded-xl w-96 shadow-xl border border-gray-800">
-        <h2 className="text-2xl font-bold text-center mb-6 text-white">
-          Create Account
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md w-[540px] p-10">
+        <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+          Create an account
         </h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          Join our community of developers and start sharing knowledge.
+        </p>
 
-        {error && (
-          <div className="bg-red-500 text-white p-3 rounded mb-4">{error}</div>
-        )}
+        {/* Social Login */}
+        <div className="flex gap-4 mb-6">
+          <button
+            type="button"
+            disabled={oauthLoading === "google"}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
+              oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={handleGoogleSignIn}
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/32px-Google_%22G%22_logo.svg.png"
+              alt="Google"
+              className="w-6 h-6"
+            />
+            <span className="text-sky-600 dark:text-sky-400 font-medium">Google</span>
+          </button>
+
+          <button
+            type="button"
+            disabled={oauthLoading === "github"}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
+              oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={handleGithubSignIn}
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+              alt="GitHub"
+              className="w-6 h-6 dark:invert"
+            />
+            <span className="text-sky-600 dark:text-sky-400 font-medium">GitHub</span>
+          </button>
+        </div>
+
+        <p className="flex items-center justify-center text-gray-500 dark:text-gray-400 font-extrabold">or</p>
 
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            className="w-full p-3 mb-4 rounded bg-gray-800 text-white border border-gray-700 focus:border-orange-500 focus:outline-none"
-          />
+          {/* Username */}
+          <div className="mb-4">
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Username</label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="Enter your username"
+              className="w-full h-12 border border-blue-400 dark:border-blue-600 rounded-xl px-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+              required
+            />
+          </div>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full p-3 mb-4 rounded bg-gray-800 text-white border border-gray-700 focus:border-orange-500 focus:outline-none"
-          />
+          {/* Email */}
+          <div className="mb-4">
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email"
+              className="w-full h-12 border border-blue-400 dark:border-blue-600 rounded-xl px-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+              required
+            />
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength="6"
-            className="w-full p-3 mb-6 rounded bg-gray-800 text-white border border-gray-700 focus:border-orange-500 focus:outline-none"
-          />
+          {/* Password */}
+          <div className="mb-4">
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Password</label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                className="w-full h-12 border border-blue-400 dark:border-blue-600 rounded-xl px-4 pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2"
+              >
+                <EyeIcon visible={showPassword} />
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Minimum 6 characters</p>
+          </div>
 
+          {/* Confirm Password */}
+          <div className="mb-6">
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Confirm Password</label>
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                className="w-full h-12 border border-blue-400 dark:border-blue-600 rounded-xl px-4 pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2"
+              >
+                <EyeIcon visible={showConfirmPassword} />
+              </button>
+            </div>
+          </div>
+
+          {localError && <p className="text-red-500 text-sm mb-2">{localError}</p>}
+
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded bg-green-500 hover:bg-green-600 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
+              loading
+                ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+            }`}
           >
-            {loading ? "Creating Account..." : "Sign Up"}
+            {loading ? "កំពុងចុះឈ្មោះ..." : "Create Account"}
           </button>
+
+          <p className="text-sm text-gray-600 dark:text-gray-300 mt-4 text-center">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-500 dark:text-blue-400 hover:underline">
+              Login
+            </Link>
+          </p>
+
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 mt-3">
+            By creating an account, you agree to our{" "}
+            <a href="#" className="text-blue-500 dark:text-blue-400 hover:underline">Terms of Service</a>{" "}
+            and{" "}
+            <a href="#" className="text-blue-500 dark:text-blue-400 hover:underline">Privacy Policy</a>.
+          </p>
         </form>
 
-        <p className="text-center mt-4 text-gray-400">
-          Already have an account?{" "}
-          <Link to="/login" className="text-orange-400 hover:text-orange-300">
-            Log in
-          </Link>
-        </p>
+        {/* យក ToastContainer ចេញពីទីនេះ ហើយដាក់ក្នុង App.jsx វិញ */}
       </div>
     </div>
   );

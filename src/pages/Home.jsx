@@ -6,6 +6,7 @@ import { CgMediaLive } from "react-icons/cg";
 import { RiShieldLine } from "react-icons/ri";
 import { IoCodeSlash } from "react-icons/io5";
 import { GoStarFill } from "react-icons/go";
+// import { Link } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {

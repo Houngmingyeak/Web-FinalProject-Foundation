@@ -14,6 +14,7 @@ import LongfuPic from "../assets/images/LongfuPic.jpg";
 import ReachPic from "../assets/images/reachPic.jpg";
 import TeviPic from "../assets/images/TeviPic.png";
 import abtus_background from "../assets/images/abtus_background.png";
+// import { Link } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const mentors = [
