@@ -37,10 +37,14 @@ export default function Header() {
 
           {/* Ask Questions Button */}
           <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
-            <span>Log in</span>
+            <Link to="/login">
+              Login
+            </Link>
           </button>
           <button className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm">
-            <span>Sign up free</span>
+            <Link to="/signup">
+              Sign up free
+            </Link>
           </button>
         </div>
       </div>
