@@ -45,7 +45,6 @@ export function ThemeProvider({ children }) {
 // 3️⃣ Custom hook
 export const useTheme = () => useContext(ThemeContext);
 
-
 // 4️⃣ Render App
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -56,5 +55,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </AuthProvider>
       </Provider>
     </ThemeProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

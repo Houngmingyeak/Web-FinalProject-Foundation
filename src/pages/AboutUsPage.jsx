@@ -228,7 +228,9 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </header>
+      </header> 
+
+    
 
       {/* Purpose */}
       <div className="py-24 px-6 max-w-6xl mx-auto text-center">

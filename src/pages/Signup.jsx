@@ -12,10 +12,16 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRegisterMutation } from "../features/auth/authApi";
 import { selectIsAuthenticated } from "../features/auth/authSlice";
 import { useOAuthSync } from "../hooks/useOAuthSync";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 // Icons
 function EyeIcon({ visible }) {
-  return visible ? <EyeOff width={20} height={20} /> : <Eye width={20} height={20} />;
+  return visible ? (
+    <EyeOff width={20} height={20} />
+  ) : (
+    <Eye width={20} height={20} />
+  );
 }
 
 export default function Signup() {
@@ -79,11 +85,11 @@ export default function Signup() {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const success = await syncOAuthUser(result.user, 'Google');
-      if (success) navigate('/questions');
+      const success = await syncOAuthUser(result.user, "Google");
+      if (success) navigate("/questions");
     } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') return;
-      toast.error(err?.message || 'Signup with Google failed.');
+      if (err.code === "auth/popup-closed-by-user") return;
+      toast.error(err?.message || "Signup with Google failed.");
     }
   };
 
@@ -91,11 +97,11 @@ export default function Signup() {
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const success = await syncOAuthUser(result.user, 'GitHub');
-      if (success) navigate('/questions');
+      const success = await syncOAuthUser(result.user, "GitHub");
+      if (success) navigate("/questions");
     } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') return;
-      toast.error(err?.message || 'Signup with GitHub failed.');
+      if (err.code === "auth/popup-closed-by-user") return;
+      toast.error(err?.message || "Signup with GitHub failed.");
     }
   };
 
@@ -114,40 +120,42 @@ export default function Signup() {
           <button
             type="button"
             disabled={oauthLoading === "google"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
+              oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleGoogleSignIn}
           >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/32px-Google_%22G%22_logo.svg.png"
-              alt="Google"
-              className="w-6 h-6"
-            />
-            <span className="text-sky-600 dark:text-sky-400 font-medium">Google</span>
+            <FcGoogle className="w-6 h-6" />
+            <span className="text-sky-600 dark:text-sky-400 font-medium">
+              Google
+            </span>
           </button>
 
           <button
             type="button"
             disabled={oauthLoading === "github"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
+              oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleGithubSignIn}
           >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-              alt="GitHub"
-              className="w-6 h-6 dark:invert"
-            />
-            <span className="text-sky-600 dark:text-sky-400 font-medium">GitHub</span>
+            <FaGithub className="w-6 h-6" />
+            <span className="text-sky-600 dark:text-sky-400 font-medium">
+              GitHub
+            </span>
           </button>
         </div>
 
-        <p className="flex items-center justify-center text-gray-500 dark:text-gray-400 font-extrabold">or</p>
+        <p className="flex items-center justify-center text-gray-500 dark:text-gray-400 font-extrabold">
+          or
+        </p>
 
         <form onSubmit={handleSubmit}>
           {/* Username */}
           <div className="mb-4">
-            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Username</label>
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">
+              Username
+            </label>
             <input
               type="text"
               name="username"
@@ -161,7 +169,9 @@ export default function Signup() {
 
           {/* Email */}
           <div className="mb-4">
-            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Email</label>
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -175,7 +185,9 @@ export default function Signup() {
 
           {/* Password */}
           <div className="mb-4">
-            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Password</label>
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">
+              Password
+            </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -194,12 +206,16 @@ export default function Signup() {
                 <EyeIcon visible={showPassword} />
               </button>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Minimum 6 characters</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Minimum 6 characters
+            </p>
           </div>
 
           {/* Confirm Password */}
           <div className="mb-6">
-            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">Confirm Password</label>
+            <label className="block font-semibold mb-2 text-gray-700 dark:text-gray-200">
+              Confirm Password
+            </label>
             <div className="relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -220,31 +236,48 @@ export default function Signup() {
             </div>
           </div>
 
-          {localError && <p className="text-red-500 text-sm mb-2">{localError}</p>}
+          {localError && (
+            <p className="text-red-500 text-sm mb-2">{localError}</p>
+          )}
 
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${isLoading
-              ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-              }`}
+            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
+              isLoading
+                ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+            }`}
           >
             {isLoading ? "កំពុងចុះឈ្មោះ..." : "Create Account"}
           </button>
 
           <p className="text-sm text-gray-600 dark:text-gray-300 mt-4 text-center">
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-500 dark:text-blue-400 hover:underline">
+            <Link
+              to="/login"
+              className="text-blue-500 dark:text-blue-400 hover:underline"
+            >
               Login
             </Link>
           </p>
 
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 mt-3">
             By creating an account, you agree to our{" "}
-            <a href="#" className="text-blue-500 dark:text-blue-400 hover:underline">Terms of Service</a>{" "}
+            <a
+              href="#"
+              className="text-blue-500 dark:text-blue-400 hover:underline"
+            >
+              Terms of Service
+            </a>{" "}
             and{" "}
-            <a href="#" className="text-blue-500 dark:text-blue-400 hover:underline">Privacy Policy</a>.
+            <a
+              href="#"
+              className="text-blue-500 dark:text-blue-400 hover:underline"
+            >
+              Privacy Policy
+            </a>
+            .
           </p>
         </form>
       </div>

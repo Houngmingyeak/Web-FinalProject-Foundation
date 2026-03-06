@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { Link, useNavigate, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   GoogleAuthProvider,
   GithubAuthProvider,
-  signInWithPopup
-} from 'firebase/auth';
-import { auth } from '../firebase/config'; // នាំចូល Firebase auth
-import {
-  useLoginMutation
-} from '../features/auth/authApi';
-import { selectIsAuthenticated } from '../features/auth/authSlice';
-import { useOAuthSync } from '../hooks/useOAuthSync';
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "../firebase/config"; // នាំចូល Firebase auth
+import { useLoginMutation } from "../features/auth/authApi";
+import { selectIsAuthenticated } from "../features/auth/authSlice";
+import { useOAuthSync } from "../hooks/useOAuthSync";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 function EyeIcon({ visible }) {
   const strokeClass = "stroke-gray-600 dark:stroke-gray-300";
@@ -32,13 +32,19 @@ function EyeIcon({ visible }) {
         className={strokeClass}
         strokeWidth="1.5"
       />
-      <circle cx="10" cy="10" r="2.5" className={strokeClass} strokeWidth="1.5" />
+      <circle
+        cx="10"
+        cy="10"
+        r="2.5"
+        className={strokeClass}
+        strokeWidth="1.5"
+      />
     </svg>
   );
 }
 
 export default function Login() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const navigate = useNavigate();
@@ -58,15 +64,18 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      toast.error('សូមបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់');
+      toast.error("សូមបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់");
       return;
     }
     try {
-      await login({ email: formData.email, password: formData.password }).unwrap();
-      toast.success('ចូលប្រើជោគជ័យ! 🎉');
-      navigate('/questions');
+      await login({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
+      toast.success("ចូលប្រើជោគជ័យ! 🎉");
+      navigate("/questions");
     } catch (err) {
-      toast.error(err?.data?.message || 'ការចូលប្រើបរាជ័យ');
+      toast.error(err?.data?.message || "ការចូលប្រើបរាជ័យ");
     }
   };
 
@@ -74,11 +83,11 @@ export default function Login() {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const success = await syncOAuthUser(result.user, 'Google');
-      if (success) navigate('/questions');
+      const success = await syncOAuthUser(result.user, "Google");
+      if (success) navigate("/questions");
     } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') return;
-      toast.error(err?.message || 'Login with Google failed.');
+      if (err.code === "auth/popup-closed-by-user") return;
+      toast.error(err?.message || "Login with Google failed.");
     }
   };
 
@@ -86,11 +95,11 @@ export default function Login() {
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const success = await syncOAuthUser(result.user, 'GitHub');
-      if (success) navigate('/questions');
+      const success = await syncOAuthUser(result.user, "GitHub");
+      if (success) navigate("/questions");
     } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') return;
-      toast.error(err?.message || 'Login with GitHub failed.');
+      if (err.code === "auth/popup-closed-by-user") return;
+      toast.error(err?.message || "Login with GitHub failed.");
     }
   };
 
@@ -108,37 +117,33 @@ export default function Login() {
         <div className="mb-6 flex gap-4">
           <button
             type="button"
-            disabled={oauthLoading === 'google'}
-            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${oauthLoading === 'google' ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            disabled={oauthLoading === "google"}
+            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${
+              oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleGoogleSignIn}
           >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/32px-Google_%22G%22_logo.svg.png"
-              alt="Google"
-              className="w-6 h-6"
-            />
+            <FcGoogle className="w-6 h-6" />
             Google
           </button>
           <button
             type="button"
-            disabled={oauthLoading === 'github'}
-            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${oauthLoading === 'github' ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            disabled={oauthLoading === "github"}
+            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${
+              oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleGithubSignIn}
           >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-              alt="GitHub"
-              className="w-6 h-6 dark:invert"
-            />
+            <FaGithub className="w-6 h-6" />
             GitHub
           </button>
         </div>
 
         <div className="flex items-center mb-6">
           <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
-          <span className="px-3 text-gray-400 dark:text-gray-500 text-sm">or</span>
+          <span className="px-3 text-gray-400 dark:text-gray-500 text-sm">
+            or
+          </span>
           <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
         </div>
 
@@ -203,10 +208,11 @@ export default function Login() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${isLoading
-              ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 hover:shadow-lg"
-              }`}
+            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
+              isLoading
+                ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 hover:shadow-lg"
+            }`}
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>

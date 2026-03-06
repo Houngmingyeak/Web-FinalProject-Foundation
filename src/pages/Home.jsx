@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
   return (
     <main className="bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-white transition-colors duration-300">
-
       {/* HERO */}
       <section className="relative text-center py-24 px-6 overflow-hidden">
         <img
@@ -53,7 +52,9 @@ const HomePage = () => {
             ].map(([number, label]) => (
               <div key={label}>
                 <div className="text-3xl font-bold">{number}</div>
-                <div className="text-sm text-slate-500 dark:text-gray-400">{label}</div>
+                <div className="text-sm text-slate-500 dark:text-gray-400">
+                  {label}
+                </div>
               </div>
             ))}
           </div>
@@ -86,7 +87,8 @@ const HomePage = () => {
               </div>
               <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
               <p className="text-slate-600 dark:text-gray-400 text-sm">
-                Build reputation, earn XP, and grow within a thriving developer ecosystem.
+                Build reputation, earn XP, and grow within a thriving developer
+                ecosystem.
               </p>
             </div>
           ))}
@@ -107,7 +109,9 @@ const HomePage = () => {
               ["03", "Climb the Ranks"],
             ].map(([step, title]) => (
               <div key={step}>
-                <div className="text-blue-600 text-4xl font-bold mb-4">{step}</div>
+                <div className="text-blue-600 text-4xl font-bold mb-4">
+                  {step}
+                </div>
                 <h3 className="text-xl font-semibold mb-2">{title}</h3>
                 <p className="text-slate-600 dark:text-gray-400">
                   Contribute knowledge and get rewarded instantly.
@@ -119,7 +123,7 @@ const HomePage = () => {
       </section>
 
       {/* TESTIMONIALS — id added here */}
-      <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto">
+      <section id="testimonials" className="py-4 px-6 max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-16">
           What devs are saying
         </h2>
@@ -134,14 +138,18 @@ const HomePage = () => {
               className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 p-8 rounded-2xl"
             >
               <div className="flex text-yellow-400 mb-4">
-                {[...Array(5)].map((_, i) => <GoStarFill key={i} />)}
+                {[...Array(5)].map((_, i) => (
+                  <GoStarFill key={i} />
+                ))}
               </div>
               <p className="text-slate-600 dark:text-gray-400 mb-6">
                 "This platform actually makes learning and sharing fun."
               </p>
               <div className="border-t dark:border-gray-700 pt-4">
                 <p className="font-semibold">{name}</p>
-                <p className="text-sm text-slate-500 dark:text-gray-400">{role}</p>
+                <p className="text-sm text-slate-500 dark:text-gray-400">
+                  {role}
+                </p>
               </div>
             </div>
           ))}
@@ -149,7 +157,7 @@ const HomePage = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6">
+      <section className="py-4 px-6">
         <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-3xl text-center p-12 shadow-lg">
           <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
           <p className="text-slate-600 dark:text-gray-400 mb-8">
@@ -157,13 +165,12 @@ const HomePage = () => {
           </p>
           <Link
             to="/signup"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-semibold inline-block transition shadow-md"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-2xl font-semibold inline-block transition shadow-md"
           >
             Get Started
           </Link>
         </div>
       </section>
-
     </main>
   );
 };

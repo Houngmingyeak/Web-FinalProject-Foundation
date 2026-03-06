@@ -2,6 +2,7 @@ import React from "react";
 import MindStack from "../assets/Mindstack.png";
 import { GoSun } from "react-icons/go";
 import { Link } from "react-router-dom";
+import { IoIosSearch } from "react-icons/io";
 
 export default function HeaderSecond() {
   return (
@@ -14,8 +15,9 @@ export default function HeaderSecond() {
         </div>
 
         {/* Search Bar Section */}
-        <form className="w-lg h-10 ">
+        {/* <form className="w-lg h-10 ">
           <div className="relative">
+            <IoIosSearch />
             <input
               type="search"
               id="search"
@@ -23,8 +25,22 @@ export default function HeaderSecond() {
               placeholder="Search here ..."
             />
           </div>
-        </form>
+        </form> */}
+        <form className="flex items-center">
+          <div className="relative group">
+            {/* The Icon (Always visible) */}
+            <div className="absolute inset-y-0 left-0 flex items-center ps-3">
+              <IoIosSearch className="w-5 h-5 text-gray-500" />
+            </div>
 
+            {/* The Input: Hidden by default on mobile, expands/shows on desktop */}
+            <input
+              type="search"
+              className="block w-10 md:w-full p-2 ps-10 transition-all duration-300 bg-neutral-secondary-medium border border-default-medium text-sm rounded-2xl focus:w-64 md:focus:w-full focus:ring-brand"
+              placeholder="Search..."
+            />
+          </div>
+        </form>
         {/* Action Buttons Section */}
         <div className="flex items-center space-y-0 space-x-4">
           {/* Theme Toggle Button */}

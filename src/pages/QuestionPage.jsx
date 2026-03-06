@@ -9,8 +9,13 @@ const TABS = ["Newest", "Active", "Unanswered", "Most Voted"];
 
 // Map tag name → avatar color
 const TAG_COLORS = [
-  "bg-violet-500", "bg-sky-500", "bg-emerald-500",
-  "bg-orange-500", "bg-pink-500", "bg-amber-500", "bg-blue-500",
+  "bg-violet-500",
+  "bg-sky-500",
+  "bg-emerald-500",
+  "bg-orange-500",
+  "bg-pink-500",
+  "bg-amber-500",
+  "bg-blue-500",
 ];
 
 function getColor(id) {
@@ -52,12 +57,12 @@ export default function QuestionsPage() {
     const list = [...posts];
     if (activeTab === "Newest") {
       return list.sort(
-        (a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+        (a, b) => new Date(b.creationDate) - new Date(a.creationDate),
       );
     }
     if (activeTab === "Active") {
       return list.sort(
-        (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate)
+        (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate),
       );
     }
     if (activeTab === "Unanswered") {
@@ -93,9 +98,10 @@ export default function QuestionsPage() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150
-                  ${activeTab === tab
-                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                    : "text-slate-400 dark:text-gray-500 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200"
+                  ${
+                    activeTab === tab
+                      ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                      : "text-slate-400 dark:text-gray-500 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200"
                   }`}
               >
                 {tab}
@@ -160,5 +166,3 @@ export default function QuestionsPage() {
     </div>
   );
 }
-
-

@@ -32,12 +32,13 @@ function Layout() {
   );
 }
 
-
 export default function App() {
   const { theme } = useTheme(); // get current theme
 
   return (
-    <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+    <BrowserRouter
+      future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+    >
       <Routes>
         {/* ── Standalone pages (no Header / Footer) ── */}
         <Route path="/login" element={<Login />} />
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/question/:id" element={<QuestionDetailPage />} />
           <Route path="/ask" element={<AskQuestion />} />
           <Route path="/aboutus" element={<AboutPage />} />
+          <Route path="/profile" element={<Account />} />
         </Route>
       </Routes>
 

@@ -10,8 +10,15 @@ import {
 import { selectCurrentUser } from "../features/auth/authSlice";
 import { FaBookmark } from "react-icons/fa";
 import {
-  FiSearch, FiTrash2, FiEye, FiMessageSquare,
-  FiTag, FiAlertCircle, FiExternalLink, FiStar, FiRefreshCw,
+  FiSearch,
+  FiTrash2,
+  FiEye,
+  FiMessageSquare,
+  FiTag,
+  FiAlertCircle,
+  FiExternalLink,
+  FiStar,
+  FiRefreshCw,
 } from "react-icons/fi";
 import { toast } from "react-toastify";
 
@@ -29,7 +36,10 @@ function Skeleton() {
   return (
     <div className="space-y-4 animate-pulse">
       {[...Array(3)].map((_, i) => (
-        <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 p-5">
+        <div
+          key={i}
+          className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 p-5"
+        >
           <div className="h-5 w-3/4 rounded bg-slate-200 dark:bg-gray-700 mb-3" />
           <div className="h-4 w-full rounded bg-slate-100 dark:bg-gray-700/60 mb-3" />
           <div className="flex gap-2">
@@ -50,9 +60,10 @@ function BookmarkItem({ post, onRemove, removing }) {
     : "";
 
   return (
-    <div className="relative bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 p-5
-      transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 hover:border-blue-200 dark:hover:border-blue-700 group">
-
+    <div
+      className="relative bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 p-5
+      transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 hover:border-blue-200 dark:hover:border-blue-700 group"
+    >
       {/* Remove button — appears on hover */}
       <button
         onClick={() => onRemove(post.id)}
@@ -112,12 +123,16 @@ function BookmarkItem({ post, onRemove, removing }) {
       )}
 
       {/* Footer */}
-      <div className="flex items-center justify-between gap-3 mt-3 pt-3
-        border-t border-slate-100 dark:border-gray-700 flex-wrap">
+      <div
+        className="flex items-center justify-between gap-3 mt-3 pt-3
+        border-t border-slate-100 dark:border-gray-700 flex-wrap"
+      >
         {/* Author */}
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-md bg-blue-100 dark:bg-blue-900/40 flex items-center
-            justify-center text-blue-600 dark:text-blue-400 text-[10px] font-bold shrink-0">
+          <div
+            className="w-6 h-6 rounded-md bg-blue-100 dark:bg-blue-900/40 flex items-center
+            justify-center text-blue-600 dark:text-blue-400 text-[10px] font-bold shrink-0"
+          >
             {post.ownerDisplayName?.slice(0, 2).toUpperCase() ?? "??"}
           </div>
           <span className="text-[13px] text-slate-600 dark:text-gray-300 font-medium">
@@ -223,12 +238,13 @@ export default function BookmarkCard() {
       <Sidebar />
 
       <div className="flex-1 p-6 overflow-y-auto">
-
         {/* ── Profile Banner ──────────────────────────────────── */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-linear-to-br from-blue-500 to-violet-500
-              flex items-center justify-center font-bold text-white text-lg shrink-0">
+            <div
+              className="w-14 h-14 rounded-xl bg-linear-to-br from-blue-500 to-violet-500
+              flex items-center justify-center font-bold text-white text-lg shrink-0"
+            >
               {currentUser.displayName?.slice(0, 2).toUpperCase() ?? "ME"}
             </div>
             <div>
@@ -238,7 +254,8 @@ export default function BookmarkCard() {
               <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-3 mt-0.5">
                 <span className="flex items-center gap-1.5 text-amber-500 font-medium">
                   <FaBookmark className="w-3 h-3" />
-                  {bookmarks.length} saved question{bookmarks.length !== 1 ? "s" : ""}
+                  {bookmarks.length} saved question
+                  {bookmarks.length !== 1 ? "s" : ""}
                 </span>
               </div>
             </div>
@@ -256,30 +273,6 @@ export default function BookmarkCard() {
                 ? `${filtered.length} of ${bookmarks.length} saved items`
                 : `${bookmarks.length} saved item${bookmarks.length !== 1 ? "s" : ""}`}
             </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => refetch()}
-              className="p-2 text-slate-400 hover:text-blue-500 dark:hover:text-blue-400
-                hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all"
-              title="Refresh"
-            >
-              <FiRefreshCw className="w-4 h-4" />
-            </button>
-            <div className="relative min-w-[240px]">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search saved questions…"
-                className="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-gray-800
-                  border border-slate-200 dark:border-gray-700 rounded-xl
-                  text-slate-700 dark:text-gray-300 placeholder-slate-400 dark:placeholder-gray-500
-                  focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400 transition-all"
-              />
-            </div>
           </div>
         </div>
 
@@ -302,15 +295,17 @@ export default function BookmarkCard() {
         )}
 
         {!isLoading && !isError && bookmarks.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-24 text-center
-            bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700">
+          <div
+            className="flex flex-col items-center justify-center py-24 text-center
+            bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700"
+          >
             <div className="text-5xl mb-4">🔖</div>
             <p className="text-xl font-semibold text-slate-700 dark:text-gray-300 mb-2">
               No saved questions yet
             </p>
             <p className="text-slate-400 dark:text-gray-500 text-sm mb-6 max-w-sm">
-              Hit the <strong className="text-amber-500">Save</strong> button on any question
-              to find it here instantly.
+              Hit the <strong className="text-amber-500">Save</strong> button on
+              any question to find it here instantly.
             </p>
             <Link
               to="/questions"
@@ -323,18 +318,23 @@ export default function BookmarkCard() {
           </div>
         )}
 
-        {!isLoading && !isError && bookmarks.length > 0 && filtered.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-16 text-center
-            bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700">
-            <div className="text-4xl mb-3">🔍</div>
-            <p className="text-lg font-semibold text-slate-700 dark:text-gray-300 mb-1">
-              No results found
-            </p>
-            <p className="text-slate-400 dark:text-gray-500 text-sm">
-              Try a different search term.
-            </p>
-          </div>
-        )}
+        {!isLoading &&
+          !isError &&
+          bookmarks.length > 0 &&
+          filtered.length === 0 && (
+            <div
+              className="flex flex-col items-center justify-center py-16 text-center
+            bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700"
+            >
+              <div className="text-4xl mb-3">🔍</div>
+              <p className="text-lg font-semibold text-slate-700 dark:text-gray-300 mb-1">
+                No results found
+              </p>
+              <p className="text-slate-400 dark:text-gray-500 text-sm">
+                Try a different search term.
+              </p>
+            </div>
+          )}
 
         {!isLoading && !isError && filtered.length > 0 && (
           <div className="space-y-4">
