@@ -1,190 +1,353 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { formatDistanceToNow } from "date-fns";
 import Sidebar from "../layout/Sidebar";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+import {
+  useGetBookmarksQuery,
+  useRemoveBookmarkMutation,
+} from "../features/bookmark/bookmarkApi";
+import { selectCurrentUser } from "../features/auth/authSlice";
+import { FaBookmark } from "react-icons/fa";
+import {
+  FiSearch, FiTrash2, FiEye, FiMessageSquare,
+  FiTag, FiAlertCircle, FiExternalLink, FiStar, FiRefreshCw,
+} from "react-icons/fi";
+import { toast } from "react-toastify";
 
-const savedPosts = [
-  {
-    id: 1,
-    title:
-      "Rust vs Go for building microservices in 2026 — performance benchmarks?",
-    description:
-      "Our team is evaluating Rust and Go for a new microservices architecture. Looking for recent benchmarks and...",
-    tags: ["rust", "go", "microservices", "performance"],
-    author: "Emma Wilson",
-    replies: 15,
-    views: 3400,
-    time: "6h ago",
-  },
-  {
-    id: 2,
-    title:
-      "Rust vs Go for building microservices in 2026 — performance benchmarks?",
-    description:
-      "Our team is evaluating Rust and Go for a new microservices architecture. Looking for recent benchmarks and...",
-    tags: ["rust", "go", "microservices", "performance"],
-    author: "Emma Wilson",
-    replies: 15,
-    views: 3400,
-    time: "6h ago",
-  },
-  {
-    id: 3,
-    title:
-      "Rust vs Go for building microservices in 2026 — performance benchmarks?",
-    description:
-      "Our team is evaluating Rust and Go for a new microservices architecture. Looking for recent benchmarks and...",
-    tags: ["rust", "go", "microservices", "performance"],
-    author: "Emma Wilson",
-    replies: 15,
-    views: 3400,
-    time: "6h ago",
-  },
-  {
-    id: 4,
-    title:
-      "Rust vs Go for building microservices in 2026 — performance benchmarks?",
-    description:
-      "Our team is evaluating Rust and Go for a new microservices architecture. Looking for recent benchmarks and...",
-    tags: ["rust", "go", "microservices", "performance"],
-    author: "Emma Wilson",
-    replies: 15,
-    views: 3400,
-    time: "6h ago",
-  },
-  {
-    id: 5,
-    title:
-      "Rust vs Go for building microservices in 2026 — performance benchmarks?",
-    description:
-      "Our team is evaluating Rust and Go for a new microservices architecture. Looking for recent benchmarks and...",
-    tags: ["rust", "go", "microservices", "performance"],
-    author: "Emma Wilson",
-    replies: 15,
-    views: 3400,
-    time: "6h ago",
-  },
+// ── Tag colour palette ─────────────────────────────────────────────────────
+const TAG_PALETTE = [
+  "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300",
+  "bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300",
+  "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300",
+  "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300",
+  "bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300",
 ];
 
-export default function BookmarkCard() {
-  const [bookmarks, setBookmarks] = useState(savedPosts.map((post) => post.id));
+// ── Skeleton ───────────────────────────────────────────────────────────────
+function Skeleton() {
+  return (
+    <div className="space-y-4 animate-pulse">
+      {[...Array(3)].map((_, i) => (
+        <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 p-5">
+          <div className="h-5 w-3/4 rounded bg-slate-200 dark:bg-gray-700 mb-3" />
+          <div className="h-4 w-full rounded bg-slate-100 dark:bg-gray-700/60 mb-3" />
+          <div className="flex gap-2">
+            <div className="h-5 w-14 rounded-full bg-blue-100 dark:bg-blue-900/30" />
+            <div className="h-5 w-20 rounded-full bg-blue-100 dark:bg-blue-900/30" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
-  const toggleBookmark = (id) => {
-    setBookmarks((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    );
+// ── Bookmark Card ──────────────────────────────────────────────────────────
+// `post` is a full post object from bookMarkList
+function BookmarkItem({ post, onRemove, removing }) {
+  const timeAgo = post.creationDate
+    ? formatDistanceToNow(new Date(post.creationDate), { addSuffix: true })
+    : "";
+
+  return (
+    <div className="relative bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 p-5
+      transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 hover:border-blue-200 dark:hover:border-blue-700 group">
+
+      {/* Remove button — appears on hover */}
+      <button
+        onClick={() => onRemove(post.id)}
+        disabled={removing}
+        className="absolute top-4 right-4 flex items-center gap-1 text-[12px] font-semibold
+          text-slate-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400
+          hover:bg-red-50 dark:hover:bg-red-900/20 px-2.5 py-1.5 rounded-lg
+          transition-all opacity-0 group-hover:opacity-100 disabled:opacity-50"
+        title="Remove bookmark"
+      >
+        <FiTrash2 className="w-3.5 h-3.5" /> Remove
+      </button>
+
+      {/* Saved badge + time */}
+      <div className="flex items-center gap-2 mb-3">
+        <FaBookmark className="text-amber-400 w-3.5 h-3.5 shrink-0" />
+        <span className="text-[11px] font-semibold text-amber-500 dark:text-amber-400 uppercase tracking-wide">
+          Saved
+        </span>
+        {timeAgo && (
+          <span className="text-[11px] text-slate-400 dark:text-gray-500 ml-auto pr-20">
+            Asked {timeAgo}
+          </span>
+        )}
+      </div>
+
+      {/* Title */}
+      <Link
+        to={`/question/${post.id}`}
+        className="block text-[16px] font-bold text-slate-900 dark:text-white
+          hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-2 pr-20 line-clamp-2"
+      >
+        {post.title}
+      </Link>
+
+      {/* Body excerpt */}
+      {post.body && (
+        <p className="text-[13px] text-slate-500 dark:text-gray-400 mb-3 line-clamp-2">
+          {post.body}
+        </p>
+      )}
+
+      {/* Tags */}
+      {post.tagResponses?.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {post.tagResponses.map((t, ti) => (
+            <span
+              key={t.id}
+              className={`inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md
+                ${TAG_PALETTE[ti % TAG_PALETTE.length]}`}
+            >
+              <FiTag className="w-2.5 h-2.5" />
+              {t.tagName}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Footer */}
+      <div className="flex items-center justify-between gap-3 mt-3 pt-3
+        border-t border-slate-100 dark:border-gray-700 flex-wrap">
+        {/* Author */}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-md bg-blue-100 dark:bg-blue-900/40 flex items-center
+            justify-center text-blue-600 dark:text-blue-400 text-[10px] font-bold shrink-0">
+            {post.ownerDisplayName?.slice(0, 2).toUpperCase() ?? "??"}
+          </div>
+          <span className="text-[13px] text-slate-600 dark:text-gray-300 font-medium">
+            {post.ownerDisplayName ?? "Unknown"}
+          </span>
+        </div>
+
+        {/* Stats + View link */}
+        <div className="flex items-center gap-3 text-[12px] text-slate-400 dark:text-gray-500">
+          <span className="flex items-center gap-1">
+            <FiStar className="w-3 h-3 text-amber-400" />
+            {post.score ?? 0}
+          </span>
+          <span className="flex items-center gap-1">
+            <FiEye className="w-3 h-3" />
+            {post.viewCount ?? 0}
+          </span>
+          <span className="flex items-center gap-1">
+            <FiMessageSquare className="w-3 h-3" />
+            {post.comments?.length ?? 0}
+          </span>
+          <Link
+            to={`/question/${post.id}`}
+            className="flex items-center gap-1 text-blue-500 hover:text-blue-600
+              dark:text-blue-400 font-semibold hover:underline"
+          >
+            <FiExternalLink className="w-3 h-3" /> View
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main Page ──────────────────────────────────────────────────────────────
+export default function BookmarkCard() {
+  const currentUser = useSelector(selectCurrentUser);
+  const [search, setSearch] = useState("");
+  const [removingId, setRemovingId] = useState(null);
+
+  // bookmarks = array of full post objects (from bookMarkList)
+  const {
+    data: bookmarks = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useGetBookmarksQuery(undefined, { skip: !currentUser });
+
+  const [removeBookmark] = useRemoveBookmarkMutation();
+
+  const handleRemove = async (postId) => {
+    setRemovingId(postId);
+    try {
+      await removeBookmark(postId).unwrap();
+      toast.success("Bookmark removed");
+    } catch {
+      toast.error("Failed to remove bookmark");
+    } finally {
+      setRemovingId(null);
+    }
   };
+
+  // Filter bookmarks by search query
+  const filtered = bookmarks.filter((post) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (
+      post.title?.toLowerCase().includes(q) ||
+      post.body?.toLowerCase().includes(q) ||
+      post.ownerDisplayName?.toLowerCase().includes(q) ||
+      post.tagResponses?.some((t) => t.tagName.toLowerCase().includes(q))
+    );
+  });
+
+  // ── Not logged in ──────────────────────────────────────────────────────
+  if (!currentUser) {
+    return (
+      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <Sidebar />
+        <main className="flex-1 flex items-center justify-center p-8">
+          <div className="text-center">
+            <div className="text-6xl mb-4">🔖</div>
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
+              Sign in Required
+            </h2>
+            <p className="text-slate-500 dark:text-gray-400 mb-6">
+              Log in to view your saved questions.
+            </p>
+            <Link
+              to="/login"
+              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors"
+            >
+              Log In
+            </Link>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-colors duration-300">
       <Sidebar />
 
-      <div className="flex-1 p-6">
-        {/* Profile Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+      <div className="flex-1 p-6 overflow-y-auto">
+
+        {/* ── Profile Banner ──────────────────────────────────── */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center font-semibold text-blue-600 dark:text-blue-400 text-[16px]">
-              AC
+            <div className="w-14 h-14 rounded-xl bg-linear-to-br from-blue-500 to-violet-500
+              flex items-center justify-center font-bold text-white text-lg shrink-0">
+              {currentUser.displayName?.slice(0, 2).toUpperCase() ?? "ME"}
             </div>
             <div>
-              <h2 className="text-[20px] font-semibold text-gray-900 dark:text-white">
-                SreyKa
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                {currentUser.displayName ?? "My Saves"}
               </h2>
-              <div className="text-[15px] text-gray-500 dark:text-gray-400 flex items-center gap-4 mt-0.5">
-                <span className="text-yellow-500 font-medium">★ 4,250 rep</span>
-                <span>Level 12</span>
-                <span>Rank #42</span>
+              <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-3 mt-0.5">
+                <span className="flex items-center gap-1.5 text-amber-500 font-medium">
+                  <FaBookmark className="w-3 h-3" />
+                  {bookmarks.length} saved question{bookmarks.length !== 1 ? "s" : ""}
+                </span>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Level Bar */}
-          <div className="mt-4">
-            <div className="flex justify-between text-[13px] text-gray-500 dark:text-gray-400 mb-1">
-              <span>Level 12</span>
-              <span>720 / 1000 XP</span>
-            </div>
-            <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full w-[72%]" />
+        {/* ── Toolbar ─────────────────────────────────────────── */}
+        <div className="flex items-center justify-between gap-4 mb-5 flex-wrap">
+          <div>
+            <h3 className="text-[18px] font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <FaBookmark className="text-amber-400 w-4 h-4" /> All Saves
+            </h3>
+            <p className="text-[13px] text-gray-400 dark:text-gray-500 mt-0.5">
+              {filtered.length !== bookmarks.length
+                ? `${filtered.length} of ${bookmarks.length} saved items`
+                : `${bookmarks.length} saved item${bookmarks.length !== 1 ? "s" : ""}`}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => refetch()}
+              className="p-2 text-slate-400 hover:text-blue-500 dark:hover:text-blue-400
+                hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all"
+              title="Refresh"
+            >
+              <FiRefreshCw className="w-4 h-4" />
+            </button>
+            <div className="relative min-w-[240px]">
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search saved questions…"
+                className="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-gray-800
+                  border border-slate-200 dark:border-gray-700 rounded-xl
+                  text-slate-700 dark:text-gray-300 placeholder-slate-400 dark:placeholder-gray-500
+                  focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400 transition-all"
+              />
             </div>
           </div>
         </div>
 
-        {/* Saves Section */}
-        <div>
-          <h3 className="text-[17px] font-semibold text-gray-700 dark:text-gray-200 mb-1">
-            All Saves
-          </h3>
-          <p className="text-[14px] text-gray-400 dark:text-gray-500 mb-4">
-            {bookmarks.length} Saved Items
-          </p>
+        {/* ── States ──────────────────────────────────────────── */}
+        {isLoading && <Skeleton />}
 
+        {!isLoading && isError && (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <FiAlertCircle className="w-10 h-10 text-red-400 mb-3" />
+            <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Failed to load bookmarks
+            </p>
+            <button
+              onClick={() => refetch()}
+              className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {!isLoading && !isError && bookmarks.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-24 text-center
+            bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700">
+            <div className="text-5xl mb-4">🔖</div>
+            <p className="text-xl font-semibold text-slate-700 dark:text-gray-300 mb-2">
+              No saved questions yet
+            </p>
+            <p className="text-slate-400 dark:text-gray-500 text-sm mb-6 max-w-sm">
+              Hit the <strong className="text-amber-500">Save</strong> button on any question
+              to find it here instantly.
+            </p>
+            <Link
+              to="/questions"
+              className="px-6 py-2.5 bg-linear-to-r from-blue-600 to-violet-600
+                hover:from-blue-700 hover:to-violet-700 text-white text-sm font-bold rounded-xl
+                transition-all shadow-md shadow-blue-200 dark:shadow-blue-900/30"
+            >
+              Browse Questions
+            </Link>
+          </div>
+        )}
+
+        {!isLoading && !isError && bookmarks.length > 0 && filtered.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 text-center
+            bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700">
+            <div className="text-4xl mb-3">🔍</div>
+            <p className="text-lg font-semibold text-slate-700 dark:text-gray-300 mb-1">
+              No results found
+            </p>
+            <p className="text-slate-400 dark:text-gray-500 text-sm">
+              Try a different search term.
+            </p>
+          </div>
+        )}
+
+        {!isLoading && !isError && filtered.length > 0 && (
           <div className="space-y-4">
-            {savedPosts.map((post) => {
-              const isSaved = bookmarks.includes(post.id);
-
-              return (
-                <div
-                  key={post.id}
-                  className="relative bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700
-                    transition-all duration-200 hover:shadow-lg hover:-translate-y-1
-                    hover:border-blue-200 dark:hover:border-blue-700"
-                >
-                  {/* Bookmark Icon */}
-                  <button
-                    onClick={() => toggleBookmark(post.id)}
-                    className="absolute top-4 right-4 text-[18px] transition hover:scale-110"
-                  >
-                    {isSaved ? (
-                      <FaBookmark className="text-yellow-400" />
-                    ) : (
-                      <FaRegBookmark className="text-gray-400 dark:text-gray-500 hover:text-yellow-400" />
-                    )}
-                  </button>
-
-                  {/* Title */}
-                  <h4 className="text-[17px] font-semibold text-gray-800 dark:text-white mb-2 pr-8 hover:text-blue-600 dark:hover:text-blue-400 transition">
-                    {post.title}
-                  </h4>
-
-                  {/* Description */}
-                  <p className="text-[15px] text-gray-500 dark:text-gray-400 mb-3">
-                    {post.description}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {post.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="text-[13px] bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-md border border-blue-100 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Footer */}
-                  <div className="flex justify-between items-center text-[13px] text-gray-400 dark:text-gray-500">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-md bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 text-[11px] font-semibold">
-                        EW
-                      </div>
-                      <span className="text-gray-600 dark:text-gray-300">
-                        {post.author}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                      <span>💬 {post.replies}</span>
-                      <span>👁 {post.views}</span>
-                      <span>{post.time}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {filtered.map((post) => (
+              <BookmarkItem
+                key={post.id}
+                post={post}
+                onRemove={handleRemove}
+                removing={removingId === post.id}
+              />
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

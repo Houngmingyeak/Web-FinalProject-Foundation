@@ -1,14 +1,18 @@
-import { GoSun } from "react-icons/go";
-import { GoMoon } from "react-icons/go";
-import { useTheme } from "./ThemeContext";
+import { GoSun, GoMoon } from "react-icons/go";
+import { useTheme } from "../main.jsx";
 
-// inside Header():
-const { isDark, toggleTheme } = useTheme();
+export default function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
 
-// replace the button:
-<button
-  onClick={toggleTheme}
-  className="p-2 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-yellow-300 rounded-xl border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 transition"
->
-  {isDark ? <GoMoon /> : <GoSun />}
-</button>
+  return (
+    <button
+      onClick={toggleTheme}
+      className="p-2 rounded-xl border transition-all duration-300
+        bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100
+        dark:bg-gray-800 dark:text-yellow-400 dark:border-gray-700 dark:hover:bg-gray-700"
+      aria-label="Toggle Dark/Light Mode"
+    >
+      {theme === "dark" ? <GoMoon size={18} /> : <GoSun size={18} />}
+    </button>
+  );
+}

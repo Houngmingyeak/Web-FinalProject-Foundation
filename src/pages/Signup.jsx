@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify"; // យក ToastContainer ចេញ
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
 } from "firebase/auth";
-import { auth, db } from "../firebase/config";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth } from "../firebase/config"; // លែងត្រូវការ db សម្រាប់ OAuth
 import { Eye, EyeOff } from "lucide-react";
-import { registerUser, resetState } from "../features/auth/authSlice";
+import { useRegisterMutation } from "../features/auth/authApi";
+import { selectIsAuthenticated } from "../features/auth/authSlice";
+import { useOAuthSync } from "../hooks/useOAuthSync";
 
 // Icons
 function EyeIcon({ visible }) {
@@ -19,23 +20,6 @@ function EyeIcon({ visible }) {
   ) : (
     <Eye width={20} height={20} />
   );
-}
-
-// Helper function for Firestore (សម្រាប់ OAuth)
-async function createUserDoc(user, overrides = {}) {
-  await setDoc(doc(db, "users", user.uid), {
-    uid: user.uid,
-    displayName: user.displayName || overrides.displayName || "",
-    email: user.email,
-    role: "user",
-    avatar:
-      user.photoURL ||
-      `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`,
-    bio: "",
-    achievements: { contributions: 0, helpful: 0, solved: 0 },
-    createdAt: serverTimestamp(),
-    ...overrides,
-  });
 }
 
 export default function Signup() {
@@ -48,42 +32,30 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [localError, setLocalError] = useState("");
-  const [oauthLoading, setOauthLoading] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, success } = useSelector((state) => state.auth);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [register, { isLoading }] = useRegisterMutation();
+  const { syncOAuthUser, oauthLoading } = useOAuthSync();
 
-  // បង្ហាញ error ពី Redux
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(resetState());
-    }
-  }, [error, dispatch]);
+  if (isAuthenticated) {
+    return <Navigate to="/questions" replace />;
+  }
 
-  // ពេលចុះឈ្មោះជោគជ័យ
-  useEffect(() => {
-    if (success) {
-      toast.success("Account created successfully! ✅");
-      // ពន្យារពេលបន្តិចដើម្បីឱ្យ toast បង្ហាញមុនផ្លាស់ប្តូរទំព័រ
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
-    }
-  }, [success, navigate]);
+  // បង្ហាញ error ពី API (បើមាន)
+  // error អាចជា object ដែលមាន data.message
+  // យើងលែងប្រើ error ពី useRegisterMutation ដោយផ្ទាល់ទេ ព្រោះយើងប្រើ toast រួចហើយ
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLocalError("");
 
     const { username, email, password, confirmPassword } = formData;
 
-    // ពិនិត្យពាក្យសម្ងាត់
     if (password !== confirmPassword) {
       setLocalError("ពាក្យសម្ងាត់មិនដូចគ្នា");
       return;
@@ -93,6 +65,7 @@ export default function Signup() {
       return;
     }
 
+<<<<<<< HEAD
     // បញ្ជូនទិន្នន័យទៅ API ដោយបន្ថែម confirmPassword
     dispatch(
       registerUser({
@@ -102,48 +75,43 @@ export default function Signup() {
         confirmPassword, // field នេះត្រូវការដោយ API
       }),
     );
+=======
+    try {
+      await register({
+        username,
+        email,
+        password,
+        confirmPassword,
+      }).unwrap();
+      toast.success("គណនីត្រូវបានបង្កើតដោយជោគជ័យ! ✅");
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      toast.error(err?.data?.message || "ការចុះឈ្មោះបរាជ័យ");
+    }
+>>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
   };
 
-  // OAuth handlers
   const handleGoogleSignIn = async () => {
-    setLocalError("");
-    setOauthLoading("google");
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      await createUserDoc(result.user);
-      toast.success("Google sign-up successful! ✅");
-      navigate("/");
+      const success = await syncOAuthUser(result.user, 'Google');
+      if (success) navigate('/questions');
     } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") return;
-      if (err.code === "auth/account-exists-with-different-credential") {
-        setLocalError("An account already exists with this email.");
-      } else {
-        setLocalError("Google authentication failed. Please try again.");
-      }
-    } finally {
-      setOauthLoading("");
+      if (err.code === 'auth/popup-closed-by-user') return;
+      toast.error(err?.message || 'Signup with Google failed.');
     }
   };
 
   const handleGithubSignIn = async () => {
-    setLocalError("");
-    setOauthLoading("github");
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      await createUserDoc(result.user);
-      toast.success("GitHub sign-up successful! ✅");
-      navigate("/");
+      const success = await syncOAuthUser(result.user, 'GitHub');
+      if (success) navigate('/questions');
     } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") return;
-      if (err.code === "auth/account-exists-with-different-credential") {
-        setLocalError("An account already exists with this email.");
-      } else {
-        setLocalError("GitHub authentication failed. Please try again.");
-      }
-    } finally {
-      setOauthLoading("");
+      if (err.code === 'auth/popup-closed-by-user') return;
+      toast.error(err?.message || 'Signup with GitHub failed.');
     }
   };
 
@@ -157,14 +125,13 @@ export default function Signup() {
           Join our community of developers and start sharing knowledge.
         </p>
 
-        {/* Social Login */}
+        {/* Social Login Buttons */}
         <div className="flex gap-4 mb-6">
           <button
             type="button"
             disabled={oauthLoading === "google"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
-              oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             onClick={handleGoogleSignIn}
           >
             <img
@@ -180,9 +147,8 @@ export default function Signup() {
           <button
             type="button"
             disabled={oauthLoading === "github"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
-              oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             onClick={handleGithubSignIn}
           >
             <img
@@ -290,17 +256,15 @@ export default function Signup() {
             <p className="text-red-500 text-sm mb-2">{localError}</p>
           )}
 
-          {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
-            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
-              loading
-                ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-            }`}
+            disabled={isLoading}
+            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${isLoading
+              ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+              }`}
           >
-            {loading ? "កំពុងចុះឈ្មោះ..." : "Create Account"}
+            {isLoading ? "កំពុងចុះឈ្មោះ..." : "Create Account"}
           </button>
 
           <p className="text-sm text-gray-600 dark:text-gray-300 mt-4 text-center">
@@ -331,8 +295,6 @@ export default function Signup() {
             .
           </p>
         </form>
-
-        {/* យក ToastContainer ចេញពីទីនេះ ហើយដាក់ក្នុង App.jsx វិញ */}
       </div>
     </div>
   );
