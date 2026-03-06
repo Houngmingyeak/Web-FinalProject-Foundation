@@ -1,19 +1,16 @@
 // src/components/ProtectedRoute.jsx
-import { Navigate } from "react-router-dom"
-import { useAuth } from "../hooks/useAuth"
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth()
-
-  if (loading) {
-    return <div className="flex items-center justify-center min-h-screen bg-gray-950">
-      <div className="text-white">Loading...</div>
-    </div>
-  }
+  const { user } = useSelector((state) => state.auth);
 
   if (!user) {
-    return <Navigate to="/login" />
+    toast.error("You must be logged in to access this page!");
+    return <Navigate to="/login" replace />;
   }
 
-  return children
+  return children;
 }

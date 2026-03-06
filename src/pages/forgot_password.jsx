@@ -36,7 +36,6 @@ export default function ForgotPassword() {
   return (
     <div className="flex items-center justify-center min-h-[80vh]">
       <div className="bg-white p-8 rounded-xl w-100 shadow-xl border border-gray-800">
-
         {/* ── Back to login link ─────────────────────────────────────────── */}
         <Link
           to="/login"
@@ -84,8 +83,8 @@ export default function ForgotPassword() {
               Forgot password?
             </h2>
             <p className="text-sm text-gray-500 mb-6">
-              Enter the email you signed up with and we'll send you a reset
-              link throught your gmail in spam at the left sidebar.
+              Enter the email you signed up with and we'll send you a reset link
+              throught your gmail in spam at the left sidebar.
             </p>
 
             {/* Error banner */}

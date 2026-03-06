@@ -1,457 +1,169 @@
-import React from "react";
-// If you're using a local image, import it like this:
 import heroImage from "../assets/Herosection.png";
 import { FaArrowRight } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa";
-import { LuMessageSquare } from "react-icons/lu";
+import { LuMessageSquare, LuGift, LuUsers } from "react-icons/lu";
 import { CiTrophy } from "react-icons/ci";
 import { CgMediaLive } from "react-icons/cg";
 import { RiShieldLine } from "react-icons/ri";
-import { LuGift } from "react-icons/lu";
 import { IoCodeSlash } from "react-icons/io5";
-import { LuUsers } from "react-icons/lu";
 import { GoStarFill } from "react-icons/go";
+// import { Link } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <main className="bg-slate-50">
-      {/* Background Image */}
-      {/* <div className="w-full">
-            <img
-              src={heroImage}
-              alt="Developers collaborating"
-              className="w-full h-auto object-cover opacity-7"
-            />
-          </div> */}
-      {/* Text Overlay - Positioned absolutely on top of the image */}
-      {/* Text Overlay - Positioned absolutely on top of the image */}
+    <main className="bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-white transition-colors duration-300">
 
-      <header className="relative overflow-hidden">
-        <div className="relative min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center">
-          {/* Background Image Container */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src={heroImage}
-              alt="Developers collaborating"
-              className="w-full h-full object-cover opacity-10" // Increased opacity slightly for visibility
-            />
+      {/* HERO */}
+      <section className="relative text-center py-24 px-6 overflow-hidden">
+        <img
+          src={heroImage}
+          alt="Developers collaborating"
+          className="absolute inset-0 w-full h-full object-cover opacity-5"
+        />
+        <div className="relative max-w-5xl mx-auto">
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
+            Where developers
+            <span className="block bg-gradient-to-r from-blue-500 to-amber-400 bg-clip-text text-transparent">
+              level up together
+            </span>
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto">
+            The gamified Q&A platform that makes sharing knowledge rewarding.
+            Ask questions, earn XP, unlock badges, and climb the leaderboard.
+          </p>
+          <div className="flex gap-4 flex-wrap justify-center mt-10">
+            <Link
+              to="/questions"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-semibold flex items-center gap-2 transition shadow-lg"
+            >
+              Start for free <FaArrowRight />
+            </Link>
+            <button className="border border-slate-300 dark:border-gray-700 px-8 py-3 rounded-2xl font-semibold hover:bg-slate-100 dark:hover:bg-gray-800 transition">
+              See how it works
+            </button>
           </div>
 
-          {/* Text Overlay */}
-          <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-            <h2 className="font-extrabold text-black leading-tight tracking-tight">
-              {/* First Line */}
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] lg:whitespace-nowrap">
-                Ask Answer Collaborate Grow
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+            {[
+              ["50K+", "Developers"],
+              ["120K+", "Questions Answered"],
+              ["2M+", "XP Earned"],
+              ["98%", "Satisfaction"],
+            ].map(([number, label]) => (
+              <div key={label}>
+                <div className="text-3xl font-bold">{number}</div>
+                <div className="text-sm text-slate-500 dark:text-gray-400">{label}</div>
               </div>
-
-              {/* Second Line */}
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px]  bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mt-2">
-                Built by learners for learners
-              </div>
-            </h2>
-
-            <p className="text-base sm:text-lg md:text-[20px] text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
-              Our community-driven forum encourages open discussion, knowledge
-              sharing, and continuous improvement in the world of technology.
-            </p>
-
-            {/* Buttons Container */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10 mb-8">
-              <Link
-                to="/questions"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
-              >
-                Start for free
-                <FaArrowRight size={14} />
-              </Link>
-
-              <a
-                href="#"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-200 bg-gray-50 text-black px-8 py-3.5 rounded-2xl font-semibold hover:bg-gray-50 transition"
-              >
-                See how it works
-                <FaAngleRight size={14} />
-              </a>
-            </div>
+            ))}
           </div>
         </div>
-      </header>
+      </section>
 
-      {/* Rest of your components remain the same... */}
-      {/* Features Section */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 mb-4">
+      {/* FEATURES — id added here */}
+      <section id="features" className="py-24 px-6 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-4">
           Everything you need to grow
         </h2>
-        <p className="text-lg text-slate-600 text-center max-w-[500px] mx-auto mb-12">
-          A developer community built with gratification at its core. Every
-          action earns rewards.
+        <p className="text-center text-slate-600 dark:text-gray-400 mb-16 max-w-xl mx-auto">
+          A developer community built with gamification at its core.
         </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Feature Cards */}
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 ">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-xl mb-2 hover:bg-blue-200">
-              <LuMessageSquare className="text-blue-600 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                Q&A That Rewards
-              </h3>
-              <p className="text-slate-600 text-[15px]">
-                Ask and answer questions. Every contribution earns XP and
-                rewards.
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[
+            { icon: <LuMessageSquare />, title: "Q&A That Rewards" },
+            { icon: <CiTrophy />, title: "Leaderboards" },
+            { icon: <CgMediaLive />, title: "Daily Challenges" },
+            { icon: <RiShieldLine />, title: "Level Up System" },
+            { icon: <LuGift />, title: "Badges & Rewards" },
+            { icon: <IoCodeSlash />, title: "Code-First UX" },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 p-8 rounded-2xl hover:shadow-xl transition"
+            >
+              <div className="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-gray-800 rounded-xl mb-4 text-blue-600 text-xl">
+                {item.icon}
+              </div>
+              <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+              <p className="text-slate-600 dark:text-gray-400 text-sm">
+                Build reputation, earn XP, and grow within a thriving developer ecosystem.
               </p>
             </div>
-          </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <CiTrophy className="text-blue-600 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                Leaderboards
-              </h3>
-              <p className="text-slate-600 text-[15px]">
-                Complete globally verified weekly, monthly, and all-time
-                rankings.
-              </p>
-            </div>
-          </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <CgMediaLive className="text-blue-600 text-[30px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                Daily Challenges
-              </h3>
-              <p className="text-slate-600 text-[15px]">
-                Complete daily challenges to earn bonus XP and exclusive badges.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <RiShieldLine className="text-blue-600 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                Level Up System
-              </h3>
-              <p className="text-slate-600 text-[15px]">
-                Progress through 10 levels with unlockable points and perks.
-              </p>
-            </div>
-          </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <LuGift className="text-blue-600 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                Badges & Rewards
-              </h3>
-              <p className="text-slate-600 text-[15px]">
-                Earn gold, silver, and bronze badges for your achievements.
-              </p>
-            </div>
-          </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <IoCodeSlash className="text-blue-600 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                Code-Free Design
-              </h3>
-              <p className="text-slate-600 text-[15px]">
-                Syntax highlighting, markdown support, and code-centric UX.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-16 px-8 font-inter">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-900 mb-4">
-            How it works
-          </h2>
-          <p className="text-lg text-slate-600 text-center max-w-2xl mx-auto mb-12">
+      {/* HOW IT WORKS */}
+      <section className="py-24 px-6 bg-slate-100 dark:bg-gray-900 transition">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-4">How it works</h2>
+          <p className="text-slate-600 dark:text-gray-400 mb-16">
             Three simple steps to start leveling up.
           </p>
-
-          <div className="flex flex-wrap gap-8 justify-center">
-            {/* Step 1 */}
-            <div className="flex-1 min-w-[250px] text-center p-6">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-1">
-                <LuMessageSquare className="text-blue-600 text-3xl mx-auto" />
+          <div className="grid md:grid-cols-3 gap-10">
+            {[
+              ["01", "Ask or Answer"],
+              ["02", "Earn XP & Badges"],
+              ["03", "Climb the Ranks"],
+            ].map(([step, title]) => (
+              <div key={step}>
+                <div className="text-blue-600 text-4xl font-bold mb-4">{step}</div>
+                <h3 className="text-xl font-semibold mb-2">{title}</h3>
+                <p className="text-slate-600 dark:text-gray-400">
+                  Contribute knowledge and get rewarded instantly.
+                </p>
               </div>
-              <p className="text-black font-bold">01</p>
-              <h3 className="text-xl text-black font-semibold mb-2">
-                Ask or Answer
-              </h3>
-              <p className="text-slate-600">
-                Find questions or help others with expert answers. Every
-                interaction earns XP.
-              </p>
-            </div>
-            {/* Step 2 */}
-            <div className="flex-1 min-w-[250px] text-center p-6 ">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-                <CiTrophy className="text-blue-600 text-3xl mx-auto" />
-              </div>
-              <p className="text-black font-bold">02</p>
-              <h3 className="text-xl text-black font-semibold mb-2">
-                Earn XP & Badges
-              </h3>
-              <p className="text-slate-600">
-                Watch your progress level up. Unlock gold, silver, and bronze
-                badges.
-              </p>
-            </div>
-            {/* Step 3 */}
-            <div className="flex-1 min-w-[250px] text-center p-6 ">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 w-16 h-15 text-white rounded-2xl mb-2">
-                <LuUsers className="text-blue-600 text-3xl mx-auto" />
-              </div>
-              <p className="text-black font-bold">03</p>
-              <h3 className="text-xl text-black font-semibold mb-2">
-                Climb the Ranks
-              </h3>
-              <p className="text-slate-600">
-                Rise through 50 levels and compete on the global leaderboard!
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="sm:text-3xl font-bold text-center md:text-4xl font-bold text-center lg:text-4xl font-bold text-center text-slate-900 mb-12">
+      {/* TESTIMONIALS — id added here */}
+      <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-16">
           What devs are saying
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Testimonial 1 */}
-          <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div class="flex items-center text-yellow-300 space-x-1">
-              <svg
-                class="w-5 h-5 text-fg-yello"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-disabled"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            ["Sarah M.", "Senior Engineer @ Stripe"],
+            ["James L.", "Full-Stack Dev"],
+            ["Erwin W.", "Tech Lead @ Netflix"],
+          ].map(([name, role]) => (
+            <div
+              key={name}
+              className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 p-8 rounded-2xl"
+            >
+              <div className="flex text-yellow-400 mb-4">
+                {[...Array(5)].map((_, i) => <GoStarFill key={i} />)}
+              </div>
+              <p className="text-slate-600 dark:text-gray-400 mb-6">
+                "This platform actually makes learning and sharing fun."
+              </p>
+              <div className="border-t dark:border-gray-700 pt-4">
+                <p className="font-semibold">{name}</p>
+                <p className="text-sm text-slate-500 dark:text-gray-400">{role}</p>
+              </div>
             </div>
-            <p className="text-slate-700 my-4">
-              "Definitely made me actually enjoy answering questions."
-            </p>
-            <p className="font-semibold border-t text-slate-900 ">Sarah M.</p>
-            <p className="text-sm text-slate-500">Senior Engineer @ Stripe</p>
-          </div>
-          {/* Testimonial 2 */}
-          <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div class="flex items-center text-yellow-300 space-x-1">
-              <svg
-                class="w-5 h-5 text-fg-yello"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-disabled"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-            </div>
-            <p className=" text-slate-700 my-6">
-              "This game is so fun! I've been playing it for a while now."
-            </p>
-            <p className="font-semibold border-t  text-slate-900">James L.</p>
-            <p className="text-sm text-slate-500">Full-Stack Dev</p>
-          </div>
-          {/* Testimonial 3 */}
-          <div className="bg-white p-8 rounded-xl border border-slate-200">
-            <div class="flex items-center text-yellow-300 space-x-1">
-              <svg
-                class="w-5 h-5 text-fg-yello"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-yellow"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-              <svg
-                class="w-5 h-5 text-fg-disabled"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-            </div>
-            <p className=" text-slate-700 my-4">
-              "I love this game! It's so much fun and challenging."
-            </p>
-            <p className="font-semibold border-t  text-slate-900">Erwin W.</p>
-            <p className="text-sm text-slate-500">Tech Lead @ Netflix</p>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-white text-black text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 rounded-2xl my-16">
-        <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 ">
-          Join 50,000+ developers who are already earning XP, unlocking badges,
-          and climbing the leaderboard.
-        </p>
-        <a
-          href="#"
-          className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold inline-block shadow-md 
-                transform transition duration-300 ease-in-out 
-                hover:-translate-y-2 hover:drop-shadow-lg"
-        >
-          Get started → the flow
-        </a>
+      {/* CTA */}
+      <section className="py-20 px-6">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-3xl text-center p-12 shadow-lg">
+          <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
+          <p className="text-slate-600 dark:text-gray-400 mb-8">
+            Join thousands of developers earning XP and unlocking achievements.
+          </p>
+          <Link
+            to="/signup"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-semibold inline-block transition shadow-md"
+          >
+            Get Started
+          </Link>
+        </div>
       </section>
+
     </main>
   );
 };

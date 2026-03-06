@@ -1,40 +1,61 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./hooks/useAuth";
+import { ThemeProvider } from "./components/ThemeContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import QuestionDetailPage from "./pages/QuestionDetail";
-import HomePage from "./pages/Home";
+import SearchPage from "./pages/Search";
 import AboutPage from "./pages/AboutUsPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import QuestionsPage from "./pages/QuestionPage";
-import BookmarkCard from "./pages/BookMarkCard";
-import HeaderSecond from "./components/HeaderSecond";
 import Leaderboard from "./pages/LeaderBoard";
+import BookmarkCard from "./pages/BookMarkCard";
+import QuestionDetailPage from "./pages/QuestionDetail";
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        {/* <Header /> */}
-        <HeaderSecond />
-        <main className="bg-white text-black">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/questiondetail" element={<QuestionDetailPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="leaderboard" element={<Leaderboard />} />
-            <Route path="/challenges" element={<ChallengesPage />} />
-            <Route path="/questions" element={<QuestionsPage />} />
-            <Route path="/saves" element={<BookmarkCard />} />
-          </Routes>
-        </main>
-        <Footer className="mt-4" />
+        <ThemeProvider>
+          <Header />
+          <main className="bg-white">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/que" element={<QuestionForm />} />
+              <Route path="/challenges" element={<ChallengesPage />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/questions" element={<QuestionsPage />} />
+              <Route path="/questions/:id" element={<QuestionDetailPage />} />
+              <Route path="/saves" element={<BookmarkCard />} />
+            </Routes>
+          </main>
+          <Footer />
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme={
+              document.documentElement.classList.contains("dark")
+                ? "dark"
+                : "light"
+            }
+          />
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   );
