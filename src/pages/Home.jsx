@@ -1,491 +1,171 @@
-<<<<<<<<< Temporary merge branch 1
-// src/pages/Home.jsx
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from "../hooks/useAuth";
-import QuestionCard from "../components/QuestionCard";
-import { db } from '../firebase/config';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import { FiArrowRight } from 'react-icons/fi';
-
-export default function Home() {
-  const { user } = useAuth();
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState('newest');
-
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        setLoading(true);
-        const questionsRef = collection(db, 'questions');
-        
-        let q;
-        if (sortBy === 'newest') {
-          q = query(questionsRef, orderBy('createdAt', 'desc'), limit(20));
-        } else if (sortBy === 'views') {
-          q = query(questionsRef, orderBy('viewCount', 'desc'), limit(20));
-        } else {
-          q = query(questionsRef, orderBy('answers', 'desc'), limit(20));
-        }
-
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setQuestions(data);
-      } catch (error) {
-        console.error('Error fetching questions:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchQuestions();
-  }, [sortBy]);
-=========
-import React from "react";
 import heroImage from "../assets/Herosection.png";
 import { FaArrowRight } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa";
-import { LuMessageSquare } from "react-icons/lu";
+import { LuMessageSquare, LuGift, LuUsers } from "react-icons/lu";
 import { CiTrophy } from "react-icons/ci";
 import { CgMediaLive } from "react-icons/cg";
 import { RiShieldLine } from "react-icons/ri";
-import { LuGift } from "react-icons/lu";
 import { IoCodeSlash } from "react-icons/io5";
-import { LuUsers } from "react-icons/lu";
 import { GoStarFill } from "react-icons/go";
+// import { Link } from "react-router-dom";
 import { Link } from "react-router-dom";
->>>>>>>>> Temporary merge branch 2
 
 const HomePage = () => {
   return (
-<<<<<<<<< Temporary merge branch 1
-    <div className="min-h-screen bg-gray-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-2">
-              Welcome{user ? `, ${user.displayName || user.email}` : ''}!
-            </h1>
-            <p className="text-gray-400">Browse and find solutions from the community</p>
-=========
-    <main className="bg-slate-50 dark:bg-gray-900 transition-colors duration-300">
-      {/* Hero Section with Image */}
-      <header className="relative">
-        <div className="relative">
-          {/* Background Image */}
-          <div className="w-full">
-            <img
-              src={heroImage}
-              alt="Developers collaborating"
-              className="w-full h-auto object-cover opacity-7"
-            />
+    <main className="bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-white transition-colors duration-300">
+
+      {/* HERO */}
+      <section className="relative text-center py-24 px-6 overflow-hidden">
+        <img
+          src={heroImage}
+          alt="Developers collaborating"
+          className="absolute inset-0 w-full h-full object-cover opacity-5"
+        />
+        <div className="relative max-w-5xl mx-auto">
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
+            Where developers
+            <span className="block bg-gradient-to-r from-blue-500 to-amber-400 bg-clip-text text-transparent">
+              level up together
+            </span>
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto">
+            The gamified Q&A platform that makes sharing knowledge rewarding.
+            Ask questions, earn XP, unlock badges, and climb the leaderboard.
+          </p>
+          <div className="flex gap-4 flex-wrap justify-center mt-10">
+            <Link
+              to="/questions"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-semibold flex items-center gap-2 transition shadow-lg"
+            >
+              Start for free <FaArrowRight />
+            </Link>
+            <button className="border border-slate-300 dark:border-gray-700 px-8 py-3 rounded-2xl font-semibold hover:bg-slate-100 dark:hover:bg-gray-800 transition">
+              See how it works
+            </button>
           </div>
-          {/* Text Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center px-4">
-              <h2 className="font-extrabold text-black dark:text-white leading-tight">
-                <div className="text-[72px] whitespace-nowrap">
-                  Where developers
-                </div>
-                <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
-                  level up together
-                </div>
-              </h2>
 
-              <p className="text-[20px] text-slate-600 dark:text-slate-300 mt-6 max-w-3xl mx-auto">
-                The gamified Q&A platform that makes sharing knowledge
-                rewarding. Ask questions, earn XP, unlock badges, and climb the
-                leaderboard.
-              </p>
-
-              <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
-                <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                  <Link to="/questions" className="flex items-center gap-2">
-                    Start for free
-                    <FaArrowRight className="mt-1" />
-                  </Link>
-                </div>
-                <div className="inline-flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-black dark:text-white px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                  <a href="#" className="flex items-center gap-2">
-                    See how it works
-                    <FaAngleRight className="mt-1" />
-                  </a>
-                </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+            {[
+              ["50K+", "Developers"],
+              ["120K+", "Questions Answered"],
+              ["2M+", "XP Earned"],
+              ["98%", "Satisfaction"],
+            ].map(([number, label]) => (
+              <div key={label}>
+                <div className="text-3xl font-bold">{number}</div>
+                <div className="text-sm text-slate-500 dark:text-gray-400">{label}</div>
               </div>
-
-              {/* Stats */}
-              <div className="flex gap-8 md:gap-17 flex-wrap justify-center text-center mt-10">
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    50K+
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    Developers
-                  </div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    120K+
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    Questions Answered
-                  </div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    2M+
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    XP Earned
-                  </div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    98%
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    Satisfaction
-                  </div>
-                </div>
-              </div>
-            </div>
->>>>>>>>> Temporary merge branch 2
+            ))}
           </div>
         </div>
+      </section>
 
-<<<<<<<<< Temporary merge branch 1
-        {/* Sort Options */}
-        <div className="flex gap-2 mb-6 border-b border-gray-800 pb-4">
-          {['newest', 'views', 'answers'].map((option) => (
-            <button
-              key={option}
-              onClick={() => setSortBy(option)}
-              className={`px-4 py-2 rounded-lg font-medium transition ${
-                sortBy === option
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
-              }`}
-            >
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </button>
-          ))}
-=========
-      {/* Features Section */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-4">
+      {/* FEATURES — id added here */}
+      <section id="features" className="py-24 px-6 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-4">
           Everything you need to grow
         </h2>
-        <p className="text-lg text-slate-600 dark:text-slate-300 text-center max-w-[500px] mx-auto mb-12">
-          A developer community built with gratification at its core. Every
-          action earns rewards.
+        <p className="text-center text-slate-600 dark:text-gray-400 mb-16 max-w-xl mx-auto">
+          A developer community built with gamification at its core.
         </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Feature Cards */}
-          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
-              <LuMessageSquare className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
-                Q&A That Rewards
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
-                Ask and answer questions. Every contribution earns XP and
-                rewards.
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[
+            { icon: <LuMessageSquare />, title: "Q&A That Rewards" },
+            { icon: <CiTrophy />, title: "Leaderboards" },
+            { icon: <CgMediaLive />, title: "Daily Challenges" },
+            { icon: <RiShieldLine />, title: "Level Up System" },
+            { icon: <LuGift />, title: "Badges & Rewards" },
+            { icon: <IoCodeSlash />, title: "Code-First UX" },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 p-8 rounded-2xl hover:shadow-xl transition"
+            >
+              <div className="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-gray-800 rounded-xl mb-4 text-blue-600 text-xl">
+                {item.icon}
+              </div>
+              <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+              <p className="text-slate-600 dark:text-gray-400 text-sm">
+                Build reputation, earn XP, and grow within a thriving developer ecosystem.
               </p>
             </div>
-          </div>
-          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
-              <CiTrophy className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
-                Leaderboards
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
-                Complete globally verified weekly, monthly, and all-time
-                rankings.
-              </p>
-            </div>
-          </div>
-          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
-              <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[30px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
-                Daily Challenges
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
-                Complete daily challenges to earn bonus XP and exclusive badges.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
-              <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
-                Level Up System
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
-                Progress through 10 levels with unlockable points and perks.
-              </p>
-            </div>
-          </div>
-          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
-              <LuGift className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
-                Badges & Rewards
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
-                Earn gold, silver, and bronze badges for your achievements.
-              </p>
-            </div>
-          </div>
-          <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
-              <IoCodeSlash className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
-                Code-Free Design
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 text-[15px]">
-                Syntax highlighting, markdown support, and code-centric UX.
-              </p>
-            </div>
-          </div>
->>>>>>>>> Temporary merge branch 2
+          ))}
         </div>
+      </section>
 
-<<<<<<<<< Temporary merge branch 1
-        {/* Questions List */}
-        {loading ? (
-          <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-32 bg-gray-800/50 rounded-lg animate-pulse"></div>
-            ))}
-          </div>
-        ) : questions.length === 0 ? (
-          <div className="text-center py-12 bg-gray-900 rounded-xl border border-gray-800">
-            <p className="text-gray-400 text-lg mb-4">No questions yet</p>
-            {user ? (
-              <Link to="/ask">
-                <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold">
-                  Ask the first question
-                </button>
-              </Link>
-            ) : (
-              <p className="text-gray-400">Please log in to ask questions and interact with the community.</p>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {questions.map((question) => (
-              <QuestionCard
-                key={question.id}
-                id={question.id}
-                title={question.title}
-                description={question.description}
-                author={question.authorName}
-                tags={question.tags || []}
-                createdAt={question.createdAt}
-                viewCount={question.viewCount || 0}
-                answerCount={question.answers || 0}
-                status={question.status || 'open'}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-=========
-      {/* How It Works */}
-      <section className="py-16 px-8 font-inter">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-4">
-            How it works
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 text-center max-w-2xl mx-auto mb-12">
+      {/* HOW IT WORKS */}
+      <section className="py-24 px-6 bg-slate-100 dark:bg-gray-900 transition">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-4">How it works</h2>
+          <p className="text-slate-600 dark:text-gray-400 mb-16">
             Three simple steps to start leveling up.
           </p>
-
-          <div className="flex flex-wrap gap-8 justify-center">
-            {/* Step 1 */}
-            <div className="flex-1 min-w-[250px] text-center p-6">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-15 text-white rounded-2xl mb-1">
-                <LuMessageSquare className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
+          <div className="grid md:grid-cols-3 gap-10">
+            {[
+              ["01", "Ask or Answer"],
+              ["02", "Earn XP & Badges"],
+              ["03", "Climb the Ranks"],
+            ].map(([step, title]) => (
+              <div key={step}>
+                <div className="text-blue-600 text-4xl font-bold mb-4">{step}</div>
+                <h3 className="text-xl font-semibold mb-2">{title}</h3>
+                <p className="text-slate-600 dark:text-gray-400">
+                  Contribute knowledge and get rewarded instantly.
+                </p>
               </div>
-              <p className="text-black dark:text-white font-bold">01</p>
-              <h3 className="text-xl text-black dark:text-white font-semibold mb-2">
-                Ask or Answer
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300">
-                Find questions or help others with expert answers. Every
-                interaction earns XP.
-              </p>
-            </div>
-            {/* Step 2 */}
-            <div className="flex-1 min-w-[250px] text-center p-6 ">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-15 text-white rounded-2xl mb-2">
-                <CiTrophy className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
-              </div>
-              <p className="text-black dark:text-white font-bold">02</p>
-              <h3 className="text-xl text-black dark:text-white font-semibold mb-2">
-                Earn XP & Badges
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300">
-                Watch your progress level up. Unlock gold, silver, and bronze
-                badges.
-              </p>
-            </div>
-            {/* Step 3 */}
-            <div className="flex-1 min-w-[250px] text-center p-6 ">
-              <div className="ml-35 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-15 text-white rounded-2xl mb-2">
-                <LuUsers className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
-              </div>
-              <p className="text-black dark:text-white font-bold">03</p>
-              <h3 className="text-xl text-black dark:text-white font-semibold mb-2">
-                Climb the Ranks
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300">
-                Rise through 50 levels and compete on the global leaderboard!
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-12">
+      {/* TESTIMONIALS — id added here */}
+      <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-16">
           What devs are saying
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Testimonial 1 */}
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center text-yellow-300 space-x-1">
-              {[...Array(4)].map((_, i) => (
-                <svg
-                  key={i}
-                  className="w-5 h-5 fill-current text-yellow-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                </svg>
-              ))}
-              <svg
-                className="w-5 h-5 fill-current text-gray-300 dark:text-gray-600"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            ["Sarah M.", "Senior Engineer @ Stripe"],
+            ["James L.", "Full-Stack Dev"],
+            ["Erwin W.", "Tech Lead @ Netflix"],
+          ].map(([name, role]) => (
+            <div
+              key={name}
+              className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 p-8 rounded-2xl"
+            >
+              <div className="flex text-yellow-400 mb-4">
+                {[...Array(5)].map((_, i) => <GoStarFill key={i} />)}
+              </div>
+              <p className="text-slate-600 dark:text-gray-400 mb-6">
+                "This platform actually makes learning and sharing fun."
+              </p>
+              <div className="border-t dark:border-gray-700 pt-4">
+                <p className="font-semibold">{name}</p>
+                <p className="text-sm text-slate-500 dark:text-gray-400">{role}</p>
+              </div>
             </div>
-            <p className="text-slate-700 dark:text-slate-300 my-4">
-              "Definitely made me actually enjoy answering questions."
-            </p>
-            <p className="font-semibold border-t border-slate-200 dark:border-gray-700 pt-4 text-slate-900 dark:text-white">
-              Sarah M.
-            </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Senior Engineer @ Stripe
-            </p>
-          </div>
-          {/* Testimonial 2 */}
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center text-yellow-300 space-x-1">
-              {[...Array(4)].map((_, i) => (
-                <svg
-                  key={i}
-                  className="w-5 h-5 fill-current text-yellow-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                </svg>
-              ))}
-              <svg
-                className="w-5 h-5 fill-current text-gray-300 dark:text-gray-600"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-            </div>
-            <p className="text-slate-700 dark:text-slate-300 my-6">
-              "This game is so fun! I've been playing it for a while now."
-            </p>
-            <p className="font-semibold border-t border-slate-200 dark:border-gray-700 pt-4 text-slate-900 dark:text-white">
-              James L.
-            </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Full-Stack Dev
-            </p>
-          </div>
-          {/* Testimonial 3 */}
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center text-yellow-300 space-x-1">
-              {[...Array(4)].map((_, i) => (
-                <svg
-                  key={i}
-                  className="w-5 h-5 fill-current text-yellow-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                </svg>
-              ))}
-              <svg
-                className="w-5 h-5 fill-current text-gray-300 dark:text-gray-600"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-              </svg>
-            </div>
-            <p className="text-slate-700 dark:text-slate-300 my-4">
-              "I love this game! It's so much fun and challenging."
-            </p>
-            <p className="font-semibold border-t border-slate-200 dark:border-gray-700 pt-4 text-slate-900 dark:text-white">
-              Erwin W.
-            </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Tech Lead @ Netflix
-            </p>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-white dark:bg-gray-800 text-black dark:text-white text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 dark:border-gray-700 rounded-2xl my-16">
-        <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-          Join 50,000+ developers who are already earning XP, unlocking badges,
-          and climbing the leaderboard.
-        </p>
-        <a
-          href="#"
-          className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold inline-block shadow-md 
-                transform transition duration-300 ease-in-out 
-                hover:-translate-y-2 hover:drop-shadow-lg"
-        >
-          Get started → the flow
-        </a>
+      {/* CTA */}
+      <section className="py-20 px-6">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-3xl text-center p-12 shadow-lg">
+          <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
+          <p className="text-slate-600 dark:text-gray-400 mb-8">
+            Join thousands of developers earning XP and unlocking achievements.
+          </p>
+          <Link
+            to="/signup"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-semibold inline-block transition shadow-md"
+          >
+            Get Started
+          </Link>
+        </div>
       </section>
+
     </main>
   );
 };
 
 export default HomePage;
->>>>>>>>> Temporary merge branch 2

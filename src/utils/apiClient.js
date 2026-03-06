@@ -11,8 +11,6 @@ export const baseQuery = fetchBaseQuery({
       token = localStorage.getItem('token');
     }
     
-    console.log('Token in prepareHeaders:', token); // សម្រាប់ពិនិត្យ
-    
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }

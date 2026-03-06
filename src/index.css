@@ -10,12 +10,15 @@
 /* 3️⃣ Flowbite source file */
 @source "../.flowbite-react/class-list.json";
 
-/* 4️⃣ Custom CSS variables (optional) */
+/* 4️⃣ Tailwind v4: Configure dark mode to use .dark class on any ancestor */
+@variant dark (&:where(.dark, .dark *));
+
+/* 5️⃣ Custom CSS variables (optional) */
 :root {
   --primary-900: #233876;
 }
 
-/* 5️⃣ Tailwind custom utilities */
+/* 6️⃣ Tailwind custom utilities */
 @layer utilities {
   .font-inter {
     font-family: 'Inter', sans-serif;

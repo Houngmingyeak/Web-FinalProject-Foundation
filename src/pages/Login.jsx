@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { 
-  GoogleAuthProvider, 
-  GithubAuthProvider, 
-  signInWithPopup 
+import {
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
 import { auth } from '../firebase/config'; // នាំចូល Firebase auth
-import { 
-  useLoginMutation, 
-  useGoogleLoginMutation, 
-  useGithubLoginMutation 
+import {
+  useLoginMutation
 } from '../features/auth/authApi';
+import { selectIsAuthenticated } from '../features/auth/authSlice';
+import { useOAuthSync } from '../hooks/useOAuthSync';
 
 function EyeIcon({ visible }) {
   const strokeClass = "stroke-gray-600 dark:stroke-gray-300";
@@ -40,12 +41,15 @@ export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
-  const [oauthLoading, setOauthLoading] = useState(''); // 'google' ឬ 'github'
   const navigate = useNavigate();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const [login, { isLoading }] = useLoginMutation();
-  const [googleLogin] = useGoogleLoginMutation();
-  const [githubLogin] = useGithubLoginMutation();
+  const { syncOAuthUser, oauthLoading } = useOAuthSync();
+
+  if (isAuthenticated) {
+    return <Navigate to="/questions" replace />;
+  }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,39 +71,26 @@ export default function Login() {
   };
 
   const handleGoogleSignIn = async () => {
-    setOauthLoading('google');
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const firebaseToken = await result.user.getIdToken();
-      await googleLogin({ token: firebaseToken }).unwrap();
-      toast.success('ចូលប្រើជាមួយ Google ជោគជ័យ! 🎉');
-      navigate('/questions');
+      const success = await syncOAuthUser(result.user, 'Google');
+      if (success) navigate('/questions');
     } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') {
-        // អ្នកប្រើបានបិទ popup ដោយខ្លួនឯង
-        return;
-      }
-      toast.error(err?.data?.message || 'ការចូលប្រើជាមួយ Google បរាជ័យ');
-    } finally {
-      setOauthLoading('');
+      if (err.code === 'auth/popup-closed-by-user') return;
+      toast.error(err?.message || 'Login with Google failed.');
     }
   };
 
   const handleGithubSignIn = async () => {
-    setOauthLoading('github');
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const firebaseToken = await result.user.getIdToken();
-      await githubLogin({ token: firebaseToken }).unwrap();
-      toast.success('ចូលប្រើជាមួយ GitHub ជោគជ័យ! 🎉');
-      navigate('/questions');
+      const success = await syncOAuthUser(result.user, 'GitHub');
+      if (success) navigate('/questions');
     } catch (err) {
       if (err.code === 'auth/popup-closed-by-user') return;
-      toast.error(err?.data?.message || 'ការចូលប្រើជាមួយ GitHub បរាជ័យ');
-    } finally {
-      setOauthLoading('');
+      toast.error(err?.message || 'Login with GitHub failed.');
     }
   };
 
@@ -118,9 +109,8 @@ export default function Login() {
           <button
             type="button"
             disabled={oauthLoading === 'google'}
-            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${
-              oauthLoading === 'google' ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${oauthLoading === 'google' ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             onClick={handleGoogleSignIn}
           >
             <img
@@ -133,9 +123,8 @@ export default function Login() {
           <button
             type="button"
             disabled={oauthLoading === 'github'}
-            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${
-              oauthLoading === 'github' ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`w-full h-12 rounded-xl font-semibold bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-800/30 transition flex items-center justify-center gap-3 ${oauthLoading === 'github' ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             onClick={handleGithubSignIn}
           >
             <img
@@ -214,11 +203,10 @@ export default function Login() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
-              isLoading
-                ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 hover:shadow-lg"
-            }`}
+            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${isLoading
+              ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 hover:shadow-lg"
+              }`}
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>

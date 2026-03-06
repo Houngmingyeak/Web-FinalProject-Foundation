@@ -1,4 +1,11 @@
-export default function Footer() {
+import React from "react";
+import Img from "../assets/istad.png";
+import { CiFacebook, CiLinkedin } from "react-icons/ci";
+import { PiTelegramLogo } from "react-icons/pi";
+import { CgMail } from "react-icons/cg";
+import imgMindStack from "../assets/MindStack.png";
+
+const Footer = () => {
   return (
     <footer className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 py-8 px-4 md:px-8 lg:px-16 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
@@ -98,8 +105,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-<<<<<<<<< Temporary merge branch 1
-}
-=========
-}
->>>>>>>>> Temporary merge branch 2
+};
+
+export default Footer; // ← បន្ថែមបន្ទាត់នេះ

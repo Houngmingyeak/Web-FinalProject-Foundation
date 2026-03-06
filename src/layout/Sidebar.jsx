@@ -17,105 +17,42 @@ const navItems = [
 export default function Sidebar() {
   const location = useLocation();
   return (
-<<<<<<<<< Temporary merge branch 1
-    <div className="w-64 h-screen bg-gray-800 p-4">
-      <h1 className="text-2xl font-bold mb-6">MindStack</h1>
+    <aside className="w-72 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex flex-col py-4 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300 shrink-0">
 
-      <nav className="space-y-3">
-        <Link to="/" className="block hover:text-yellow-400">
-          Home
-        </Link>
-        <Link to="/chat" className="block hover:text-yellow-400">
-          Chat
-        </Link>
-        <Link to="/favorite" className="block hover:text-yellow-400">
-          Favorite
-        </Link>
-        <Link to="/account" className="block hover:text-yellow-400">
-          Account
-        </Link>
-        <Link to="/profile" className="block hover:text-yellow-400">
-          Profile
-        </Link>
-      </nav>
-      <aside className="w-72 bg-white border-r border-gray-300  border-b border-gray-300 flex flex-col py-4 sticky mb-4">
-        {/* Navigation Links */}
-        <nav className="flex flex-col gap-0.5 px-4">
-          {navItems.map(({ label, path, icon }) => (
-            <Link
-              key={label}
-              to={path}
-              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${
-                location.pathname === path
-                  ? "bg-blue-50 text-blue-600"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-              }`}
-            >
-              {icon}
-              {label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* XP Progress at the bottom */}
-        <div className="px-4 mt-2">
-          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-3">
-            Your Progress
-          </p>
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-[10px] font-bold text-white">
-              12
-            </span>
-            <div>
-              <p className="text-[11px] font-semibold text-gray-700">
-                Level 12
-              </p>
-              <p className="text-[10px] text-gray-400">720 / 1000 XP</p>
-            </div>
-          </div>
-          <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
-              style={{ width: "52%" }}
-            />
-=========
-    <aside className="w-72 bg-white border-r border-gray-100 flex flex-col py-4 h-screen sticky top-0">
       {/* Navigation Links */}
       <nav className="flex flex-col gap-0.5 px-4">
         {navItems.map(({ label, path, icon }) => (
           <Link
             key={label}
             to={path}
-            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${
-              location.pathname === path
-                ? "bg-blue-50 text-blue-600"
-                : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-            }`}
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${location.pathname === path
+              ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+              : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200"
+              }`}
           >
             {icon}
             {label}
           </Link>
         ))}
       </nav>
-        
-      {/* XP Progress at the bottom */}
+
+      {/* XP Progress */}
       <div className="px-4 mt-2">
-        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-3">
+        <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">
           Your Progress
         </p>
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-[10px] font-bold text-white">
+          <span className="w-7 h-7 rounded-full bg-linear-to-br from-blue-500 to-violet-500 flex items-center justify-center text-[10px] font-bold text-white">
             12
           </span>
           <div>
-            <p className="text-[11px] font-semibold text-gray-700">Level 12</p>
-            <p className="text-[10px] text-gray-400">720 / 1000 XP</p>
->>>>>>>>> Temporary merge branch 2
+            <p className="text-[11px] font-semibold text-gray-700 dark:text-gray-200">Level 12</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500">720 / 1000 XP</p>
           </div>
         </div>
         <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
+            className="h-full rounded-full bg-linear-to-r from-blue-500 to-violet-500"
             style={{ width: "52%" }}
           />
         </div>
