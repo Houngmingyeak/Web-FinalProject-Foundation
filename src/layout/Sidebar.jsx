@@ -17,19 +17,18 @@ const navItems = [
 export default function Sidebar() {
   const location = useLocation();
   return (
-    <aside className="w-72 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex flex-col py-4 h-screen sticky top-0 transition-colors duration-300">
-      
+    <aside className="w-72 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex flex-col py-4 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300 shrink-0">
+
       {/* Navigation Links */}
       <nav className="flex flex-col gap-0.5 px-4">
         {navItems.map(({ label, path, icon }) => (
           <Link
             key={label}
             to={path}
-            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${
-              location.pathname === path
-                ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-                : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200"
-            }`}
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${location.pathname === path
+              ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+              : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200"
+              }`}
           >
             {icon}
             {label}
@@ -43,7 +42,7 @@ export default function Sidebar() {
           Your Progress
         </p>
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-[10px] font-bold text-white">
+          <span className="w-7 h-7 rounded-full bg-linear-to-br from-blue-500 to-violet-500 flex items-center justify-center text-[10px] font-bold text-white">
             12
           </span>
           <div>
@@ -53,7 +52,7 @@ export default function Sidebar() {
         </div>
         <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
+            className="h-full rounded-full bg-linear-to-r from-blue-500 to-violet-500"
             style={{ width: "52%" }}
           />
         </div>

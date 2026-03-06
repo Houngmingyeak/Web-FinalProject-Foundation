@@ -14,8 +14,6 @@ import LongfuPic from "../assets/images/LongfuPic.jpg";
 import ReachPic from "../assets/images/reachPic.jpg";
 import TeviPic from "../assets/images/TeviPic.png";
 import abtus_background from "../assets/images/abtus_background.png";
-// import { Link } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const mentors = [
   { name: "Kim Chansopheng", role: "Mentor", photo: CherPhengPic },
@@ -158,44 +156,75 @@ function MemberCard({ name, role, photo }) {
 
 export default function AboutPage() {
   return (
-    <div className="font-sans bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
-      {/* Hero — fixed to viewport height, no scroll */}
-      <header
-        className="relative h-screen flex items-center justify-center overflow-hidden"
-        style={{
-          backgroundImage: `url(${abtus_background})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-white/60 dark:bg-gray-900/70" />
+    <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
+      {/* Hero */}
+      {/* <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gradient-to-br from-blue-50 to-gray-50 relative overflow-hidden">
+        <div className="absolute w-150 h-150 rounded-full bg-gradient-to-r from-blue-500/5 to-transparent top--30 right--30 pointer-events-none" />
+        <p className="text-xs font-semibold tracking-wider uppercase text-[#4A7CFF] mb-5 animate-fade-up [animation-delay:100ms]">
+          MindStack · About Us
+        </p>
+        <h1 className="text-[clamp(44px,6vw,76px)] font-bold leading-tight tracking-tighter mb-5 animate-fade-up [animation-delay:200ms]">
+          Ask. Answer.
+          <br />
+          Collaborate. Grow.
+        </h1>
+        <p className="text-lg text-gray-500 leading-relaxed max-w-md mb-9 animate-fade-up [animation-delay:300ms]">
+          A community-driven forum built for learners and developers to share
+          ideas, ask questions, and grow together.
+        </p>
+        <div className="flex gap-3 flex-wrap justify-center animate-fade-up [animation-delay:400ms]">
+          <button className="bg-gray-900 text-white border-none px-7 py-3 rounded-full text-sm font-semibold cursor-pointer font-sans hover:opacity-75 transition-opacity">
+            Start for free →
+          </button>
+          <button className="bg-none text-gray-500 border-2 border-gray-200 px-7 py-3 rounded-full text-sm font-medium cursor-pointer font-sans hover:border-[#4A7CFF] hover:text-[#4A7CFF] transition-colors">
+            See more
+          </button>
+        </div>
+      </div> */}
+      <header className="relative">
+        <div className="relative">
+          {/* Background Image */}
+          <div className="w-full">
+            <img
+              src={abtus_background}
+              alt="Developers collaborating"
+              className="w-full h-auto object-cover opacity-7"
+            />
+          </div>
+          {/* Text Overlay - Positioned absolutely on top of the image */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center px-4">
+              <h2 className="font-extrabold text-black leading-tight">
+                {/* First Line */}
+                <div className="text-[72px] whitespace-nowrap">
+                  Ask. Answer.Collaborate.Grow.
+                </div>
 
-        <div className="relative z-10 text-center px-4">
-          <h2 className="font-extrabold leading-tight">
-            <div className="text-[clamp(32px,5vw,72px)] whitespace-nowrap text-gray-900 dark:text-white">
-              Ask. Answer. Collaborate. Grow.
-            </div>
-            <div className="text-[clamp(32px,5vw,72px)] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
-              Built by learners, for learners
-            </div>
-          </h2>
-          <p className="text-[clamp(14px,1.5vw,20px)] text-slate-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto">
-            Our community-driven forum encourages open discussion, knowledge
-            sharing, and continuous improvement in the world of technology.
-          </p>
-          <div className="flex gap-4 flex-wrap justify-center items-center mt-8">
-            <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-              <Link to="/questions" className="flex items-center gap-2">
-                Start for free
-                <FaArrowRight className="mt-1" />
-              </Link>
-            </div>
-            <div className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-black dark:text-white px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-              <a href="#" className="flex items-center gap-2">
-                See how it works
-                <FaAngleRight className="mt-1" />
-              </a>
+                {/* Second Line */}
+                <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
+                  Built by learners, for learners
+                </div>
+              </h2>
+
+              <p className="text-[20px] text-slate-600 mt-6 max-w-3xl mx-auto">
+                our community-driven forum encourages open discussion, knowledge
+                sharing, and continuous improvement in the world of technology.
+              </p>
+
+              <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
+                <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
+                  <a href="#" className="flex items-center gap-2">
+                    Start for free
+                    <FaArrowRight className="mt-1" />
+                  </a>
+                </div>
+                <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
+                  <a href="#" className="flex items-center gap-2">
+                    See how it works
+                    <FaAngleRight className="mt-1" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
