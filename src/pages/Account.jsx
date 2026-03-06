@@ -340,7 +340,7 @@ export default function Account() {
 
       <div className="flex-1 overflow-y-auto">
         {/* ── Hero banner ──────────────────────────────── */}
-        {/* <div className="relative h-36 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 overflow-hidden shrink-0">
+        <div className="relative h-36 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 overflow-hidden shrink-0">
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_right,white,transparent)]" />
           <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/10" />
           <div className="absolute top-4 right-32 w-20 h-20 rounded-full bg-white/5" />
@@ -351,7 +351,7 @@ export default function Account() {
           >
             <FiLogOut className="w-3.5 h-3.5" /> Sign out
           </button>
-        </div> */}
+        </div>
 
         {/* ── Main Content (lifted above banner) ───────── */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 mt-5 pb-12">
