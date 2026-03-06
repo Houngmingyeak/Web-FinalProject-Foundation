@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function ProtectedRoute({ children }) {
+<<<<<<<<< Temporary merge branch 1
   const { currentUser, loading } = useAuth()
 
   if (loading) {
@@ -15,6 +16,13 @@ export default function ProtectedRoute({ children }) {
 
   if (!currentUser) {
     return <Navigate to="/login" />
+=========
+  const { user } = useSelector((state) => state.auth);
+
+  if (!user) {
+    toast.error("You must be logged in to access this page!");
+    return <Navigate to="/login" replace />;
+>>>>>>>>> Temporary merge branch 2
   }
 
   return children;

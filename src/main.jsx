@@ -5,11 +5,10 @@ import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./app/store.js";
 // theme context for light/dark mode
-import { ThemeProvider } from "./context/ThemeContext.jsx";
+// import { ThemeProvider } from "./context/ThemeContext.jsx";
 // authentication context
 import { AuthProvider } from "./hooks/useAuth.jsx";
-// import "./index.css";
-import "./App.css"
+>>>>>>>>> Temporary merge branch 2
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -21,5 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       </Provider>
     </ThemeProvider>
   </React.StrictMode>
+  // <ThemeProvider>
+  //   <App />
+  // </ThemeProvider>
 );
-

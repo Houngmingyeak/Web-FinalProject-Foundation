@@ -92,8 +92,8 @@ export default function AdminDashboard() {
           activity.push({
             id: q.id,
             type: "question",
-            title: q.title || 'Untitled',
-            author: q.authorName || 'Anonymous',
+            title: q.title || "Untitled",
+            author: q.authorName || "Anonymous",
             timestamp: q.createdAt,
           });
         });
@@ -101,8 +101,8 @@ export default function AdminDashboard() {
           activity.push({
             id: a.id,
             type: "answer",
-            title: (a.content || '').substring(0, 50) + '...',
-            author: a.authorName || 'Anonymous',
+            title: (a.content || "").substring(0, 50) + "...",
+            author: a.authorName || "Anonymous",
             timestamp: a.createdAt,
           });
         });
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
           const timeB = b.timestamp?.seconds || 0;
           return timeB - timeA;
         });
-        
+
         setRecentActivity(activity);
       } catch (error) {
         console.error("Error fetching admin data:", error);
@@ -301,11 +301,15 @@ export default function AdminDashboard() {
                       className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"
                     >
                       <div className="flex-1">
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold mb-2 ${
-                          activity.type === 'question' ? 'bg-orange-500/20 text-orange-400' :
-                          activity.type === 'answer' ? 'bg-green-500/20 text-green-400' :
-                          'bg-blue-500/20 text-blue-400'
-                        }`}>
+                        <span
+                          className={`inline-block px-2 py-1 rounded-full text-xs font-semibold mb-2 ${
+                            activity.type === "question"
+                              ? "bg-orange-500/20 text-orange-400"
+                              : activity.type === "answer"
+                                ? "bg-green-500/20 text-green-400"
+                                : "bg-blue-500/20 text-blue-400"
+                          }`}
+                        >
                           {activity.type}
                         </span>
                         <p className="font-semibold truncate text-white">
@@ -313,9 +317,11 @@ export default function AdminDashboard() {
                         </p>
                         <p className="text-sm text-gray-400">
                           by {activity.author} •{" "}
-                          {activity.timestamp?.toDate ? 
-                            formatDistanceToNow(activity.timestamp.toDate(), { addSuffix: true }) : 
-                            'Recently'}
+                          {activity.timestamp?.toDate
+                            ? formatDistanceToNow(activity.timestamp.toDate(), {
+                                addSuffix: true,
+                              })
+                            : "Recently"}
                         </p>
                       </div>
                     </div>
@@ -332,11 +338,21 @@ export default function AdminDashboard() {
               <table className="w-full text-sm">
                 <thead className="border-b border-gray-800">
                   <tr>
-                    <th className="text-left py-3 text-gray-400 font-medium">Name</th>
-                    <th className="text-left py-3 text-gray-400 font-medium">Email</th>
-                    <th className="text-left py-3 text-gray-400 font-medium">Role</th>
-                    <th className="text-left py-3 text-gray-400 font-medium">Joined</th>
-                    <th className="text-left py-3 text-gray-400 font-medium">Actions</th>
+                    <th className="text-left py-3 text-gray-400 font-medium">
+                      Name
+                    </th>
+                    <th className="text-left py-3 text-gray-400 font-medium">
+                      Email
+                    </th>
+                    <th className="text-left py-3 text-gray-400 font-medium">
+                      Role
+                    </th>
+                    <th className="text-left py-3 text-gray-400 font-medium">
+                      Joined
+                    </th>
+                    <th className="text-left py-3 text-gray-400 font-medium">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -348,18 +364,22 @@ export default function AdminDashboard() {
                       <td className="py-3 text-white">{user.displayName}</td>
                       <td className="py-3 text-gray-300">{user.email}</td>
                       <td className="py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          user.role === "admin" 
-                            ? "bg-orange-500/20 text-orange-400" 
-                            : "bg-gray-700 text-gray-300"
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            user.role === "admin"
+                              ? "bg-orange-500/20 text-orange-400"
+                              : "bg-gray-700 text-gray-300"
+                          }`}
+                        >
                           {user.role}
                         </span>
                       </td>
                       <td className="py-3 text-xs text-gray-400">
-                        {user.createdAt?.toDate ? 
-                          formatDistanceToNow(user.createdAt.toDate(), { addSuffix: true }) : 
-                          'Unknown'}
+                        {user.createdAt?.toDate
+                          ? formatDistanceToNow(user.createdAt.toDate(), {
+                              addSuffix: true,
+                            })
+                          : "Unknown"}
                       </td>
                       <td className="py-3 flex gap-2">
                         <button
@@ -455,7 +475,9 @@ export default function AdminDashboard() {
         {showUserDialog && selectedUser && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
-              <h3 className="text-xl font-bold mb-4 text-white">{selectedUser.displayName}</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">
+                {selectedUser.displayName}
+              </h3>
               <div className="space-y-4">
                 <div>
                   <p className="text-sm font-semibold text-gray-300">Email</p>
@@ -539,9 +561,12 @@ export default function AdminDashboard() {
         {deleteConfirm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
-              <h3 className="text-xl font-bold mb-2 text-white">Confirm Delete</h3>
+              <h3 className="text-xl font-bold mb-2 text-white">
+                Confirm Delete
+              </h3>
               <p className="text-gray-400 mb-6">
-                Are you sure you want to delete this {deleteConfirm.type}? This action cannot be undone.
+                Are you sure you want to delete this {deleteConfirm.type}? This
+                action cannot be undone.
               </p>
               <div className="flex gap-2">
                 <button

@@ -1,13 +1,10 @@
+<<<<<<<<< Temporary merge branch 1
 // src/components/Header.jsx
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase/config";
-import { useState } from "react";
-import { FiMenu, FiX, FiSearch } from 'react-icons/fi';
+import { ThemeContext } from "./ThemeContext";
 
 export default function Header() {
-  const { currentUser, userProfile, isAdmin } = useAuth(); // Changed from 'user' to match context
+  const { darkMode, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,105 +33,47 @@ export default function Header() {
       .split(' ')
       .map(n => n[0])
       .join('')
+=========
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
+
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.info("អ្នកបានចាកចេញពីប្រព័ន្ធ");
+    navigate("/");
+  };
+
+  // បង្កើតអក្សរកាត់ពីឈ្មោះអ្នកប្រើ (ឧទាហរណ៍ "John Doe" → "JD")
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+>>>>>>>>> Temporary merge branch 2
       .toUpperCase()
       .slice(0, 2);
   };
 
+<<<<<<<<< Temporary merge branch 1
   return (
-    <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
-            <span className="text-2xl font-bold text-orange-400">MindStack</span>
-          </Link>
+    <header className="w-full bg-white border-b border-gray-100 shadow-sm 
+      dark:bg-gray-900 dark:border-gray-800 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto flex items-center justify-between py-3 px-6 md:px-16">
 
-          {/* Search bar - Hidden on mobile */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 mx-8">
-            <div className="relative w-full max-w-sm">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search questions..."
-                className="w-full pl-10 pr-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 text-white"
-              />
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            </div>
-          </form>
-
-          {/* Right side - Desktop */}
-          <div className="hidden md:flex items-center gap-4">
-            {currentUser ? (
-              <>
-                <Link
-                  to="/ask"
-                  className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold text-sm transition"
-                >
-                  Ask Question
-                </Link>
-                
-                {/* Dropdown Menu */}
-                <div className="relative group">
-                  <button className="flex items-center gap-2 focus:outline-none">
-                    <div className="w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center text-white font-semibold">
-                      {userProfile?.avatar ? (
-                        <img src={userProfile.avatar} alt={userProfile.displayName} className="w-9 h-9 rounded-full" />
-                      ) : (
-                        getInitials(userProfile?.displayName || currentUser?.email || 'User')
-                      )}
-                    </div>
-                  </button>
-                  
-                  {/* Dropdown content */}
-                  <div className="absolute right-0 mt-2 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <div className="px-4 py-2 text-sm font-semibold text-white">{userProfile?.displayName || currentUser?.email}</div>
-                    <div className="px-4 py-1 text-xs text-gray-400">{currentUser?.email}</div>
-                    <div className="border-t border-gray-700 my-1"></div>
-                    <Link to="/profile" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Profile</Link>
-                    <Link to="/favorites" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Favorites</Link>
-                    <Link to="/chat" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Messages</Link>
-                    {isAdmin && (
-                      <>
-                        <div className="border-t border-gray-700 my-1"></div>
-                        <Link to="/admin" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Admin Dashboard</Link>
-                      </>
-                    )}
-                    <div className="border-t border-gray-700 my-1"></div>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 text-white"
-                >
-                  Log In
-                </Link>
-                <Link
-                  to="/signup"
-                  className="px-4 py-2 rounded bg-orange-500 hover:bg-orange-600 text-white"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-white hover:bg-gray-800 rounded-lg"
-          >
-            {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
+        {/* Logo */}
+        <div className="flex items-center space-x-2">
+          <img src={MindStack} alt="MindStack" className="w-8 h-8" />
+          <p className="text-xl font-bold text-gray-900 dark:text-white">MindStack</p>
         </div>
 
         {/* Mobile menu */}
@@ -218,9 +157,104 @@ export default function Header() {
                 </Link>
               </>
             )}
+=========
+  // កំណត់ពណ៌សម្រាប់ Avatar ដោយផ្អែកលើឈ្មោះ
+  const getAvatarColor = (name) => {
+    const colors = [
+      "bg-red-500",
+      "bg-blue-500",
+      "bg-green-500",
+      "bg-yellow-500",
+      "bg-purple-500",
+      "bg-pink-500",
+      "bg-indigo-500",
+      "bg-orange-500",
+      "bg-teal-500",
+      "bg-cyan-500",
+    ];
+    const index = (name?.length || 0) % colors.length;
+    return colors[index];
+  };
+
+  return (
+    <header className="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex items-center justify-between">
+      {/* Logo */}
+      <Link to="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+        Forum
+      </Link>
+
+      {/* Navigation Links */}
+      <nav className="hidden md:flex space-x-6">
+        <Link to="/questions" className="text-gray-700 dark:text-gray-300 hover:text-blue-600">
+          Questions
+        </Link>
+        <Link to="/challenges" className="text-gray-700 dark:text-gray-300 hover:text-blue-600">
+          Challenges
+        </Link>
+        <Link to="/leaderboard" className="text-gray-700 dark:text-gray-300 hover:text-blue-600">
+          Leaderboard
+        </Link>
+      </nav>
+
+      {/* User Section */}
+      <div className="flex items-center space-x-4">
+        {user ? (
+          <div className="relative">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="flex items-center space-x-2 focus:outline-none"
+            >
+              {/* Avatar */}
+              <div
+                className={`w-10 h-10 rounded-full ${getAvatarColor(
+                  user.displayName
+                )} flex items-center justify-center text-white font-bold`}
+              >
+                {getInitials(user.displayName)}
+              </div>
+              {/* Username (លាក់លើអេក្រង់តូច) */}
+              <span className="hidden sm:inline text-gray-700 dark:text-gray-300">
+                {user.displayName}
+              </span>
+            </button>
+
+            {/* Dropdown Menu */}
+            {isMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-lg shadow-lg py-2 z-10">
+                <Link
+                  to="/account"
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Account
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex space-x-2">
+            <Link
+              to="/login"
+              className="px-4 py-2 text-blue-600 dark:text-blue-400 border border-blue-600 dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Signup
+            </Link>
+>>>>>>>>> Temporary merge branch 2
           </div>
         )}
       </div>
-    </nav>
+    </header>
   );
 }
