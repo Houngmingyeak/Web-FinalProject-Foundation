@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./hooks/useAuth";
 import { ThemeProvider } from "./components/ThemeContext";
 import Header from "./components/Header";
@@ -29,10 +29,10 @@ export default function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/que" element={<QuestionForm />} />
+              {/* <Route path="/que" element={<QuestionForm />} /> */}
               <Route path="/challenges" element={<ChallengesPage />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="/account" element={<Account />} />
+              {/* <Route path="/account" element={<Account />} /> */}
               <Route path="/questions" element={<QuestionsPage />} />
               <Route path="/questions/:id" element={<QuestionDetailPage />} />
               <Route path="/saves" element={<BookmarkCard />} />

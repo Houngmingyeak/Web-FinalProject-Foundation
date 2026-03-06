@@ -199,74 +199,9 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </header> */}
+      </header> 
 
-      <header className="relative overflow-hidden">
-        <div className="relative min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center justify-center">
-          {/* Background Image Container */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src={abtus_background}
-              alt="Developers collaborating"
-              className="w-full h-full object-cover opacity-10" // Increased opacity slightly for visibility
-            />
-          </div>
-
-          {/* Text Overlay */}
-          <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-            <h2 className="font-extrabold text-black leading-tight tracking-tight">
-              {/* First Line */}
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] lg:whitespace-nowrap">
-                Ask Answer Collaborate Grow
-              </div>
-
-              {/* Second Line */}
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px]  bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mt-2">
-                Built by learners for learners
-              </div>
-            </h2>
-
-            <p className="text-base sm:text-lg md:text-[20px] text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
-              Our community-driven forum encourages open discussion, knowledge
-              sharing, and continuous improvement in the world of technology.
-            </p>
-
-             {/* <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
-                            <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                              <Link to="/questions" className="flex items-center gap-2">
-                                Start for free
-                                <FaArrowRight className="mt-1" />
-                              </Link>
-                            </div>
-                            <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
-                              <a href="#" className="flex items-center gap-2">
-                                See how it works
-                                <FaAngleRight className="mt-1" />
-                              </a>
-                            </div>
-                          </div> */}
-
-            {/* Buttons Container */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10 mb-8">
-              <Link
-                to="/questions"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
-              >
-                Start for free
-                <FaArrowRight size={14} />
-              </Link>
-
-              <a
-                href="#"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-200 bg-gray-50 text-black px-8 py-3.5 rounded-2xl font-semibold hover:bg-gray-50 transition"
-              >
-                See how it works
-                <FaAngleRight size={14} />
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+    
 
       {/* Purpose */}
       <div className="py-24 px-6 max-w-6xl mx-auto text-center">

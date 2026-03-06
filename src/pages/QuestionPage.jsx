@@ -175,13 +175,24 @@ const formatTimeAgo = (dateString) => {
 
 const getInitials = (name) => {
   if (!name) return "U";
-  return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
+  return name
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 };
 
 const getAvatarColor = (name) => {
   const colors = [
-    "bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500",
-    "bg-purple-500", "bg-pink-500", "bg-indigo-500", "bg-orange-500",
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-yellow-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-indigo-500",
+    "bg-orange-500",
   ];
   return colors[(name?.length || 0) % colors.length];
 };
@@ -201,9 +212,13 @@ export default function QuestionsPage() {
     if (!posts || posts.length === 0) return [];
     switch (activeTab) {
       case "Newest":
-        return [...posts].sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+        return [...posts].sort(
+          (a, b) => new Date(b.creationDate) - new Date(a.creationDate),
+        );
       case "Active":
-        return [...posts].sort((a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate));
+        return [...posts].sort(
+          (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate),
+        );
       case "Unanswered":
         return posts.filter((post) => (post.comments?.length || 0) === 0);
       case "Most Voted":
@@ -223,7 +238,6 @@ export default function QuestionsPage() {
           Questions
         </h1>
         <div className="px-6 py-8">
-
           {/* Tabs */}
           <div className="flex w-fit mb-5 bg-gray-200 dark:bg-gray-700 rounded-2xl p-1">
             {tabs.map((tab) => (
