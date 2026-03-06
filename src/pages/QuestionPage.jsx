@@ -6,41 +6,20 @@ import { formatDistanceToNow } from "date-fns";
 
 const TABS = ["Newest", "Active", "Unanswered", "Most Voted"];
 
-<<<<<<< HEAD
-const getInitials = (name) => {
-  if (!name) return "U";
-  return name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-};
-
-const getAvatarColor = (name) => {
-  const colors = [
-    "bg-red-500",
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-yellow-500",
-    "bg-purple-500",
-    "bg-pink-500",
-    "bg-indigo-500",
-    "bg-orange-500",
-  ];
-  return colors[(name?.length || 0) % colors.length];
-};
-=======
 // Map tag name → avatar color
 const TAG_COLORS = [
-  "bg-violet-500", "bg-sky-500", "bg-emerald-500",
-  "bg-orange-500", "bg-pink-500", "bg-amber-500", "bg-blue-500",
+  "bg-violet-500",
+  "bg-sky-500",
+  "bg-emerald-500",
+  "bg-orange-500",
+  "bg-pink-500",
+  "bg-amber-500",
+  "bg-blue-500",
 ];
 
 function getColor(id) {
   return TAG_COLORS[id % TAG_COLORS.length];
 }
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
 
 // Convert API post → QuestionCard shape
 function mapPost(post) {
@@ -70,38 +49,18 @@ export default function QuestionsPage() {
 
   const { data: posts, isLoading, isError } = useGetPostsQuery();
 
-<<<<<<< HEAD
-  const getSortedPosts = () => {
-    if (!posts || posts.length === 0) return [];
-    switch (activeTab) {
-      case "Newest":
-        return [...posts].sort(
-          (a, b) => new Date(b.creationDate) - new Date(a.creationDate),
-        );
-      case "Active":
-        return [...posts].sort(
-          (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate),
-        );
-      case "Unanswered":
-        return posts.filter((post) => (post.comments?.length || 0) === 0);
-      case "Most Voted":
-        return [...posts].sort((a, b) => b.score - a.score);
-      default:
-        return posts;
-=======
   // Sort / filter based on active tab
   const sorted = (() => {
     if (!posts) return [];
     const list = [...posts];
     if (activeTab === "Newest") {
       return list.sort(
-        (a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+        (a, b) => new Date(b.creationDate) - new Date(a.creationDate),
       );
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
     }
     if (activeTab === "Active") {
       return list.sort(
-        (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate)
+        (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate),
       );
     }
     if (activeTab === "Unanswered") {
@@ -116,16 +75,6 @@ export default function QuestionsPage() {
   return (
     <div className="flex bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <Sidebar />
-<<<<<<< HEAD
-      <main className="flex-1">
-        <h1 className="text-black dark:text-white font-bold text-[24px] pl-8 pt-6">
-          Questions
-        </h1>
-        <div className="px-6 py-8">
-          {/* Tabs */}
-          <div className="flex w-fit mb-5 bg-gray-200 dark:bg-gray-700 rounded-2xl p-1">
-            {tabs.map((tab) => (
-=======
 
       <main className="flex-1">
         <div className="flex items-center justify-between pl-8 pr-6 pt-6 pb-2">
@@ -143,14 +92,14 @@ export default function QuestionsPage() {
           {/* Tab Bar */}
           <div className="flex w-fit mb-5 bg-gray-200 dark:bg-gray-800 rounded-2xl p-1">
             {TABS.map((tab) => (
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150
-                  ${activeTab === tab
-                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                    : "text-slate-400 dark:text-gray-500 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200"
+                  ${
+                    activeTab === tab
+                      ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                      : "text-slate-400 dark:text-gray-500 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200"
                   }`}
               >
                 {tab}
@@ -215,8 +164,3 @@ export default function QuestionsPage() {
     </div>
   );
 }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a

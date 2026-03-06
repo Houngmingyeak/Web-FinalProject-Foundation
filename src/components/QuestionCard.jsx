@@ -25,21 +25,7 @@ export default function QuestionCard({ question }) {
                    rounded-lg px-5 py-4 hover:border-gray-300 dark:hover:border-gray-600 
                    hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
       >
-        {/* Bookmark Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setBookmarked(!bookmarked);
-          }}
-          className="absolute top-4 right-4 text-gray-400 dark:text-gray-500 
-                     hover:text-yellow-500 transition-colors duration-200"
-        >
-          {bookmarked ? (
-            <FaBookmark className="text-yellow-400 text-xl" />
-          ) : (
-            <FaRegBookmark className="text-xl" />
-          )}
-        </button>
+      
 
         {/* Title */}
         <h3 className="text-[18px] font-bold text-gray-900 dark:text-white hover:text-blue-600 

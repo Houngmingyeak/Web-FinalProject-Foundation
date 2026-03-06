@@ -12,6 +12,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRegisterMutation } from "../features/auth/authApi";
 import { selectIsAuthenticated } from "../features/auth/authSlice";
 import { useOAuthSync } from "../hooks/useOAuthSync";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 // Icons
 function EyeIcon({ visible }) {
@@ -65,17 +67,6 @@ export default function Signup() {
       return;
     }
 
-<<<<<<< HEAD
-    // បញ្ជូនទិន្នន័យទៅ API ដោយបន្ថែម confirmPassword
-    dispatch(
-      registerUser({
-        username,
-        email,
-        password,
-        confirmPassword, // field នេះត្រូវការដោយ API
-      }),
-    );
-=======
     try {
       await register({
         username,
@@ -88,18 +79,17 @@ export default function Signup() {
     } catch (err) {
       toast.error(err?.data?.message || "ការចុះឈ្មោះបរាជ័យ");
     }
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
   };
 
   const handleGoogleSignIn = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const success = await syncOAuthUser(result.user, 'Google');
-      if (success) navigate('/questions');
+      const success = await syncOAuthUser(result.user, "Google");
+      if (success) navigate("/questions");
     } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') return;
-      toast.error(err?.message || 'Signup with Google failed.');
+      if (err.code === "auth/popup-closed-by-user") return;
+      toast.error(err?.message || "Signup with Google failed.");
     }
   };
 
@@ -107,11 +97,11 @@ export default function Signup() {
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const success = await syncOAuthUser(result.user, 'GitHub');
-      if (success) navigate('/questions');
+      const success = await syncOAuthUser(result.user, "GitHub");
+      if (success) navigate("/questions");
     } catch (err) {
-      if (err.code === 'auth/popup-closed-by-user') return;
-      toast.error(err?.message || 'Signup with GitHub failed.');
+      if (err.code === "auth/popup-closed-by-user") return;
+      toast.error(err?.message || "Signup with GitHub failed.");
     }
   };
 
@@ -130,15 +120,12 @@ export default function Signup() {
           <button
             type="button"
             disabled={oauthLoading === "google"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
+              oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleGoogleSignIn}
           >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/32px-Google_%22G%22_logo.svg.png"
-              alt="Google"
-              className="w-6 h-6"
-            />
+            <FcGoogle className="w-6 h-6" />
             <span className="text-sky-600 dark:text-sky-400 font-medium">
               Google
             </span>
@@ -147,15 +134,12 @@ export default function Signup() {
           <button
             type="button"
             disabled={oauthLoading === "github"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
+              oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleGithubSignIn}
           >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-              alt="GitHub"
-              className="w-6 h-6 dark:invert"
-            />
+            <FaGithub className="w-6 h-6" />
             <span className="text-sky-600 dark:text-sky-400 font-medium">
               GitHub
             </span>
@@ -259,10 +243,11 @@ export default function Signup() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${isLoading
-              ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-              }`}
+            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
+              isLoading
+                ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+            }`}
           >
             {isLoading ? "កំពុងចុះឈ្មោះ..." : "Create Account"}
           </button>

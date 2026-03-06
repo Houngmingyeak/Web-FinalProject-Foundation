@@ -17,9 +17,6 @@ export const store = configureStore({
     [bookmarkApi.reducerPath]: bookmarkApi.reducer,
     [voteApi.reducerPath]: voteApi.reducer,
   },
-<<<<<<< HEAD
-});
-=======
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       authApi.middleware,
@@ -27,7 +24,6 @@ export const store = configureStore({
       postsApi.middleware,
       uploadApi.middleware,
       bookmarkApi.middleware,
-      voteApi.middleware
+      voteApi.middleware,
     ),
 });
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a

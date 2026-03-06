@@ -55,29 +55,9 @@ const Avatar = ({ initials, index = 0, size = "md", isMe = false }) => {
       : size === "sm"
         ? "w-9 h-9 text-xs"
         : "w-12 h-12 text-sm";
-<<<<<<< HEAD
-
-// const LeaderBoard = ( ) => {
-//   const [data , setData ] = useState([])
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try{
-//         const res = await fetch ('https://forum-istad-api.cheat.casa/api/v1');
-//         const result = await res.jason();
-//       setData(result);
-//       }catch(error){
-//         console.error("Error fetching data",error);
-//     };
-//     fetchData();
-//   }
-// },[]);
-
-=======
   const color = isMe
     ? "from-blue-500 to-violet-600"
     : AVATAR_COLORS[index % AVATAR_COLORS.length];
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
   return (
     <div
       className={`${sizeClass} rounded-full bg-linear-to-br ${color} flex items-center justify-center font-bold text-white shrink-0 ${isMe ? "ring-2 ring-blue-400 ring-offset-2 dark:ring-offset-gray-800" : ""}`}
@@ -93,10 +73,11 @@ const ScoreBar = ({ score, max, isMe = false }) => {
   return (
     <div className="flex-1 h-1.5 bg-slate-200 dark:bg-gray-700 rounded-full overflow-hidden">
       <div
-        className={`h-full rounded-full transition-all duration-700 ${isMe
+        className={`h-full rounded-full transition-all duration-700 ${
+          isMe
             ? "bg-linear-to-r from-blue-500 to-violet-500"
             : "bg-linear-to-r from-slate-400 to-slate-500 dark:from-gray-500 dark:to-gray-400"
-          }`}
+        }`}
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -115,7 +96,9 @@ function MyScoreBanner({ user, maxScore }) {
           <div>
             <div className="flex items-center gap-2">
               <FiUser className="w-3.5 h-3.5 opacity-70" />
-              <span className="text-white/80 text-xs font-medium">Your Ranking</span>
+              <span className="text-white/80 text-xs font-medium">
+                Your Ranking
+              </span>
             </div>
             <p className="font-bold text-lg">{user.name}</p>
           </div>
@@ -128,8 +111,12 @@ function MyScoreBanner({ user, maxScore }) {
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center">
-            <p className="text-white/70 text-xs font-medium mb-0.5">Total Score</p>
-            <p className="text-2xl font-black">{user.totalScore.toLocaleString()}</p>
+            <p className="text-white/70 text-xs font-medium mb-0.5">
+              Total Score
+            </p>
+            <p className="text-2xl font-black">
+              {user.totalScore.toLocaleString()}
+            </p>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center">
@@ -139,7 +126,9 @@ function MyScoreBanner({ user, maxScore }) {
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center">
             <p className="text-white/70 text-xs font-medium mb-0.5">Views</p>
-            <p className="text-2xl font-black">{user.totalViews.toLocaleString()}</p>
+            <p className="text-2xl font-black">
+              {user.totalViews.toLocaleString()}
+            </p>
           </div>
         </div>
       </div>
@@ -148,12 +137,16 @@ function MyScoreBanner({ user, maxScore }) {
       <div className="mt-4">
         <div className="flex justify-between text-xs text-white/70 mb-1.5">
           <span>Score progress vs. #1</span>
-          <span>{maxScore > 0 ? Math.round((user.totalScore / maxScore) * 100) : 0}%</span>
+          <span>
+            {maxScore > 0 ? Math.round((user.totalScore / maxScore) * 100) : 0}%
+          </span>
         </div>
         <div className="h-2 bg-white/20 rounded-full overflow-hidden">
           <div
             className="h-full bg-white rounded-full transition-all duration-700"
-            style={{ width: `${maxScore > 0 ? Math.min(100, (user.totalScore / maxScore) * 100) : 0}%` }}
+            style={{
+              width: `${maxScore > 0 ? Math.min(100, (user.totalScore / maxScore) * 100) : 0}%`,
+            }}
           />
         </div>
       </div>
@@ -167,7 +160,10 @@ const Skeleton = () => (
     <div className="h-32 bg-linear-to-r from-blue-200 to-violet-200 dark:from-blue-900/40 dark:to-violet-900/40 rounded-2xl mb-2" />
     <div className="grid grid-cols-3 gap-4 mb-5">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl p-6 flex flex-col items-center gap-3 border border-slate-200 dark:border-gray-700">
+        <div
+          key={i}
+          className="bg-white dark:bg-gray-800 rounded-2xl p-6 flex flex-col items-center gap-3 border border-slate-200 dark:border-gray-700"
+        >
           <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-gray-700" />
           <div className="w-14 h-14 rounded-full bg-slate-200 dark:bg-gray-700" />
           <div className="h-4 w-24 rounded bg-slate-200 dark:bg-gray-700" />
@@ -176,7 +172,10 @@ const Skeleton = () => (
       ))}
     </div>
     {[...Array(4)].map((_, i) => (
-      <div key={i} className="bg-white dark:bg-gray-800 rounded-xl px-5 py-3.5 flex items-center gap-3.5 border border-slate-200 dark:border-gray-700">
+      <div
+        key={i}
+        className="bg-white dark:bg-gray-800 rounded-xl px-5 py-3.5 flex items-center gap-3.5 border border-slate-200 dark:border-gray-700"
+      >
         <div className="w-6 h-4 rounded bg-slate-200 dark:bg-gray-700" />
         <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-gray-700" />
         <div className="flex-1 space-y-2">
@@ -203,10 +202,10 @@ export default function Leaderboard() {
   // Find the logged-in user in the leaderboard
   const meInBoard = currentUser
     ? users.find(
-      (u) =>
-        u.id === currentUser.id ||
-        u.name?.toLowerCase() === currentUser.displayName?.toLowerCase()
-    )
+        (u) =>
+          u.id === currentUser.id ||
+          u.name?.toLowerCase() === currentUser.displayName?.toLowerCase(),
+      )
     : null;
 
   return (
@@ -230,11 +229,6 @@ export default function Leaderboard() {
                 {users.length} contributors
               </span>
             )}
-          </div>
-
-          <div className="hidden sm:flex items-center gap-2 text-sm text-slate-500 dark:text-gray-400 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl px-4 py-2">
-            <span className="w-2 h-2 rounded-full bg-linear-to-r from-blue-500 to-violet-500 inline-block" />
-            Ranked by total post score
           </div>
         </div>
 
@@ -279,9 +273,10 @@ export default function Leaderboard() {
                     key={user.id}
                     className={`rounded-2xl px-5 py-6 flex flex-col items-center border shadow-sm
                       transition-all duration-300 hover:-translate-y-2 hover:shadow-xl
-                      ${isMe
-                        ? "bg-linear-to-br from-blue-50 to-violet-50 dark:from-blue-900/30 dark:to-violet-900/30 border-blue-300 dark:border-blue-600 hover:shadow-blue-200 dark:hover:shadow-blue-900/40"
-                        : "bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 hover:shadow-indigo-100 dark:hover:shadow-indigo-900/30 hover:border-indigo-200 dark:hover:border-indigo-700"
+                      ${
+                        isMe
+                          ? "bg-linear-to-br from-blue-50 to-violet-50 dark:from-blue-900/30 dark:to-violet-900/30 border-blue-300 dark:border-blue-600 hover:shadow-blue-200 dark:hover:shadow-blue-900/40"
+                          : "bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 hover:shadow-indigo-100 dark:hover:shadow-indigo-900/30 hover:border-indigo-200 dark:hover:border-indigo-700"
                       }`}
                   >
                     {/* Medal / Crown */}
@@ -301,7 +296,12 @@ export default function Leaderboard() {
                       )}
                     </div>
 
-                    <Avatar initials={user.initials} index={user.rank - 1} size="lg" isMe={isMe} />
+                    <Avatar
+                      initials={user.initials}
+                      index={user.rank - 1}
+                      size="lg"
+                      isMe={isMe}
+                    />
 
                     <p className="mt-3 font-semibold text-slate-900 dark:text-white text-[16px] text-center truncate max-w-full">
                       {user.name}
@@ -311,16 +311,17 @@ export default function Leaderboard() {
                       <span className="text-amber-500 font-bold text-[15px]">
                         {user.totalScore.toLocaleString()}
                       </span>
-                      <span className="text-[12px] text-slate-400 dark:text-gray-500">score</span>
+                      <span className="text-[12px] text-slate-400 dark:text-gray-500">
+                        score
+                      </span>
                     </div>
 
                     <div className="w-full flex items-center gap-2">
-                      <ScoreBar score={user.totalScore} max={maxScore} isMe={isMe} />
-                    </div>
-
-                    <div className="flex items-center gap-3 mt-3 text-[12px] text-slate-400 dark:text-gray-500">
-                      <span>📝 {user.posts} posts</span>
-                      <span>👁 {user.totalViews} views</span>
+                      <ScoreBar
+                        score={user.totalScore}
+                        max={maxScore}
+                        isMe={isMe}
+                      />
                     </div>
                   </div>
                 );
@@ -338,22 +339,32 @@ export default function Leaderboard() {
                       id={isMe ? "my-leaderboard-row" : undefined}
                       className={`rounded-xl px-5 py-3.5 flex items-center gap-3.5 shadow-sm
                         transition-all duration-300 hover:-translate-y-1 hover:shadow-lg
-                        ${isMe
-                          ? "bg-linear-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border-2 border-blue-400 dark:border-blue-500 hover:border-blue-500 dark:hover:border-blue-400"
-                          : "bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-700"
+                        ${
+                          isMe
+                            ? "bg-linear-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border-2 border-blue-400 dark:border-blue-500 hover:border-blue-500 dark:hover:border-blue-400"
+                            : "bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-700"
                         }`}
                     >
                       {/* Rank badge */}
-                      <span className={`text-[15px] font-bold w-6 text-center shrink-0 ${isMe ? "text-blue-600 dark:text-blue-400" : "text-slate-400 dark:text-gray-500"}`}>
+                      <span
+                        className={`text-[15px] font-bold w-6 text-center shrink-0 ${isMe ? "text-blue-600 dark:text-blue-400" : "text-slate-400 dark:text-gray-500"}`}
+                      >
                         #{user.rank}
                       </span>
 
-                      <Avatar initials={user.initials} index={user.rank - 1} size="sm" isMe={isMe} />
+                      <Avatar
+                        initials={user.initials}
+                        index={user.rank - 1}
+                        size="sm"
+                        isMe={isMe}
+                      />
 
                       {/* Name + bar */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <p className={`font-semibold text-[15px] truncate ${isMe ? "text-blue-700 dark:text-blue-300" : "text-slate-900 dark:text-white"}`}>
+                          <p
+                            className={`font-semibold text-[15px] truncate ${isMe ? "text-blue-700 dark:text-blue-300" : "text-slate-900 dark:text-white"}`}
+                          >
                             {user.name}
                           </p>
                           {isMe && (
@@ -363,21 +374,29 @@ export default function Leaderboard() {
                           )}
                         </div>
                         <div className="flex items-center gap-2">
-                          <ScoreBar score={user.totalScore} max={maxScore} isMe={isMe} />
+                          <ScoreBar
+                            score={user.totalScore}
+                            max={maxScore}
+                            isMe={isMe}
+                          />
                         </div>
                       </div>
 
                       {/* Right side */}
                       <div className="flex flex-col items-end gap-1 shrink-0">
-                        <span className={`font-bold text-[15px] ${isMe ? "text-blue-600 dark:text-blue-400" : "text-amber-500"}`}>
+                        <span
+                          className={`font-bold text-[15px] ${isMe ? "text-blue-600 dark:text-blue-400" : "text-amber-500"}`}
+                        >
                           {user.totalScore.toLocaleString()}
-                          <span className="text-[11px] text-slate-400 dark:text-gray-500 font-normal ml-1">score</span>
+                          <span className="text-[11px] text-slate-400 dark:text-gray-500 font-normal ml-1">
+                            score
+                          </span>
                         </span>
-                        <div className="flex gap-2 text-[12px] text-slate-400 dark:text-gray-500">
+                        {/* <div className="flex gap-2 text-[12px] text-slate-400 dark:text-gray-500">
                           <span>📝 {user.posts}</span>
                           <span>💬 {user.comments}</span>
                           <span>👁 {user.totalViews}</span>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   );

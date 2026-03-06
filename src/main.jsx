@@ -5,12 +5,6 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./app/store.js";
-<<<<<<< HEAD
-// theme context for light/dark mode
-
-// authentication context
-=======
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
 import { AuthProvider } from "./hooks/useAuth.jsx";
 
 // 1️⃣ Create and export ThemeContext
@@ -51,7 +45,6 @@ export function ThemeProvider({ children }) {
 // 3️⃣ Custom hook
 export const useTheme = () => useContext(ThemeContext);
 
-
 // 4️⃣ Render App
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -62,10 +55,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </AuthProvider>
       </Provider>
     </ThemeProvider>
-<<<<<<< HEAD
   </React.StrictMode>,
 );
-=======
-  </React.StrictMode>
-);
->>>>>>> 5f04263ef15645cf400e9f140b9a6d7d985d400a
