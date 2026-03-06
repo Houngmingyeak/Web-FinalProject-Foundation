@@ -7,6 +7,9 @@ import flowbiteReact from "flowbite-react/plugin/vite"
 export default defineConfig({
   plugins: [react(), tailwindcss(), flowbiteReact()],
   server: {
+    headers: {
+      "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+    },
     proxy: {
       // All requests starting with /api will be proxied to the real API
       "/api": {

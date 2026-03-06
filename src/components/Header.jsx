@@ -1,10 +1,8 @@
-// src/components/Header.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
-import ThemeToggle from "./ThemeToggle.jsx";
-import { toast } from "react-hot-toast"; // Make sure to install react-hot-toast if you're using it
+import { toast } from "react-toastify";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,11 +12,11 @@ export default function Header() {
 
   const handleLogout = () => {
     dispatch(logout());
-    toast.success("You have been logged out");
+    toast.info("អ្នកបានចាកចេញពីប្រព័ន្ធ");
     navigate("/");
   };
 
-  // Generate initials from username (e.g., "John Doe" → "JD")
+  // បង្កើតអក្សរកាត់ពីឈ្មោះអ្នកប្រើ (ឧទាហរណ៍ "John Doe" → "JD")
   const getInitials = (name) => {
     if (!name) return "U";
     return name
@@ -29,7 +27,7 @@ export default function Header() {
       .slice(0, 2);
   };
 
-  // Generate avatar color based on name
+  // កំណត់ពណ៌សម្រាប់ Avatar ដោយផ្អែកលើឈ្មោះ
   const getAvatarColor = (name) => {
     const colors = [
       "bg-red-500",
@@ -54,74 +52,76 @@ export default function Header() {
         Forum
       </Link>
 
-      {/* Navigation Links - Desktop */}
-      <nav className="flex-1 max-w-xl mx-8 hidden md:flex justify-center gap-6 text-gray-900 dark:text-gray-200">
-        <Link to="/features" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
-          Features
+      {/* Navigation Links */}
+      <nav className="hidden md:flex space-x-6">
+        <Link to="/questions" className="text-gray-700 dark:text-gray-300 hover:text-blue-600">
+          Questions
         </Link>
-        <Link to="/testimonials" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
-          Testimonials
+        <Link to="/challenges" className="text-gray-700 dark:text-gray-300 hover:text-blue-600">
+          Challenges
         </Link>
-        <Link to="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
-          About Us
+        <Link to="/leaderboard" className="text-gray-700 dark:text-gray-300 hover:text-blue-600">
+          Leaderboard
         </Link>
       </nav>
 
-      {/* Action Buttons Section */}
+      {/* User Section */}
       <div className="flex items-center space-x-4">
-        {/* Theme Toggle */}
-        <ThemeToggle />
-
-        {/* User Menu or Auth Buttons */}
         {user ? (
-          // User is logged in - show avatar and logout
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className={`w-8 h-8 rounded-full ${getAvatarColor(user.displayName || user.email)} flex items-center justify-center text-white font-semibold text-sm`}>
-                {getInitials(user.displayName || user.email)}
-              </div>
-              <span className="hidden lg:inline text-sm font-medium text-gray-700 dark:text-gray-300">
-                {user.displayName || user.email?.split('@')[0]}
-              </span>
-            </div>
+          <div className="relative">
             <button
-              onClick={handleLogout}
-              className="hidden lg:inline-flex items-center justify-center bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="flex items-center space-x-2 focus:outline-none"
             >
-              Logout
+              {/* Avatar */}
+              <div
+                className={`w-10 h-10 rounded-full ${getAvatarColor(
+                  user.displayName
+                )} flex items-center justify-center text-white font-bold`}
+              >
+                {getInitials(user.displayName)}
+              </div>
+              {/* Username (លាក់លើអេក្រង់តូច) */}
+              <span className="hidden sm:inline text-gray-700 dark:text-gray-300">
+                {user.displayName}
+              </span>
             </button>
+
+            {/* Dropdown Menu */}
+            {isMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-lg shadow-lg py-2 z-10">
+                <Link
+                  to="/account"
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Account
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         ) : (
-          // User is not logged in - show login/signup buttons
-          <div className="flex items-center space-x-3">
+          <div className="flex space-x-2">
             <Link
               to="/login"
-              className="hidden lg:inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm"
+              className="px-4 py-2 text-blue-600 dark:text-blue-400 border border-blue-600 dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="hidden lg:inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
-              Sign Up Free
+              Signup
             </Link>
           </div>
         )}
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-        >
-          <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
       </div>
 
       {/* Mobile Menu */}
@@ -184,5 +184,73 @@ export default function Header() {
         </div>
       )}
     </header>
+  );
+}
+
+// ─────────────────────────────────────────────────────────
+// Animated Dark / Light Mode Toggle Pill
+// ─────────────────────────────────────────────────────────
+function ThemeToggle({ isDarkMode, onToggle }) {
+  return (
+    <button
+      onClick={onToggle}
+      aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDarkMode ? 'Light mode' : 'Dark mode'}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        padding: '6px 12px',
+        borderRadius: '999px',
+        border: isDarkMode ? '1.5px solid #374151' : '1.5px solid #e5e7eb',
+        background: isDarkMode
+          ? 'linear-gradient(135deg, #1f2937 0%, #111827 100%)'
+          : 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+        cursor: 'pointer',
+        transition: 'all 0.25s ease',
+        boxShadow: isDarkMode
+          ? '0 0 0 0 transparent, inset 0 1px 2px rgba(0,0,0,0.4)'
+          : '0 1px 4px rgba(0,0,0,0.08), inset 0 1px 1px rgba(255,255,255,0.9)',
+        outline: 'none',
+      }}
+    >
+      {/* Sun icon */}
+      <span
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '20px',
+          height: '20px',
+          borderRadius: '50%',
+          background: isDarkMode ? 'transparent' : '#fbbf24',
+          color: isDarkMode ? '#6b7280' : '#ffffff',
+          transition: 'all 0.25s ease',
+          transform: isDarkMode ? 'scale(0.75)' : 'scale(1)',
+          opacity: isDarkMode ? 0.45 : 1,
+        }}
+      >
+        <FiSun style={{ width: '13px', height: '13px', strokeWidth: 2.5 }} />
+      </span>
+
+      {/* Moon icon */}
+      <span
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '20px',
+          height: '20px',
+          borderRadius: '50%',
+          background: isDarkMode ? '#3b82f6' : 'transparent',
+          color: isDarkMode ? '#ffffff' : '#9ca3af',
+          transition: 'all 0.25s ease',
+          transform: isDarkMode ? 'scale(1)' : 'scale(0.75)',
+          opacity: isDarkMode ? 1 : 0.45,
+        }}
+      >
+        <FiMoon style={{ width: '13px', height: '13px', strokeWidth: 2.5 }} />
+      </span>
+    </button>
   );
 }

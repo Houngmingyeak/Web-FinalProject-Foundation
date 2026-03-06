@@ -1,106 +1,22 @@
-
-// src/pages/Signup.jsx
-import { useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import { toast } from "react-toastify"; // យក ToastContainer ចេញ
+import { useState, useEffect } from "react";
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
 } from "firebase/auth";
-import { auth, db } from "../firebase/config";
-import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+import { auth } from "../firebase/config"; // លែងត្រូវការ db សម្រាប់ OAuth
 import { Eye, EyeOff } from "lucide-react";
-// import { Eye, EyeOff } from "lucide-react";
-import { LuGithub } from "react-icons/lu";
-import z from "zod";
+import { useRegisterMutation } from "../features/auth/authApi";
+import { selectIsAuthenticated } from "../features/auth/authSlice";
+import { useOAuthSync } from "../hooks/useOAuthSync";
 
-// import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { registerUser } from "../features/auth/authSlice";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+// Icons
 function EyeIcon({ visible }) {
-  // Stroke color adapts to dark mode
-  const strokeClass = "stroke-gray-600 dark:stroke-gray-300";
-  return visible ? (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path
-        d="M2 10C2 10 5 4 10 4C15 4 18 10 18 10C18 10 15 16 10 16C5 16 2 10 2 10Z"
-        className={strokeClass}
-        strokeWidth="1.5"
-      />
-      <path
-        d="M3 3L17 17"
-        className={strokeClass}
-        strokeWidth="1.5"
-      />
-    </svg>
-  ) : (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path
-        d="M2 10C2 10 5 4 10 4C15 4 18 10 18 10C18 10 15 16 10 16C5 16 2 10 2 10Z"
-        className={strokeClass}
-        strokeWidth="1.5"
-      />
-      <circle
-        cx="10"
-        cy="10"
-        r="2.5"
-        className={strokeClass}
-        strokeWidth="1.5"
-      />
-    </svg>
-  );
+  return visible ? <EyeOff width={20} height={20} /> : <Eye width={20} height={20} />;
 }
-
-function GitHubIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="text-white"
-    >
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-    </svg>
-  );
-}
-
-// ── Helper: build a Firestore user doc from a Firebase user object ────────────
-async function createUserDoc(user, overrides = {}) {
-  await setDoc(doc(db, "users", user.uid), {
-    uid: user.uid,
-    displayName: user.displayName || overrides.displayName || "",
-    email: user.email,
-    role: "user",
-    avatar:
-      user.photoURL ||
-      `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`,
-    bio: "",
-    achievements: { contributions: 0, helpful: 0, solved: 0 },
-    createdAt: serverTimestamp(),
-  });
-}
-
-const signupSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .max(20, "Username too long")
-    .regex(
-      /^[a-zA-Z0-9_]+$/,
-      "Username can only contain letters, numbers, and underscores",
-    ),
-  email: z.string().email("Invalid email format"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-// ── Main component ────────────────────────────────────────────────────────────
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -112,50 +28,19 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [localError, setLocalError] = useState("");
-  const [oauthLoading, setOauthLoading] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, success } = useSelector((state) => state.auth);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [register, { isLoading }] = useRegisterMutation();
+  const { syncOAuthUser, oauthLoading } = useOAuthSync();
 
-  // const navigate = useNavigate();
+  if (isAuthenticated) {
+    return <Navigate to="/questions" replace />;
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    const result = signupSchema.safeParse({ username, email, password });
-    if (!result.success) {
-      // This stops the hacker and shows the error message
-      setError(result.error.errors[0].message);
-      return;
-    }
-    setLoading(true);
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
-      await updateProfile(userCredential.user, {
-        displayName: username
-      });
-
-      await createUserDoc(userCredential.user, { displayName: username });
-      navigate("/");
-    } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") return;
-
-      if (err.code === "auth/account-exists-with-different-credential") {
-        setError("An account already exists with this email.");
-      } else {
-        setError(err.message || "Authentication failed. Please try again.");
-      }
-    } finally {
-      setLoading(false);
-  useEffect(() => {
-    if (success) {
-      navigate("/login");
-      toast.success("Registration Successful! ✅");
-    }
-  }, [success, navigate]);
+  // បង្ហាញ error ពី API (បើមាន)
+  // error អាចជា object ដែលមាន data.message
+  // យើងលែងប្រើ error ពី useRegisterMutation ដោយផ្ទាល់ទេ ព្រោះយើងប្រើ toast រួចហើយ
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -163,71 +48,57 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
-      toast.error("Please fill in all fields");
+    setLocalError("");
+
+    const { username, email, password, confirmPassword } = formData;
+
+    if (password !== confirmPassword) {
+      setLocalError("ពាក្យសម្ងាត់មិនដូចគ្នា");
       return;
     }
-    
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
+    if (password.length < 6) {
+      setLocalError("ពាក្យសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ ៦ តួអក្សរ");
       return;
     }
 
-    if (formData.password.length < 8) {
-      toast.error("Password must be at least 8 characters long");
-      return;
+    try {
+      await register({
+        username,
+        email,
+        password,
+        confirmPassword,
+      }).unwrap();
+      toast.success("គណនីត្រូវបានបង្កើតដោយជោគជ័យ! ✅");
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      toast.error(err?.data?.message || "ការចុះឈ្មោះបរាជ័យ");
     }
-
-    dispatch(registerUser(formData));
   };
 
-  // OAuth handlers
   const handleGoogleSignIn = async () => {
-    setLocalError("");
-    setOauthLoading("google");
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      await createUserDoc(result.user);
-      toast.success("Google sign-up successful! ✅");
-      navigate("/");
+      const success = await syncOAuthUser(result.user, 'Google');
+      if (success) navigate('/questions');
     } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") return;
-      if (err.code === "auth/account-exists-with-different-credential") {
-        setLocalError("An account already exists with this email.");
-      } else {
-        setLocalError("Google authentication failed. Please try again.");
-      }
-    } finally {
-      setOauthLoading("");
+      if (err.code === 'auth/popup-closed-by-user') return;
+      toast.error(err?.message || 'Signup with Google failed.');
     }
   };
 
   const handleGithubSignIn = async () => {
-    setLocalError("");
-    setOauthLoading("github");
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      await createUserDoc(result.user);
-      toast.success("GitHub sign-up successful! ✅");
-      navigate("/");
+      const success = await syncOAuthUser(result.user, 'GitHub');
+      if (success) navigate('/questions');
     } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") return;
-      if (err.code === "auth/account-exists-with-different-credential") {
-        setLocalError("An account already exists with this email.");
-      } else {
-        setLocalError("GitHub authentication failed. Please try again.");
-      }
-    } finally {
-      setOauthLoading("");
+      if (err.code === 'auth/popup-closed-by-user') return;
+      toast.error(err?.message || 'Signup with GitHub failed.');
     }
   };
 
-  const busy = loading || !!oauthLoading;
-
-  // ── Render ──────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md w-[540px] p-10">
@@ -238,14 +109,13 @@ export default function Signup() {
           Join our community of developers and start sharing knowledge.
         </p>
 
-        {/* Social Login */}
+        {/* Social Login Buttons */}
         <div className="flex gap-4 mb-6">
           <button
             type="button"
             disabled={oauthLoading === "google"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
-              oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "google" ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             onClick={handleGoogleSignIn}
           >
             <img
@@ -259,9 +129,8 @@ export default function Signup() {
           <button
             type="button"
             disabled={oauthLoading === "github"}
-            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${
-              oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center gap-3 w-full py-3 rounded-lg hover:shadow-md hover:bg-sky-50 dark:hover:bg-sky-800/30 transition ${oauthLoading === "github" ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             onClick={handleGithubSignIn}
           >
             <img
@@ -353,17 +222,15 @@ export default function Signup() {
 
           {localError && <p className="text-red-500 text-sm mb-2">{localError}</p>}
 
-          {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
-            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${
-              loading
-                ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-            }`}
+            disabled={isLoading}
+            className={`w-full h-12 rounded-xl font-semibold text-white transition-all duration-300 ${isLoading
+              ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+              }`}
           >
-            {loading ? "កំពុងចុះឈ្មោះ..." : "Create Account"}
+            {isLoading ? "កំពុងចុះឈ្មោះ..." : "Create Account"}
           </button>
 
           <p className="text-sm text-gray-600 dark:text-gray-300 mt-4 text-center">
@@ -380,11 +247,7 @@ export default function Signup() {
             <a href="#" className="text-blue-500 dark:text-blue-400 hover:underline">Privacy Policy</a>.
           </p>
         </form>
-
-        {/* យក ToastContainer ចេញពីទីនេះ ហើយដាក់ក្នុង App.jsx វិញ */}
       </div>
     </div>
   );
-    }
-  }
 }

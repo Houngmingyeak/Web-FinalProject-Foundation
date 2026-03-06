@@ -26,6 +26,7 @@ const QuestionForm = () => {
     "ai",
   ];
 
+  // Make sure the return statement is inside the component function
   return (
     <div className="flex min-h-screen bg-gray-100">
       <div>
@@ -36,12 +37,14 @@ const QuestionForm = () => {
           <h2 className="text-gray-950 text-3xl font-semibold">
             Ask a Question
           </h2>
-          <p className="text-sm text-gray-500">Get help from the community</p>
+          <p className="text-sm text-gray-400">Get help from the community</p>
         </div>
+        
         <form
           className="bg-white rounded-lg shadow-sm p-6 mt-3"
           onSubmit={handleSubmit}
         >
+          {/* Title Input */}
           <div className="mb-6">
             <label
               htmlFor="title"
@@ -59,6 +62,7 @@ const QuestionForm = () => {
             />
           </div>
 
+          {/* Description with tabs - ONLY ONE VERSION */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Description
@@ -95,7 +99,7 @@ const QuestionForm = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows="8"
-                  className="w-full px-4 py-3 text-sm focus:outline-none resize-y"
+                  className="w-full px-4 py-3 text-sm text-gray-400 focus:outline-none resize-y"
                 />
               ) : (
                 <div className="p-4 min-h-[160px] text-sm text-gray-500">
@@ -105,6 +109,7 @@ const QuestionForm = () => {
             </div>
           </div>
 
+          {/* Tag Selector */}
           <TagSelector
             popularTags={popularTags}
             selectedTags={selectedTags}
@@ -112,6 +117,7 @@ const QuestionForm = () => {
             maxTags={5}
           />
 
+          {/* Submit Section */}
           <div className="grid grid-cols-2 border-t-2 border-gray-200 p-4 mb-5">
             <span className="text-sm text-green-800">
               +15 XP for asking a question

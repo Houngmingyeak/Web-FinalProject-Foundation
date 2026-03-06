@@ -9,8 +9,13 @@
 
 /* 3️⃣ Flowbite source file */
 @source "../.flowbite-react/class-list.json";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+/* 4️⃣ Custom CSS variables (optional) */
+:root {
+  --primary-900: #233876;
+}
+
+/* 5️⃣ Tailwind custom utilities */
 @layer utilities {
   .font-inter {
     font-family: 'Inter', sans-serif;

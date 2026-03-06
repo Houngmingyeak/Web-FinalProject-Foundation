@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa";
 import { CgMediaLive } from "react-icons/cg";
@@ -14,7 +14,6 @@ import LongfuPic from "../assets/images/LongfuPic.jpg";
 import ReachPic from "../assets/images/reachPic.jpg";
 import TeviPic from "../assets/images/TeviPic.png";
 import abtus_background from "../assets/images/abtus_background.png";
-import { Link } from "react-router-dom";
 
 const mentors = [
   { name: "Kim Chansopheng", role: "Mentor", photo: CherPhengPic },
@@ -79,7 +78,6 @@ function Avatar({ name, size = 150, photo }) {
         backgroundColor: `${color}22`,
       }}
       className="flex items-center justify-center font-bold"
-      // style={{ fontSize: size * 0.3, color }}
     >
       {initials}
     </div>
@@ -87,7 +85,6 @@ function Avatar({ name, size = 150, photo }) {
 }
 
 function MemberCard({ name, role, photo }) {
-  const [hovered, setHovered] = useState(false);
   const initials = name
     .split(" ")
     .map((n) => n[0])
@@ -97,15 +94,9 @@ function MemberCard({ name, role, photo }) {
   const color = palette[name.charCodeAt(0) % palette.length];
 
   return (
-    <div
-      className={`bg-white border border-gray-200 rounded-2xl px-10 py-12 flex flex-col items-center w-80 transition-all duration-250 ease ${
-        hovered ? "transform -translate-y-1.5 shadow-xl shadow-blue-500/20" : ""
-      }`}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl px-10 py-12 flex flex-col items-center w-80">
       <div className="rounded-full p-1 mb-6 bg-gradient-to-br from-[#4A7CFF] to-[#1a3fcc]">
-        <div className="rounded-full overflow-hidden w-55 h-55 flex items-center justify-center bg-white">
+        <div className="rounded-full overflow-hidden w-55 h-55 flex items-center justify-center bg-white dark:bg-gray-800">
           {photo ? (
             <>
               <img
@@ -118,11 +109,7 @@ function MemberCard({ name, role, photo }) {
                 }}
               />
               <div
-                style={{
-                  backgroundColor: `${color}22`,
-                  color,
-                  fontSize: 66,
-                }}
+                style={{ backgroundColor: `${color}22`, color, fontSize: 66 }}
                 className="w-55 h-55 rounded-full hidden items-center justify-center font-bold"
               >
                 {initials}
@@ -133,11 +120,13 @@ function MemberCard({ name, role, photo }) {
           )}
         </div>
       </div>
-      <p className="text-xl font-bold text-gray-900 mb-1.5">{name}</p>
-      <p className="text-base text-gray-500 mb-6">{role}</p>
+      <p className="text-xl font-bold text-gray-900 dark:text-white mb-1.5">
+        {name}
+      </p>
+      <p className="text-base text-gray-500 dark:text-gray-400 mb-6">{role}</p>
       <div className="flex gap-6">
         <button
-          className="text-gray-900 hover:text-[#4A7CFF] transition-colors p-0 flex items-center"
+          className="text-gray-900 dark:text-gray-300 hover:text-[#4A7CFF] dark:hover:text-[#4A7CFF] transition-colors p-0 flex items-center"
           title="Facebook"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -145,7 +134,7 @@ function MemberCard({ name, role, photo }) {
           </svg>
         </button>
         <button
-          className="text-gray-900 hover:text-[#4A7CFF] transition-colors p-0 flex items-center"
+          className="text-gray-900 dark:text-gray-300 hover:text-[#4A7CFF] dark:hover:text-[#4A7CFF] transition-colors p-0 flex items-center"
           title="Telegram"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -153,7 +142,7 @@ function MemberCard({ name, role, photo }) {
           </svg>
         </button>
         <button
-          className="text-gray-900 hover:text-[#4A7CFF] transition-colors p-0 flex items-center"
+          className="text-gray-900 dark:text-gray-300 hover:text-[#4A7CFF] dark:hover:text-[#4A7CFF] transition-colors p-0 flex items-center"
           title="GitHub"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -168,6 +157,30 @@ function MemberCard({ name, role, photo }) {
 export default function AboutPage() {
   return (
     <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
+      {/* Hero */}
+      {/* <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gradient-to-br from-blue-50 to-gray-50 relative overflow-hidden">
+        <div className="absolute w-150 h-150 rounded-full bg-gradient-to-r from-blue-500/5 to-transparent top--30 right--30 pointer-events-none" />
+        <p className="text-xs font-semibold tracking-wider uppercase text-[#4A7CFF] mb-5 animate-fade-up [animation-delay:100ms]">
+          MindStack · About Us
+        </p>
+        <h1 className="text-[clamp(44px,6vw,76px)] font-bold leading-tight tracking-tighter mb-5 animate-fade-up [animation-delay:200ms]">
+          Ask. Answer.
+          <br />
+          Collaborate. Grow.
+        </h1>
+        <p className="text-lg text-gray-500 leading-relaxed max-w-md mb-9 animate-fade-up [animation-delay:300ms]">
+          A community-driven forum built for learners and developers to share
+          ideas, ask questions, and grow together.
+        </p>
+        <div className="flex gap-3 flex-wrap justify-center animate-fade-up [animation-delay:400ms]">
+          <button className="bg-gray-900 text-white border-none px-7 py-3 rounded-full text-sm font-semibold cursor-pointer font-sans hover:opacity-75 transition-opacity">
+            Start for free →
+          </button>
+          <button className="bg-none text-gray-500 border-2 border-gray-200 px-7 py-3 rounded-full text-sm font-medium cursor-pointer font-sans hover:border-[#4A7CFF] hover:text-[#4A7CFF] transition-colors">
+            See more
+          </button>
+        </div>
+      </div> */}
       <header className="relative">
         <div className="relative">
           {/* Background Image */}
@@ -200,10 +213,10 @@ export default function AboutPage() {
 
               <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
                 <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                  <Link to="/questions" className="flex items-center gap-2">
+                  <a href="#" className="flex items-center gap-2">
                     Start for free
                     <FaArrowRight className="mt-1" />
-                  </Link>
+                  </a>
                 </div>
                 <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
                   <a href="#" className="flex items-center gap-2">
@@ -216,108 +229,58 @@ export default function AboutPage() {
           </div>
         </div>
       </header>
+
       {/* Purpose */}
       <div className="py-24 px-6 max-w-6xl mx-auto text-center">
-        <h2 className="text-[clamp(28px,3.5vw,44px)] font-bold tracking-tight mb-3">
+        <h2 className="text-[clamp(28px,3.5vw,44px)] font-bold tracking-tight mb-3 text-gray-900 dark:text-white">
           Our Purpose
         </h2>
-        <p className="text-base text-[16px] text-gray-500 leading-relaxed mb-13">
+        <p className="text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-13">
           To share knowledge and resources that help learners and developers
           improve their skills.
         </p>
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 w-[520px] h-[275px]">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <RiShieldLine className="text-blue-600 text-[25px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-left">
+            <div className="bg-slate-50 dark:bg-gray-800 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col">
+              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-2xl mb-4">
+                <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[25px]" />
+              </div>
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
                 Mission
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-gray-400 text-[15px] leading-relaxed">
                 To build an interactive, inclusive, and user-friendly forum
                 where individuals can freely exchange ideas, ask questions, and
                 share valuable knowledge. We aim to create a supportive
-                environment that encourages collaboration, critical thinking,
-                and continuous learning. By connecting people from different
-                backgrounds and skill levels, we strive to empower our community
-                to grow together and solve problems effectively.
+                environment that encourages collaboration, critical thinking.
               </p>
             </div>
-          </div>
-          <div className="bg-slate-50 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200">
-            <div className="flex items-center justify-center bg-blue-100 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200">
-              <CgMediaLive className="text-blue-600 text-[30px] mx-auto" />
-            </div>
-            <div>
-              <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
+            <div className="bg-slate-50 dark:bg-gray-800 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col">
+              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-2xl mb-4">
+                <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[30px]" />
+              </div>
+              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
                 Vision
               </h3>
-              <p className="text-slate-600 text-[15px]">
+              <p className="text-slate-600 dark:text-gray-400 text-[15px] leading-relaxed">
                 To become a leading and trusted knowledge-sharing platform that
                 inspires innovation, continuous learning, and meaningful
                 collaboration worldwide. We envision a global community where
-                knowledge is accessible to everyone, where ideas are respected,
-                and where individuals are motivated to contribute, improve, and
-                make a positive impact through shared expertise.
+                knowledge is accessible to everyone.
               </p>
-            </div>
-          </div>
-        </div> */}
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-left justify-center">
-            {/* Mission Box */}
-            <div className="bg-slate-50 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 flex flex-col">
-              <div className="flex items-center justify-center bg-blue-100 w-12 h-12 rounded-2xl mb-4 hover:bg-blue-200">
-                <RiShieldLine className="text-blue-600 text-[25px]" />
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                  Mission
-                </h3>
-
-                <p className="text-slate-600 text-[15px] leading-relaxed">
-                  To build an interactive, inclusive, and user-friendly forum
-                  where individuals can freely exchange ideas, ask questions,
-                  and share valuable knowledge. We aim to create a supportive
-                  environment that encourages collaboration, critical thinking.
-                </p>
-              </div>
-            </div>
-
-            {/* Vision Box */}
-            <div className="bg-slate-50 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 flex flex-col">
-              <div className="flex items-center justify-center bg-blue-100 w-12 h-12 rounded-2xl mb-4 hover:bg-blue-200">
-                <CgMediaLive className="text-blue-600 text-[30px]" />
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-slate-900 mb-3">
-                  Vision
-                </h3>
-
-                <p className="text-slate-600 text-[15px] leading-relaxed">
-                  To become a leading and trusted knowledge-sharing platform
-                  that inspires innovation, continuous learning, and meaningful
-                  collaboration worldwide. We envision a global community where
-                  knowledge is accessible to everyone.
-                </p>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Team */}
-      <div className="bg-blue-50/50 py-20 px-6 pb-25">
+      <div className="bg-blue-50/50 dark:bg-gray-800/50 py-20 px-6 pb-25">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-black mb-2.5">
-            <FiUsers className="text-sm text-black" />
+          <p className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-black dark:text-white mb-2.5">
+            <FiUsers className="text-sm" />
             Lead by Developers
           </p>
-
-          <h2 className="text-[clamp(24px,3vw,36px)] font-bold tracking-tight mb-9">
+          <h2 className="text-[clamp(24px,3vw,36px)] font-bold tracking-tight mb-9 text-gray-900 dark:text-white">
             Our Mentors
           </h2>
           <div className="flex justify-center gap-6 flex-wrap mb-15">
@@ -325,8 +288,7 @@ export default function AboutPage() {
               <MemberCard key={m.name} {...m} />
             ))}
           </div>
-
-          <h2 className="text-[clamp(24px,3vw,36px)] font-bold tracking-tight mb-9">
+          <h2 className="text-[clamp(24px,3vw,36px)] font-bold tracking-tight mb-9 text-gray-900 dark:text-white">
             Our Team
           </h2>
           <div className="flex justify-center gap-6 flex-wrap mb-6">
@@ -346,24 +308,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-
-      {/* Add animation styles */}
-      <style jsx>{`
-        @keyframes fadeUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-up {
-          animation: fadeUp 0.6s ease forwards;
-          opacity: 0;
-        }
-      `}</style>
     </div>
   );
 }

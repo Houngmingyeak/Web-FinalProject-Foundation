@@ -1,15 +1,12 @@
-import React from "react";
 import heroImage from "../assets/Herosection.png";
 import { FaArrowRight } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa";
-import { LuMessageSquare } from "react-icons/lu";
+import { LuMessageSquare, LuGift, LuUsers } from "react-icons/lu";
 import { CiTrophy } from "react-icons/ci";
 import { CgMediaLive } from "react-icons/cg";
 import { RiShieldLine } from "react-icons/ri";
-import { LuGift } from "react-icons/lu";
 import { IoCodeSlash } from "react-icons/io5";
-import { LuUsers } from "react-icons/lu";
 import { GoStarFill } from "react-icons/go";
+// import { Link } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
@@ -23,7 +20,7 @@ const HomePage = () => {
             <img
               src={heroImage}
               alt="Developers collaborating"
-              className="w-full h-auto object-cover opacity-70"
+              className="w-full h-auto object-cover opacity-7"
             />
           </div>
           {/* Text Overlay */}
@@ -59,60 +56,38 @@ const HomePage = () => {
                 </div>
               </div>
 
-              {/* Stats */}
-              <div className="flex gap-8 md:gap-17 flex-wrap justify-center text-center mt-10">
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    50K+
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    Developers
-                  </div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    120K+
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    Questions Answered
-                  </div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    2M+
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    XP Earned
-                  </div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                    98%
-                  </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
-                    Satisfaction
-                  </div>
-                </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+            {[
+              ["50K+", "Developers"],
+              ["120K+", "Questions Answered"],
+              ["2M+", "XP Earned"],
+              ["98%", "Satisfaction"],
+            ].map(([number, label]) => (
+              <div key={label}>
+                <div className="text-3xl font-bold">{number}</div>
+                <div className="text-sm text-slate-500 dark:text-gray-400">{label}</div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
+          </div>
+      </div>
       </header>
 
-      {/* Features Section */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-4">
+      {/* FEATURES — id added here */}
+      <section id="features" className="py-24 px-6 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-4">
           Everything you need to grow
         </h2>
-        <p className="text-lg text-slate-600 dark:text-slate-300 text-center max-w-[500px] mx-auto mb-12">
-          A developer community built with gratification at its core. Every
-          action earns rewards.
+        <p className="text-center text-slate-600 dark:text-gray-400 mb-16 max-w-xl mx-auto">
+          A developer community built with gamification at its core.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Feature Cards */}
           <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
               <LuMessageSquare className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
@@ -126,7 +101,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
               <CiTrophy className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
@@ -140,7 +115,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
               <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[30px] mx-auto" />
             </div>
             <div>
@@ -154,7 +129,7 @@ const HomePage = () => {
           </div>
 
           <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
               <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
@@ -167,7 +142,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
               <LuGift className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
@@ -180,12 +155,12 @@ const HomePage = () => {
             </div>
           </div>
           <div className="bg-slate-50 dark:bg-gray-800 flex-1 items-start flex-col p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
+            <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-12 h-12 text-white rounded-2xl mb-2 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition">
               <IoCodeSlash className="text-blue-600 dark:text-blue-400 text-[25px] mx-auto" />
             </div>
             <div>
               <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
-                Code-Friendly Design
+                Code-Free Design
               </h3>
               <p className="text-slate-600 dark:text-slate-300 text-[15px]">
                 Syntax highlighting, markdown support, and code-centric UX.
@@ -195,20 +170,18 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-16 px-8 font-inter">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-4">
-            How it works
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 text-center max-w-2xl mx-auto mb-12">
+      {/* HOW IT WORKS */}
+      <section className="py-24 px-6 bg-slate-100 dark:bg-gray-900 transition">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-4">How it works</h2>
+          <p className="text-slate-600 dark:text-gray-400 mb-16">
             Three simple steps to start leveling up.
           </p>
 
           <div className="flex flex-wrap gap-8 justify-center">
             {/* Step 1 */}
             <div className="flex-1 min-w-[250px] text-center p-6">
-              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-2xl mb-4 mx-auto">
+              <div className="ml-35 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-15 text-white rounded-2xl mb-1">
                 <LuMessageSquare className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
               </div>
               <p className="text-black dark:text-white font-bold">01</p>
@@ -221,8 +194,8 @@ const HomePage = () => {
               </p>
             </div>
             {/* Step 2 */}
-            <div className="flex-1 min-w-[250px] text-center p-6">
-              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-2xl mb-4 mx-auto">
+            <div className="flex-1 min-w-[250px] text-center p-6 ">
+              <div className="ml-35 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-15 text-white rounded-2xl mb-2">
                 <CiTrophy className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
               </div>
               <p className="text-black dark:text-white font-bold">02</p>
@@ -235,8 +208,8 @@ const HomePage = () => {
               </p>
             </div>
             {/* Step 3 */}
-            <div className="flex-1 min-w-[250px] text-center p-6">
-              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-2xl mb-4 mx-auto">
+            <div className="flex-1 min-w-[250px] text-center p-6 ">
+              <div className="ml-35 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 w-16 h-15 text-white rounded-2xl mb-2">
                 <LuUsers className="text-blue-600 dark:text-blue-400 text-3xl mx-auto" />
               </div>
               <p className="text-black dark:text-white font-bold">03</p>
@@ -251,15 +224,15 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-white mb-12">
+      {/* TESTIMONIALS — id added here */}
+      <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-16">
           What devs are saying
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Testimonial 1 */}
           <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center space-x-1 mb-4">
+            <div className="flex items-center text-yellow-300 space-x-1">
               {[...Array(4)].map((_, i) => (
                 <svg
                   key={i}
@@ -279,19 +252,16 @@ const HomePage = () => {
             <p className="text-slate-700 dark:text-slate-300 my-4">
               "Definitely made me actually enjoy answering questions."
             </p>
-            <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
-              <p className="font-semibold text-slate-900 dark:text-white">
-                Sarah M.
-              </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Senior Engineer @ Stripe
-              </p>
-            </div>
+            <p className="font-semibold border-t border-slate-200 dark:border-gray-700 pt-4 text-slate-900 dark:text-white">
+              Sarah M.
+            </p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Senior Engineer @ Stripe
+            </p>
           </div>
-
           {/* Testimonial 2 */}
           <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center space-x-1 mb-4">
+            <div className="flex items-center text-yellow-300 space-x-1">
               {[...Array(4)].map((_, i) => (
                 <svg
                   key={i}
@@ -308,22 +278,19 @@ const HomePage = () => {
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
               </svg>
             </div>
-            <p className="text-slate-700 dark:text-slate-300 my-4">
-              "This platform is so fun! I've been using it for a while now."
+            <p className="text-slate-700 dark:text-slate-300 my-6">
+              "This game is so fun! I've been playing it for a while now."
             </p>
-            <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
-              <p className="font-semibold text-slate-900 dark:text-white">
-                James L.
-              </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Full-Stack Dev
-              </p>
-            </div>
+            <p className="font-semibold border-t border-slate-200 dark:border-gray-700 pt-4 text-slate-900 dark:text-white">
+              James L.
+            </p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Full-Stack Dev
+            </p>
           </div>
-
           {/* Testimonial 3 */}
           <div className="bg-white dark:bg-gray-800 p-8 rounded-xl border border-slate-200 dark:border-gray-700">
-            <div className="flex items-center space-x-1 mb-4">
+            <div className="flex items-center text-yellow-300 space-x-1">
               {[...Array(4)].map((_, i) => (
                 <svg
                   key={i}
@@ -341,38 +308,35 @@ const HomePage = () => {
               </svg>
             </div>
             <p className="text-slate-700 dark:text-slate-300 my-4">
-              "I love this platform! It's so much fun and challenging."
+              "I love this game! It's so much fun and challenging."
             </p>
-            <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
-              <p className="font-semibold text-slate-900 dark:text-white">
-                Erwin W.
-              </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Tech Lead @ Netflix
-              </p>
-            </div>
+            <p className="font-semibold border-t border-slate-200 dark:border-gray-700 pt-4 text-slate-900 dark:text-white">
+              Erwin W.
+            </p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Tech Lead @ Netflix
+            </p>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-8 max-w-7xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 text-black dark:text-white text-center py-14 px-8 border-2 border-slate-200 dark:border-gray-700 rounded-2xl">
-          <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-            Join 50,000+ developers who are already earning XP, unlocking badges,
-            and climbing the leaderboard.
-          </p>
-          <Link
-            to="/signup"
-            className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold inline-block shadow-md 
+      <section className="bg-white dark:bg-gray-800 text-black dark:text-white text-center py-14 px-8 max-w-[1220px] mx-auto border-2 border-slate-200 dark:border-gray-700 rounded-2xl my-16">
+        <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
+        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+          Join 50,000+ developers who are already earning XP, unlocking badges,
+          and climbing the leaderboard.
+        </p>
+        <a
+          href="#"
+          className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold inline-block shadow-md 
                 transform transition duration-300 ease-in-out 
                 hover:-translate-y-2 hover:drop-shadow-lg"
-          >
-            Get started →
-          </Link>
-        </div>
+        >
+          Get started → the flow
+        </a>
       </section>
+
     </main>
   );
 };
