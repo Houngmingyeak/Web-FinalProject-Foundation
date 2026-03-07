@@ -23,6 +23,12 @@ export default function Header() {
 
   const isHomePage = location.pathname === "/";
 
+  const navLinks = [
+    { label: "Features", to: "/features " },
+    { label: "Testimonials", to: "/testimonials" },
+    { label: "About Us", to: "/aboutus" },
+  ];
+
   if (isHomePage) {
     return (
       <header className="w-full bg-white dark:bg-gray-950 sticky top-0 z-50 transition-colors duration-300">
@@ -41,12 +47,12 @@ export default function Header() {
 
             {/* ── Nav links (centre) ────────────────── */}
             <nav className="hidden md:flex items-center gap-7 flex-1 justify-center">
-              {["Features", "Testimonials", "About Us"].map((label) => (
+              {navLinks.map(({ label, to }) => (
                 <Link
                   key={label}
-                  to={`/${label.toLowerCase().replace(" ", "-")}`}
+                  to={to}
                   className="text-[15px] font-medium text-gray-600 dark:text-gray-300
-                    hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   {label}
                 </Link>
@@ -63,7 +69,7 @@ export default function Header() {
                   to="/questions"
                   className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-[14px] font-bold rounded-full transition-all hover:-translate-y-0.5 shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
                 >
-                  Go to App
+                  Question
                 </Link>
               ) : (
                 <>
@@ -96,10 +102,6 @@ export default function Header() {
     );
   }
 
-  // --------------------------------------------------------
-  // UI 2: APP HEADER (Questions, Profile, etc.)
-  // Logo | Search Input | Dark Mode | Avatar
-  // --------------------------------------------------------
   return (
     <header className="w-full bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">

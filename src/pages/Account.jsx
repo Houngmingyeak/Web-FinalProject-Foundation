@@ -293,16 +293,15 @@ export default function Account() {
         <Sidebar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="text-5xl mb-4">👾</div>
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
-              Couldn't load profile
+            <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+              Please Sign in First
             </h2>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-5 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors"
+            <Link
+              to="/login"
+              className="px-6 py-2.5  bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors"
             >
-              Retry
-            </button>
+              Log In
+            </Link>
           </div>
         </div>
       </div>
@@ -344,7 +343,7 @@ export default function Account() {
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_right,white,transparent)]" />
           <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/10" />
           <div className="absolute top-4 right-32 w-20 h-20 rounded-full bg-white/5" />
-    
+
           <button
             onClick={handleLogout}
             className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-xl border border-white/20 backdrop-blur-sm transition-all"
@@ -354,7 +353,7 @@ export default function Account() {
         </div>
 
         {/* ── Main Content (lifted above banner) ───────── */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 mt-5 pb-12">
+        <div className="relative  max-w-7xl mx-auto px-4 sm:px-6 mt-5 pb-12">
           {/* ── Profile Card ──────────────────────────── */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-lg shadow-blue-500/10 p-6 mb-6">
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-5 text-center sm:text-left">

@@ -22,7 +22,7 @@ const mentors = [
 
 const team = [
   { name: "Houng Mingyeak", role: "Leader", photo: YeakPic },
-  { name: "Sin Soriya", role: "Sub-Leader", photo: SoriyaPic },
+  { name: "Yin Soriya", role: "Sub-Leader", photo: SoriyaPic },
   { name: "Vin Van", role: "Member", photo: VanPic },
   { name: "Chhorn Saveun", role: "Member", photo: SaveunPic },
   { name: "Lim Longfou", role: "Member", photo: LongfuPic },
@@ -197,7 +197,7 @@ export default function AboutPage() {
               <h2 className="font-extrabold text-black leading-tight">
                 {/* First Line */}
                 <div className="text-[72px] whitespace-nowrap">
-                  Ask. Answer.Collaborate.Grow.
+                  Ask Answer Collaborate Grow
                 </div>
 
                 {/* Second Line */}
@@ -213,7 +213,7 @@ export default function AboutPage() {
 
               <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
                 <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                  <a href="#" className="flex items-center gap-2">
+                  <a href="/questions" className="flex items-center gap-2">
                     Start for free
                     <FaArrowRight className="mt-1" />
                   </a>
@@ -228,9 +228,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </header> 
-
-    
+      </header>
 
       {/* Purpose */}
       <div className="py-24 px-6 max-w-6xl mx-auto text-center">

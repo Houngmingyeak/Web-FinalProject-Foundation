@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ChallengesPage from "./pages/ChallengesPage";
 import QuestionsPage from "./pages/QuestionPage";
-import Leaderboard from "./pages/Leaderboard";
 import BookmarkCard from "./pages/BookMarkCard";
 import QuestionDetailPage from "./pages/QuestionDetail";
 import AskQuestion from "./pages/AskQuestion";
@@ -19,6 +18,7 @@ import ForgotPassword from "./pages/ForgotPassword.jsx";
 import { useTheme } from "./main.jsx"; // <- ThemeProvider hook
 import Account from "./pages/Account.jsx";
 import AboutPage from "./pages/AboutUsPage.jsx";
+import Leaderboard from "./pages/LeaderBoard.jsx";
 
 function Layout() {
   return (
