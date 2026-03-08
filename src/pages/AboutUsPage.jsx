@@ -7,7 +7,7 @@ import CherPhengPic from "../assets/images/CherPhengPic.jpg";
 import CherCheatPic from "../assets/images/CherCheatPic.JPG";
 import YeakPic from "../assets/images/YeakPic.JPG";
 import SoriyaPic from "../assets/images/SoriyaPic.jpg";
-import VanPic from "../assets/images/LokbongPic.png";
+import VanPic from "../assets/images/LokBongPic.png";
 import SaveunPic from "../assets/images/SavaunPic.png";
 import LongfuPic from "../assets/images/LongfuPic.jpg";
 import ReachPic from "../assets/images/reachPic.jpg";
@@ -93,7 +93,7 @@ function MemberCard({ name, role, photo }) {
   const color = palette[name.charCodeAt(0) % palette.length];
 
   return (
-    <div className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-2xl px-10 py-12 flex flex-col items-center w-80">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl px-10 py-12 flex flex-col items-center w-80">
       <div className="rounded-full p-1 mb-6 bg-gradient-to-br from-[#4A7CFF] to-[#1a3fcc]">
         <div className="rounded-full overflow-hidden w-55 h-55 flex items-center justify-center bg-white dark:bg-gray-800">
           {photo ? (
