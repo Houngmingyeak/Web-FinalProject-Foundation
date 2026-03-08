@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
 
           {/* Column 2: About Us */}
-          <div className="flex flex-col items-center sm:items-start md:ml-32">
+          <div className="flex flex-col items-center sm:items-start md:ml-48">
             <h3 className="text-blue-600 dark:text-blue-400 text-xl font-bold mb-4">
               About us
             </h3>
@@ -64,7 +64,7 @@ const Footer = () => {
           </div>
 
           {/* Column 4: Developed By */}
-          <div className="flex flex-col items-center lg:items-end text-center lg:text-right">
+          <div className="flex flex-col items-center  md:ml-38 lg:items-end text-center lg:text-right">
             <h3 className="text-xl font-bold mb-2">Developed by</h3>
             <img
               src={imgMindStack}
