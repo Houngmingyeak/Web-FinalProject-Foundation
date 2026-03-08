@@ -10,7 +10,7 @@ import SoriyaPic from "../assets/images/SoriyaPic.jpg";
 import VanPic from "../assets/images/LokBongPic.png";
 import SaveunPic from "../assets/images/SavaunPic.png";
 import LongfuPic from "../assets/images/LongfuPic.jpg";
-import ReachPic from "../assets/images/reachPic.jpg";
+import ReachPic from "../assets/images/ReachPic.JPG";
 import TeviPic from "../assets/images/TeviPic.png";
 import abtus_background from "../assets/images/abtus_background.png";
 
