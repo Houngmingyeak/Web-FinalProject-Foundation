@@ -19,7 +19,7 @@ export default function Sidebar() {
   return (
     <aside className="w-72 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex flex-col py-4 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300 shrink-0">
       {/* Navigation Links */}
-      <nav className="flex flex-col gap-0.5 px-4">
+      {/* <nav className="flex flex-col gap-0.5 px-4">
         {navItems.map(({ label, path, icon }) => (
           <Link
             key={label}
@@ -34,6 +34,49 @@ export default function Sidebar() {
             {label}
           </Link>
         ))}
+      </nav> */}
+      <nav className="flex flex-col gap-1 w-64 h-screen bg-white border-r border-gray-200 px-3 py-6">
+        <Link
+          to="/"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <FiHome className="text-[18px]" /> Home
+        </Link>
+
+        <Link
+          to="/questions"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600  font-semibold text-sm"
+        >
+          <FaRegQuestionCircle className="text-[18px]" /> Questions
+        </Link>
+
+        <Link
+          to="/leaderboard"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <GoTrophy className="text-[18px]" /> Leaderboard
+        </Link>
+
+        <Link
+          to="/challenges"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <LuSwords className="text-[18px]" /> Challenges
+        </Link>
+
+        <Link
+          to="/saves"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <FaRegBookmark className="text-[18px]" /> Saves
+        </Link>
+
+        <Link
+          to="/profile"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <FaRegUser className="text-[18px]" /> Profile
+        </Link>
       </nav>
 
       {/* XP Progress */}
