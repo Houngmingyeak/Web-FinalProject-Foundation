@@ -35,7 +35,7 @@ export default function Sidebar() {
           </Link>
         ))}
       </nav> */}
-      <nav className="flex flex-col gap-1 w-64 h-screen bg-white border-r border-gray-200 px-3 py-6">
+      <nav className="flex flex-col gap-1 w-64 h-screen bg-white px-3 py-6">
         <Link
           to="/"
           className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
@@ -45,7 +45,7 @@ export default function Sidebar() {
 
         <Link
           to="/questions"
-          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600  font-semibold text-sm"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
         >
           <FaRegQuestionCircle className="text-[18px]" /> Questions
         </Link>

@@ -87,7 +87,7 @@ const ScoreBar = ({ score, max, isMe = false }) => {
 // ── My Score Banner ──────────────────────────────────────────────────────
 function MyScoreBanner({ user, maxScore }) {
   return (
-    <div className="mb-6 bg-linear-to-r from-blue-600 to-violet-600 rounded-2xl p-5 shadow-lg shadow-blue-200 dark:shadow-blue-900/40 text-white">
+    <div className="mb-6 bg-linear-to-r from-blue-600 to-violet-600 rounded-2xl p-5  dark:shadow-blue-900/40 text-white">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-lg ring-2 ring-white/40">
@@ -271,12 +271,12 @@ export default function Leaderboard() {
                 return (
                   <div
                     key={user.id}
-                    className={`rounded-2xl px-5 py-6 flex flex-col items-center border shadow-sm
-                      transition-all duration-300 hover:-translate-y-2 hover:shadow-xl
+                    className={`rounded-2xl px-5 py-6 flex flex-col items-center border 
+                      transition-all duration-300 hover:-translate-y-2 
                       ${
                         isMe
                           ? "bg-linear-to-br from-blue-50 to-violet-50 dark:from-blue-900/30 dark:to-violet-900/30 border-blue-300 dark:border-blue-600 hover:shadow-blue-200 dark:hover:shadow-blue-900/40"
-                          : "bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 hover:shadow-indigo-100 dark:hover:shadow-indigo-900/30 hover:border-indigo-200 dark:hover:border-indigo-700"
+                          : "bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 "
                       }`}
                   >
                     {/* Medal / Crown */}
@@ -392,11 +392,6 @@ export default function Leaderboard() {
                             score
                           </span>
                         </span>
-                        {/* <div className="flex gap-2 text-[12px] text-slate-400 dark:text-gray-500">
-                          <span>📝 {user.posts}</span>
-                          <span>💬 {user.comments}</span>
-                          <span>👁 {user.totalViews}</span>
-                        </div> */}
                       </div>
                     </div>
                   );
