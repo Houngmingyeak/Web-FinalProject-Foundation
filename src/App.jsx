@@ -54,7 +54,7 @@ export default function App() {
           <Route path="/saves" element={<BookmarkCard />} />
           <Route path="/question/:id" element={<QuestionDetailPage />} />
           <Route path="/ask" element={<AskQuestion />} />
-          <Route path="/aboutus" element={<AboutPage />} />
+          <Route path="/about-us" element={<AboutPage />} />
           <Route path="/profile" element={<Account />} />
         </Route>
       </Routes>

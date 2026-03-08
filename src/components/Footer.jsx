@@ -7,7 +7,7 @@ import imgMindStack from "../assets/MindStack.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 py-12 px-6 md:px-12 lg:px-16 transition-colors duration-300">
+    <footer className="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-200 py-12 px-6 md:px-12 lg:px-16 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* TOP SECTION: Grid updated to sm:grid-cols-2 lg:grid-cols-4 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 border-b border-gray-200 dark:border-gray-700 pb-12">
