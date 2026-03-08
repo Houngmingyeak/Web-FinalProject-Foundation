@@ -3,7 +3,7 @@ import Img from "../assets/Istad.png";
 import { CiFacebook, CiLinkedin } from "react-icons/ci";
 import { PiTelegramLogo } from "react-icons/pi";
 import { CgMail } from "react-icons/cg";
-import imgMindStack from "../assets/MindStack.png";
+import imgMindStack from "../assets/mindstack.png";
 
 const Footer = () => {
   return (
