@@ -110,7 +110,7 @@ export default function Header() {
           to="/questions"
           className="flex items-center gap-2 shrink-0 group"
         >
-          <div className="w-8 h-8  rounded-lg flex items-center justify-center text-white font-black text-lg transition-transform group-hover:scale-105">
+          <div className="w-8 h-8  rounded-lg flex items-center justify-center text-white font-black text-lg ">
             <img src={MindStack} alt="" />
           </div>
           <span className="text-lg font-black text-gray-900 dark:text-white tracking-tight hidden sm:block">
@@ -125,7 +125,7 @@ export default function Header() {
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 group-focus-within:text-blue-500 transition-colors" />
             <input
               type="text"
-              placeholder="Search questions, topics, or tags..."
+              placeholder="Search "
               className="w-full pl-12 pr-4 py-1.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
             />
           </div>
