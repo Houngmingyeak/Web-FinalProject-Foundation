@@ -76,7 +76,7 @@ export default function QuestionsPage() {
 
   return (
     <div className="flex bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
-      <Sidebar />
+      <Sidebar className="hidden md:block" />
 
       <main className="flex-1">
         <div className="flex items-center justify-between pl-8 pr-6 pt-6 pb-2">

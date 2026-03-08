@@ -342,7 +342,7 @@ const HomePage = () => {
 
       {/* CTA */}
       <section className="py-4 px-6">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-3xl text-center p-12 shadow-lg">
+        <div className="max-w-6xl mx-auto bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-3xl text-center p-12 shadow-lg">
           <h2 className="text-4xl font-bold mb-4">Ready to level up?</h2>
           <p className="text-slate-600 dark:text-gray-400 mb-8">
             Join thousands of developers earning XP and unlocking achievements.

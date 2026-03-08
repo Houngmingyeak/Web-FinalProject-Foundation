@@ -214,7 +214,6 @@ export default function BookmarkCard() {
         <Sidebar />
         <main className="flex-1 flex items-center justify-center p-8">
           <div className="text-center">
-            <div className="text-6xl mb-4">🔖</div>
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
               Sign in Required
             </h2>

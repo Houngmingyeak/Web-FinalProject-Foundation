@@ -22,7 +22,7 @@ const mentors = [
 
 const team = [
   { name: "Houng Mingyeak", role: "Leader", photo: YeakPic },
-  { name: "Sin Soriya", role: "Sub-Leader", photo: SoriyaPic },
+  { name: "Yin Soriya", role: "Sub-Leader", photo: SoriyaPic },
   { name: "Vin Van", role: "Member", photo: VanPic },
   { name: "Chhorn Saveun", role: "Member", photo: SaveunPic },
   { name: "Lim Longfou", role: "Member", photo: LongfuPic },
@@ -157,30 +157,6 @@ function MemberCard({ name, role, photo }) {
 export default function AboutPage() {
   return (
     <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
-      {/* Hero */}
-      {/* <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gradient-to-br from-blue-50 to-gray-50 relative overflow-hidden">
-        <div className="absolute w-150 h-150 rounded-full bg-gradient-to-r from-blue-500/5 to-transparent top--30 right--30 pointer-events-none" />
-        <p className="text-xs font-semibold tracking-wider uppercase text-[#4A7CFF] mb-5 animate-fade-up [animation-delay:100ms]">
-          MindStack · About Us
-        </p>
-        <h1 className="text-[clamp(44px,6vw,76px)] font-bold leading-tight tracking-tighter mb-5 animate-fade-up [animation-delay:200ms]">
-          Ask. Answer.
-          <br />
-          Collaborate. Grow.
-        </h1>
-        <p className="text-lg text-gray-500 leading-relaxed max-w-md mb-9 animate-fade-up [animation-delay:300ms]">
-          A community-driven forum built for learners and developers to share
-          ideas, ask questions, and grow together.
-        </p>
-        <div className="flex gap-3 flex-wrap justify-center animate-fade-up [animation-delay:400ms]">
-          <button className="bg-gray-900 text-white border-none px-7 py-3 rounded-full text-sm font-semibold cursor-pointer font-sans hover:opacity-75 transition-opacity">
-            Start for free →
-          </button>
-          <button className="bg-none text-gray-500 border-2 border-gray-200 px-7 py-3 rounded-full text-sm font-medium cursor-pointer font-sans hover:border-[#4A7CFF] hover:text-[#4A7CFF] transition-colors">
-            See more
-          </button>
-        </div>
-      </div> */}
       <header className="relative">
         <div className="relative">
           {/* Background Image */}
@@ -188,83 +164,85 @@ export default function AboutPage() {
             <img
               src={abtus_background}
               alt="Developers collaborating"
-              className="w-full h-auto object-cover opacity-7"
+              className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-auto object-cover opacity-7"
             />
           </div>
-          {/* Text Overlay - Positioned absolutely on top of the image */}
+
+          {/* Text Overlay */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center px-4">
+            <div className="text-center px-4 sm:px-6 md:px-8 w-full">
               <h2 className="font-extrabold text-black leading-tight">
                 {/* First Line */}
-                <div className="text-[72px] whitespace-nowrap">
-                  Ask. Answer.Collaborate.Grow.
+                <div className="text-[24px] sm:text-[40px] md:text-[56px] lg:text-[72px] whitespace-nowrap">
+                  Ask Answer Collaborate Grow
                 </div>
 
                 {/* Second Line */}
-                <div className="text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
+                <div className="text-[22px] sm:text-[34px] md:text-[50px] lg:text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
                   Built by learners, for learners
                 </div>
               </h2>
 
-              <p className="text-[20px] text-slate-600 mt-6 max-w-3xl mx-auto">
+              <p className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[20px] text-slate-600 mt-3 sm:mt-4 md:mt-6 max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto">
                 our community-driven forum encourages open discussion, knowledge
                 sharing, and continuous improvement in the world of technology.
               </p>
 
-              <div className="flex gap-4 flex-wrap justify-center items-center mb-12 mt-8">
-                <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
-                  <a href="#" className="flex items-center gap-2">
+              <div className="flex gap-3 sm:gap-4 flex-wrap justify-center items-center mb-6 sm:mb-8 md:mb-10 lg:mb-12 mt-4 sm:mt-6 md:mt-8">
+                <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-5 sm:px-7 md:px-8 py-2 sm:py-3 rounded-2xl font-semibold hover:bg-blue-700 transition text-sm sm:text-base">
+                  <a href="/questions" className="flex items-center gap-2">
                     Start for free
-                    <FaArrowRight className="mt-1" />
+                    <FaArrowRight className="mt-0.5 sm:mt-1" />
                   </a>
                 </div>
-                <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition">
+                <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-5 sm:px-7 md:px-8 py-2 sm:py-3 rounded-2xl font-semibold hover:bg-gray-100 transition text-sm sm:text-base">
                   <a href="#" className="flex items-center gap-2">
                     See how it works
-                    <FaAngleRight className="mt-1" />
+                    <FaAngleRight className="mt-0.5 sm:mt-1" />
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </header> 
-
-    
+      </header>
 
       {/* Purpose */}
-      <div className="py-24 px-6 max-w-6xl mx-auto text-center">
-        <h2 className="text-[clamp(28px,3.5vw,44px)] font-bold tracking-tight mb-3 text-gray-900 dark:text-white">
+      <div className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 max-w-6xl mx-auto text-center">
+        <h2 className="text-[clamp(24px,3.5vw,44px)] font-bold tracking-tight mb-3 text-gray-900 dark:text-white">
           Our Purpose
         </h2>
-        <p className="text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-13">
+        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-8 sm:mb-10 md:mb-12 lg:mb-13">
           To share knowledge and resources that help learners and developers
           improve their skills.
         </p>
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-left">
-            <div className="bg-slate-50 dark:bg-gray-800 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col">
-              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-2xl mb-4">
-                <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[25px]" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-6 sm:gap-y-8 text-left w-full max-w-[1100px]">
+            {/* Mission Card */}
+            <div className="bg-slate-50 dark:bg-gray-800 w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
+              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl mb-3 sm:mb-4">
+                <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[20px] sm:text-[25px]" />
               </div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
+              <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-900 dark:text-white mb-2 sm:mb-3">
                 Mission
               </h3>
-              <p className="text-slate-600 dark:text-gray-400 text-[15px] leading-relaxed">
+              <p className="text-slate-600 dark:text-gray-400 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed">
                 To build an interactive, inclusive, and user-friendly forum
                 where individuals can freely exchange ideas, ask questions, and
                 share valuable knowledge. We aim to create a supportive
                 environment that encourages collaboration, critical thinking.
               </p>
             </div>
-            <div className="bg-slate-50 dark:bg-gray-800 w-[520px] h-[275px] p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col">
-              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-12 h-12 rounded-2xl mb-4">
-                <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[30px]" />
+
+            {/* Vision Card */}
+            <div className="bg-slate-50 dark:bg-gray-800 w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
+              <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl mb-3 sm:mb-4">
+                <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[24px] sm:text-[30px]" />
               </div>
-              <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-3">
+              <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-900 dark:text-white mb-2 sm:mb-3">
                 Vision
               </h3>
-              <p className="text-slate-600 dark:text-gray-400 text-[15px] leading-relaxed">
+              <p className="text-slate-600 dark:text-gray-400 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed">
                 To become a leading and trusted knowledge-sharing platform that
                 inspires innovation, continuous learning, and meaningful
                 collaboration worldwide. We envision a global community where
@@ -276,34 +254,34 @@ export default function AboutPage() {
       </div>
 
       {/* Team */}
-      <div className="bg-blue-50/50 dark:bg-gray-800/50 py-20 px-6 pb-25">
+      <div className="bg-blue-50/50 dark:bg-gray-800/50 py-14 sm:py-16 md:py-20 px-4 sm:px-6 pb-16 sm:pb-20 md:pb-25">
         <div className="max-w-7xl mx-auto text-center">
           <p className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-black dark:text-white mb-2.5">
             <FiUsers className="text-sm" />
             Lead by Developers
           </p>
-          <h2 className="text-[clamp(24px,3vw,36px)] font-bold tracking-tight mb-9 text-gray-900 dark:text-white">
+          <h2 className="text-[clamp(20px,3vw,36px)] font-bold tracking-tight mb-6 sm:mb-8 md:mb-9 text-gray-900 dark:text-white">
             Our Mentors
           </h2>
-          <div className="flex justify-center gap-6 flex-wrap mb-15">
+          <div className="flex justify-center gap-4 sm:gap-6 flex-wrap mb-10 sm:mb-12 md:mb-15">
             {mentors.map((m) => (
               <MemberCard key={m.name} {...m} />
             ))}
           </div>
-          <h2 className="text-[clamp(24px,3vw,36px)] font-bold tracking-tight mb-9 text-gray-900 dark:text-white">
+          <h2 className="text-[clamp(20px,3vw,36px)] font-bold tracking-tight mb-6 sm:mb-8 md:mb-9 text-gray-900 dark:text-white">
             Our Team
           </h2>
-          <div className="flex justify-center gap-6 flex-wrap mb-6">
+          <div className="flex justify-center gap-4 sm:gap-6 flex-wrap mb-4 sm:mb-6">
             {team.slice(0, 2).map((m) => (
               <MemberCard key={m.name} {...m} />
             ))}
           </div>
-          <div className="flex justify-center gap-6 flex-wrap mb-6">
+          <div className="flex justify-center gap-4 sm:gap-6 flex-wrap mb-4 sm:mb-6">
             {team.slice(2, 5).map((m) => (
               <MemberCard key={m.name} {...m} />
             ))}
           </div>
-          <div className="flex justify-center gap-6 flex-wrap">
+          <div className="flex justify-center gap-4 sm:gap-6 flex-wrap">
             {team.slice(5).map((m) => (
               <MemberCard key={m.name} {...m} />
             ))}

@@ -18,26 +18,69 @@ export default function Sidebar() {
   const location = useLocation();
   return (
     <aside className="w-72 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex flex-col py-4 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300 shrink-0">
-
       {/* Navigation Links */}
-      <nav className="flex flex-col gap-0.5 px-4">
+      {/* <nav className="flex flex-col gap-0.5 px-4">
         {navItems.map(({ label, path, icon }) => (
           <Link
             key={label}
             to={path}
-            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${location.pathname === path
-              ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-              : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200"
-              }`}
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${
+              location.pathname === path
+                ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200"
+            }`}
           >
             {icon}
             {label}
           </Link>
         ))}
+      </nav> */}
+      <nav className="flex flex-col gap-1 w-64 h-screen bg-white px-3 py-6">
+        <Link
+          to="/"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <FiHome className="text-[18px]" /> Home
+        </Link>
+
+        <Link
+          to="/questions"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <FaRegQuestionCircle className="text-[18px]" /> Questions
+        </Link>
+
+        <Link
+          to="/leaderboard"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <GoTrophy className="text-[18px]" /> Leaderboard
+        </Link>
+
+        <Link
+          to="/challenges"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <LuSwords className="text-[18px]" /> Challenges
+        </Link>
+
+        <Link
+          to="/saves"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <FaRegBookmark className="text-[18px]" /> Saves
+        </Link>
+
+        <Link
+          to="/profile"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium text-sm"
+        >
+          <FaRegUser className="text-[18px]" /> Profile
+        </Link>
       </nav>
 
       {/* XP Progress */}
-      <div className="px-4 mt-2">
+      {/* <div className="px-4 mt-2">
         <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">
           Your Progress
         </p>
@@ -56,8 +99,7 @@ export default function Sidebar() {
             style={{ width: "52%" }}
           />
         </div>
-      </div>
-
+      </div> */}
     </aside>
   );
 }

@@ -39,28 +39,86 @@ import {
   FiLock,
   FiEyeOff,
   FiKey,
+  FiHome,
+  FiGrid,
+  FiAward as FiAwardIcon,
+  FiUsers,
+  FiBarChart2,
 } from "react-icons/fi";
 import Sidebar from "../layout/Sidebar";
-import { AiOutlineLock } from "react-icons/ai";
+import mindstack from "../assets/mindstack.png"; // Import the logo
+
+// ── Navigation Item ───────────────────────────────────────────────────────
+function NavItem({ icon: Icon, label, to, active, onClick }) {
+  return (
+    <Link
+      to={to}
+      onClick={onClick}
+      className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
+        active
+          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-semibold"
+          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+      }`}
+    >
+      <Icon className="w-5 h-5" />
+      <span className="text-sm font-medium">{label}</span>
+    </Link>
+  );
+}
+
+// ── Progress Bar ──────────────────────────────────────────────────────────
+function ProgressBar({ current, total, label }) {
+  const percentage = (current / total) * 100;
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+          {label}
+        </span>
+        <span className="text-xs font-bold text-gray-500 dark:text-gray-400">
+          {current} / {total} XP
+        </span>
+      </div>
+      <div className="h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full transition-all duration-500"
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// ── Badge Card ────────────────────────────────────────────────────────────
+function BadgeCard({ count, label, color, bgColor }) {
+  return (
+    <div className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700">
+      <span className={`text-2xl font-black ${color}`}>{count}</span>
+      <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+        {label}
+      </span>
+    </div>
+  );
+}
 
 // ── Stat Card ──────────────────────────────────────────────────────────────
-function StatCard({ icon: Icon, label, value, color, bg, border }) {
+function StatCard({ icon: Icon, label, value, color, bg }) {
   return (
-    <div
-      className={`bg-white dark:bg-gray-800 rounded-2xl border ${border} p-5 flex items-center gap-4 hover:shadow-md transition-all hover:-translate-y-0.5 group`}
-    >
-      <div
-        className={`w-12 h-12 rounded-xl ${bg} flex items-center justify-center shrink-0`}
-      >
-        <Icon className={`w-6 h-6 ${color}`} />
-      </div>
-      <div>
-        <p className="text-2xl font-black text-gray-900 dark:text-white">
-          {value ?? 0}
-        </p>
-        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-          {label}
-        </p>
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+      <div className="flex items-center gap-3">
+        <div
+          className={`w-10 h-10 rounded-lg ${bg} flex items-center justify-center`}
+        >
+          <Icon className={`w-5 h-5 ${color}`} />
+        </div>
+        <div>
+          <p className="text-xl font-black text-gray-900 dark:text-white">
+            {value ?? 0}
+          </p>
+          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+            {label}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -119,9 +177,9 @@ function QuestionRow({ q }) {
 // ── Skeleton ───────────────────────────────────────────────────────────────
 function PageSkeleton() {
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 animate-pulse">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar />
-      <div className="flex-1 p-6 space-y-6">
+      <div className="flex-1 p-6 space-y-6 animate-pulse">
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 flex gap-6">
           <div className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700" />
           <div className="flex-1 space-y-3 pt-4">
@@ -156,22 +214,19 @@ export default function Account() {
     useUpdatePasswordMutation();
   const { data: bookmarks = [] } = useGetBookmarksQuery();
 
+  // Process profile image
   let profilImageSplit = profile?.profileImage;
-
-  console.log("Profile Image URL from API:", profilImageSplit);
-
   if (profilImageSplit?.includes("localhost:8070")) {
     profilImageSplit = profilImageSplit.replace(
       "http://localhost:8070/api/v1/profile-images",
       "https://forum-istad-api.cheat.casa/api/v1/media",
     );
   }
-
-  console.log("Profile Image Split:", profilImageSplit);
-
   const avatarSrc = useAuthImage(profilImageSplit);
 
+  // State
   const [activeTab, setActiveTab] = useState("questions");
+  const [activeNav, setActiveNav] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
   const [isPwOpen, setIsPwOpen] = useState(false);
@@ -191,6 +246,30 @@ export default function Account() {
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  // Navigation items
+  const navItems = [
+    { id: "home", icon: FiHome, label: "Home", to: "/" },
+    {
+      id: "questions",
+      icon: FiHelpCircle,
+      label: "Questions",
+      to: "/questions",
+    },
+    {
+      id: "leaderboard",
+      icon: FiBarChart2,
+      label: "Leaderboard",
+      to: "/leaderboard",
+    },
+    {
+      id: "challenges",
+      icon: FiAwardIcon,
+      label: "Challenges",
+      to: "/challenges",
+    },
+    { id: "profile", icon: FiUser, label: "Profile", to: "/account" },
+  ];
 
   useEffect(() => {
     if (profile)
@@ -318,341 +397,248 @@ export default function Account() {
     ? formatDistanceToNow(new Date(profile.lastAccessDate), { addSuffix: true })
     : "—";
 
+  // Mock data for demonstration (replace with actual data from API)
+  const level = 12;
+  const currentXP = 720;
+  const maxXP = 1000;
+  const badges = {
+    gold: 3,
+    silver: 8,
+    bronze: 15,
+  };
+  const stats = {
+    xpEarned: 4720,
+    questions: questions.length,
+    answers: comments.length,
+    challenges: 12,
+  };
+
   const tabs = [
-    {
-      id: "questions",
-      label: "Questions",
-      count: questions.length,
-      icon: FiHelpCircle,
-    },
-    {
-      id: "activity",
-      label: "Activity",
-      count: comments.length,
-      icon: FiActivity,
-    },
-    { id: "bookmarks", label: "Saved", count: savedCount, icon: FiBookmark },
+    { id: "questions", label: "Questions", count: questions.length },
+    { id: "answers", label: "Answers", count: comments.length },
+    { id: "achievements", label: "Achievements", count: 0 },
+    { id: "activity", label: "Activity", count: 0 },
   ];
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      <Sidebar />
+      <div>
+        <Sidebar />
+      </div>
 
-      <div className="flex-1 overflow-y-auto">
-        {/* ── Hero banner ──────────────────────────────── */}
-        <div className="relative h-36 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 overflow-hidden shrink-0">
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_right,white,transparent)]" />
-          <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/10" />
-          <div className="absolute top-4 right-32 w-20 h-20 rounded-full bg-white/5" />
-    
-          <button
-            onClick={handleLogout}
-            className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-xl border border-white/20 backdrop-blur-sm transition-all"
-          >
-            <FiLogOut className="w-3.5 h-3.5" /> Sign out
-          </button>
-        </div>
-
-        {/* ── Main Content (lifted above banner) ───────── */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 mt-5 pb-12">
-          {/* ── Profile Card ──────────────────────────── */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-lg shadow-blue-500/10 p-6 mb-6">
-            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-5 text-center sm:text-left">
+      {/* Main Content */}
+      <div className="flex-1 overflow-y-auto p-6">
+        <div className="max-w-5xl mx-auto space-y-6">
+          {/* Profile Header */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center gap-6">
               {/* Avatar */}
-              <div className="relative group shrink-0 -mt-14 mx-auto sm:mx-0">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-white dark:border-gray-800 overflow-hidden bg-gray-100 dark:bg-gray-700 shadow-xl">
-                  <div className="relative w-full h-full">
-                    {avatarSrc ? (
-                      <img
-                        src={avatarSrc}
-                        alt="Avatar"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-blue-500 to-violet-600 text-white text-3xl font-black">
-                        {profile.displayName?.charAt(0).toUpperCase() ?? "U"}
-                      </div>
-                    )}
-                    {/* hover overlay */}
-                    <button
-                      onClick={() => setIsAvatarOpen(true)}
-                      className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
-                    >
-                      <FiCamera className="w-6 h-6 text-white" />
-                    </button>
-                  </div>
+              <div className="relative group">
+                <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700">
+                  {avatarSrc ? (
+                    <img
+                      src={avatarSrc}
+                      alt="Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 text-white text-2xl font-bold">
+                      {profile.displayName?.charAt(0).toUpperCase() ?? "U"}
+                    </div>
+                  )}
+                  <button
+                    onClick={() => setIsAvatarOpen(true)}
+                    className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-full"
+                  >
+                    <FiCamera className="w-5 h-5 text-white" />
+                  </button>
                 </div>
-                {/* online dot */}
-                <div className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white dark:border-gray-800 rounded-full" />
               </div>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
+              {/* User Info */}
+              <div className="flex-1">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                   {profile.displayName}
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1.5 mt-0.5">
-                  <FiMail className="w-3.5 h-3.5" /> {profile.email}
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {profile.email}
                 </p>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 max-w-xl leading-relaxed">
-                  {profile.bio || (
-                    <span className="italic text-gray-400 dark:text-gray-500">
-                      No bio yet. Click Edit to add one.
-                    </span>
-                  )}
+                <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 max-w-xl">
+                  {profile.bio || "No bio yet."}
                 </p>
-
-                {/* badges row */}
-                <div className="flex flex-wrap gap-2 mt-3">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full border border-blue-100 dark:border-blue-800">
-                    <FiCalendar className="w-3 h-3" /> Member since{" "}
-                    {memberSince}
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-full border border-emerald-100 dark:border-emerald-800">
-                    <FiShield className="w-3 h-3" /> Active {lastActive}
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full border border-amber-100 dark:border-amber-800">
-                    <FiAward className="w-3 h-3" /> {profile.reputation ?? 0}{" "}
-                    Reputation
-                  </span>
-                </div>
               </div>
 
-              {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0">
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="flex items-center justify-center gap-2 px-5 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold    rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-all hover:-translate-y-0.5"
-                >
-                  <FiEdit2 className="w-4 h-4" /> Edit Profile
-                </button>
-                <button
-                  onClick={() => setIsPwOpen(true)}
-                  className="flex items-center justify-center gap-2 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-xl transition-all hover:-translate-y-0.5"
-                >
-                  <AiOutlineLock className="w-4 h-4" /> Change Password
-                </button>
-              </div>
+              {/* Edit Button */}
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+              >
+                <FiEdit2 className="w-4 h-4" /> Edit Profile
+              </button>
             </div>
           </div>
 
-          {/* ── Stats Grid ────────────────────────────── */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          {/* Badges Section */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+              Badges
+            </h2>
+            <div className="grid grid-cols-3 gap-4">
+              <BadgeCard
+                count={badges.gold}
+                label="Gold"
+                color="text-yellow-500"
+                bgColor="bg-yellow-50 dark:bg-yellow-900/20"
+              />
+              <BadgeCard
+                count={badges.silver}
+                label="Silver"
+                color="text-gray-400"
+                bgColor="bg-gray-50 dark:bg-gray-700"
+              />
+              <BadgeCard
+                count={badges.bronze}
+                label="Bronze"
+                color="text-amber-600"
+                bgColor="bg-amber-50 dark:bg-amber-900/20"
+              />
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatCard
+              icon={FiTrendingUp}
+              label="XP Earned"
+              value={stats.xpEarned}
+              color="text-blue-600"
+              bg="bg-blue-50 dark:bg-blue-900/20"
+            />
             <StatCard
               icon={FiHelpCircle}
               label="Questions"
-              value={questions.length}
-              color="text-blue-600 dark:text-blue-400"
-              bg="bg-blue-100 dark:bg-blue-900/30"
-              border="border-gray-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"
+              value={stats.questions}
+              color="text-green-600"
+              bg="bg-green-50 dark:bg-green-900/20"
             />
             <StatCard
               icon={FiMessageSquare}
               label="Answers"
-              value={comments.length}
-              color="text-emerald-600 dark:text-emerald-400"
-              bg="bg-emerald-100 dark:bg-emerald-900/30"
-              border="border-gray-100 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-700"
+              value={stats.answers}
+              color="text-purple-600"
+              bg="bg-purple-50 dark:bg-purple-900/20"
             />
             <StatCard
-              icon={FiBookmark}
-              label="Saved"
-              value={savedCount}
-              color="text-amber-600 dark:text-amber-400"
-              bg="bg-amber-100 dark:bg-amber-900/30"
-              border="border-gray-100 dark:border-gray-700 hover:border-amber-300 dark:hover:border-amber-700"
-            />
-            <StatCard
-              icon={FiEye}
-              label="Profile Views"
-              value={profile.views ?? 0}
-              color="text-violet-600 dark:text-violet-400"
-              bg="bg-violet-100 dark:bg-violet-900/30"
-              border="border-gray-100 dark:border-gray-700 hover:border-violet-300 dark:hover:border-violet-700"
+              icon={FiAwardIcon}
+              label="Challenges"
+              value={stats.challenges}
+              color="text-orange-600"
+              bg="bg-orange-50 dark:bg-orange-900/20"
             />
           </div>
 
-          {/* ── Vote Stats ────────────────────────────── */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 px-5 py-4 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                <FiThumbsUp className="w-5 h-5 text-green-600 dark:text-green-400" />
-              </div>
-              <div>
-                <p className="text-xl font-black text-gray-900 dark:text-white">
-                  {profile.upVotes ?? 0}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wide">
-                  Up Votes Cast
-                </p>
-              </div>
-            </div>
-            {/* <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 px-5 py-4 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                <FiThumbsDown className="w-5 h-5 text-red-500 dark:text-red-400" />
-              </div>
-              <div>
-                <p className="text-xl font-black text-gray-900 dark:text-white">{profile.downVotes ?? 0}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wide">Down Votes Cast</p>
-              </div>
-            </div> */}
-          </div>
-
-          {/* ── Tabs ──────────────────────────────────── */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-            {/* Tab bar */}
-            <div className="flex border-b border-gray-100 dark:border-gray-700">
+          {/* Tabs Section */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+            {/* Tab Bar */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-5 py-4 text-sm font-bold transition-all border-b-2 -mb-px
-                    ${
-                      activeTab === tab.id
-                        ? "border-blue-500 text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10"
-                        : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/30"
-                    }`}
+                  className={`flex-1 px-4 py-3 text-sm font-semibold transition-all border-b-2 -mb-px ${
+                    activeTab === tab.id
+                      ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                      : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  }`}
                 >
-                  <tab.icon className="w-4 h-4" />
-                  {tab.label}
-                  <span
-                    className={`text-[11px] font-bold px-1.5 py-0.5 rounded-full
-                    ${activeTab === tab.id ? "bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400" : "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400"}`}
-                  >
-                    {tab.count}
-                  </span>
+                  {tab.label} ({tab.count})
                 </button>
               ))}
             </div>
 
-            {/* ── Tab: Questions ── */}
-            {activeTab === "questions" && (
-              <div className="p-4">
-                {questions.length === 0 ? (
-                  <div className="py-16 flex flex-col items-center justify-center text-center">
-                    <div className="text-4xl mb-3">❓</div>
-                    <p className="font-bold text-gray-700 dark:text-gray-300 mb-1">
-                      No questions yet
-                    </p>
-                    <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
-                      Start by asking the community something.
-                    </p>
-                    <Link
-                      to="/ask"
-                      className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors"
-                    >
-                      Ask a Question
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="divide-y divide-gray-50 dark:divide-gray-700/40">
-                    {questions.map((q) => (
-                      <QuestionRow key={q.id} q={q} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ── Tab: Activity (comments) ── */}
-            {activeTab === "activity" && (
-              <div className="p-4">
-                {comments.length === 0 ? (
-                  <div className="py-16 flex flex-col items-center justify-center text-center">
-                    <div className="text-4xl mb-3">💬</div>
-                    <p className="font-bold text-gray-700 dark:text-gray-300 mb-1">
-                      No answers yet
-                    </p>
-                    <p className="text-sm text-gray-400 dark:text-gray-500">
-                      Help others by answering questions.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {comments.map((c) => (
+            {/* Tab Content */}
+            <div className="p-4">
+              {activeTab === "questions" && (
+                <div>
+                  {questions.length === 0 ? (
+                    <div className="py-12 text-center">
+                      <p className="text-gray-500 dark:text-gray-400">
+                        No questions yet
+                      </p>
                       <Link
-                        key={c.id}
-                        to={`/question/${c.postId}`}
-                        className="group block p-4 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/10 border border-transparent hover:border-blue-100 dark:hover:border-blue-800 transition-all"
+                        to="/ask"
+                        className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700"
                       >
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0 mt-0.5">
-                            <FiMessageSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm text-gray-800 dark:text-gray-200 line-clamp-2 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                              {c.text}
-                            </p>
-                            <div className="flex items-center gap-3 mt-1.5 text-[11px] text-gray-400 dark:text-gray-500">
-                              <span className="flex items-center gap-1">
-                                <FiStar className="w-3 h-3 text-amber-400" />
-                                {c.score ?? 0}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <FiClock className="w-3 h-3" />
-                                {c.creationDate
-                                  ? formatDistanceToNow(
-                                      new Date(c.creationDate),
-                                      { addSuffix: true },
-                                    )
-                                  : "Recently"}
-                              </span>
-                            </div>
-                          </div>
-                          <FiExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-400 shrink-0 transition-colors mt-1" />
-                        </div>
+                        Ask a Question
                       </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-gray-100 dark:divide-gray-700">
+                      {questions.map((q) => (
+                        <QuestionRow key={q.id} q={q} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
-            {/* ── Tab: Bookmarks ── */}
-            {activeTab === "bookmarks" && (
-              <div className="p-4">
-                {bookmarks.length === 0 ? (
-                  <div className="py-16 flex flex-col items-center justify-center text-center">
-                    <div className="text-4xl mb-3">🔖</div>
-                    <p className="font-bold text-gray-700 dark:text-gray-300 mb-1">
-                      No saved questions
-                    </p>
-                    <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
-                      Save questions to find them here.
-                    </p>
-                    <Link
-                      to="/saves"
-                      className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors"
-                    >
-                      View All Saves
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="divide-y divide-gray-50 dark:divide-gray-700/40">
-                    {bookmarks.slice(0, 10).map((post) => (
-                      <QuestionRow key={post.id} q={post} />
-                    ))}
-                    {bookmarks.length > 10 && (
-                      <div className="p-4 text-center">
+              {activeTab === "answers" && (
+                <div>
+                  {comments.length === 0 ? (
+                    <div className="py-12 text-center">
+                      <p className="text-gray-500 dark:text-gray-400">
+                        No answers yet
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {comments.map((c) => (
                         <Link
-                          to="/saves"
-                          className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline"
+                          key={c.id}
+                          to={`/question/${c.postId}`}
+                          className="block p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors"
                         >
-                          View all {bookmarks.length} saved questions →
+                          <p className="text-sm text-gray-800 dark:text-gray-200 line-clamp-2">
+                            {c.text}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-2">
+                            {c.creationDate
+                              ? formatDistanceToNow(new Date(c.creationDate), {
+                                  addSuffix: true,
+                                })
+                              : "Recently"}
+                          </p>
                         </Link>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "achievements" && (
+                <div className="py-12 text-center">
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Achievements coming soon!
+                  </p>
+                </div>
+              )}
+
+              {activeTab === "activity" && (
+                <div className="py-12 text-center">
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Activity feed coming soon!
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      {/* ── Edit Profile Modal ──────────────────────────────────── */}
+      {/* Modals remain the same as before... */}
+      {/* Edit Profile Modal */}
       {isEditing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
+          {/* ... modal content (same as before) ... */}
           <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
@@ -726,9 +712,10 @@ export default function Account() {
         </div>
       )}
 
-      {/* ── Avatar Upload Modal ─────────────────────────────────── */}
+      {/* Avatar Upload Modal */}
       {isAvatarOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
+          {/* ... modal content (same as before) ... */}
           <div className="bg-white dark:bg-gray-900 w-full max-w-sm rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
@@ -759,7 +746,7 @@ export default function Account() {
                     className="w-full h-full object-cover opacity-60"
                   />
                 ) : (
-                  <div className="w-full h-full bg-linear-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-3xl font-black opacity-60">
+                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-3xl font-black opacity-60">
                     {profile.displayName?.charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -838,11 +825,12 @@ export default function Account() {
           </div>
         </div>
       )}
-      {/* ── Change Password Modal ───────────────────────────────── */}
+
+      {/* Change Password Modal */}
       {isPwOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
+          {/* ... modal content (same as before) ... */}
           <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
-            {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
                 <FiLock className="text-amber-500 w-4 h-4" /> Change Password
@@ -855,12 +843,10 @@ export default function Account() {
               </button>
             </div>
 
-            {/* Form */}
             <form
               onSubmit={handleChangePassword}
               className="px-6 py-6 space-y-4"
             >
-              {/* Helper text */}
               <p className="text-xs text-gray-500 dark:text-gray-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800 rounded-xl px-4 py-3 flex items-start gap-2">
                 <FiShield className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
                 Enter your current password to verify your identity, then set a
@@ -925,39 +911,6 @@ export default function Account() {
                     )}
                   </button>
                 </div>
-                {/* Strength bar */}
-                {pwForm.newPassword && (
-                  <div className="mt-2">
-                    <div className="flex gap-1 h-1.5">
-                      {[1, 2, 3, 4].map((level) => (
-                        <div
-                          key={level}
-                          className={`flex-1 rounded-full transition-all ${
-                            pwForm.newPassword.length >= level * 3
-                              ? level <= 1
-                                ? "bg-red-400"
-                                : level <= 2
-                                  ? "bg-amber-400"
-                                  : level <= 3
-                                    ? "bg-blue-400"
-                                    : "bg-emerald-500"
-                              : "bg-gray-200 dark:bg-gray-700"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
-                      {pwForm.newPassword.length < 4
-                        ? "Too weak"
-                        : pwForm.newPassword.length < 7
-                          ? "Weak"
-                          : pwForm.newPassword.length < 10
-                            ? "Good"
-                            : "Strong"}{" "}
-                      — {pwForm.newPassword.length} characters
-                    </p>
-                  </div>
-                )}
               </div>
 
               {/* Confirm New Password */}
