@@ -6,6 +6,7 @@ import { postsApi } from "../features/post/postsApi";
 import { uploadApi } from "../features/upload/uploadApi";
 import { bookmarkApi } from "../features/bookmark/bookmarkApi";
 import { voteApi } from "../features/vote/voteApi";
+import { searchApi } from "../features/search/searchApi";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     [uploadApi.reducerPath]: uploadApi.reducer,
     [bookmarkApi.reducerPath]: bookmarkApi.reducer,
     [voteApi.reducerPath]: voteApi.reducer,
+    [searchApi.reducerPath]: searchApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -25,5 +27,6 @@ export const store = configureStore({
       uploadApi.middleware,
       bookmarkApi.middleware,
       voteApi.middleware,
+      searchApi.middleware
     ),
 });

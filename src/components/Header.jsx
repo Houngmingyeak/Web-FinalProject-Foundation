@@ -1,13 +1,12 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "../features/auth/authSlice";
-import { useGetProfileQuery } from "../features/profile/profileApi";
-import { useAuthImage } from "../hooks/useAuthImage";
-import { FiSearch, FiMoon, FiSun, FiMenu } from "react-icons/fi";
-import { useTheme } from "../context/ThemeContext";
-import { SlNote } from "react-icons/sl";
-import MindStack from "../assets/mindstack.png";
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../features/auth/authSlice';
+import { useGetProfileQuery } from '../features/profile/profileApi';
+import { useAuthImage } from '../hooks/useAuthImage';
+import { FiSearch, FiMoon, FiSun, FiMenu, FiUser, FiHash, FiMessageSquare } from 'react-icons/fi';
+import { useTheme } from '../context/ThemeContext';
+import { useSearchUsersQuery, useSearchTagsQuery, useSearchCommentsQuery } from '../features/search/searchApi';
 
 export default function Header() {
   const location = useLocation();
@@ -18,7 +17,36 @@ export default function Header() {
   const avatarSrc = useAuthImage(profile?.profileImage ?? null);
 
   const { theme, toggleTheme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const isDarkMode = theme === 'dark';
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const { data: usersData, isFetching: usersLoading } = useSearchUsersQuery(debouncedQuery, { skip: debouncedQuery.length < 2 });
+  const { data: tagsData, isFetching: tagsLoading } = useSearchTagsQuery(debouncedQuery, { skip: debouncedQuery.length < 2 });
+  const { data: commentsData, isFetching: commentsLoading } = useSearchCommentsQuery(debouncedQuery, { skip: debouncedQuery.length < 2 });
+
+  const isSearching = usersLoading || tagsLoading || commentsLoading;
 
   // const isHomePage = location.pathname === "/";
   const isHomePage =
@@ -137,15 +165,93 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Search */}
-        <div className="flex-1 max-w-2xl px-2">
+        {/* 2. Global Search Input */}
+        <div className="flex-1 max-w-2xl px-4" ref={searchRef}>
           <div className="relative group">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 group-focus-within:text-blue-500 transition-colors" />
             <input
               type="text"
-              placeholder="Search "
-              className="w-full pl-12 pr-4 py-1.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setIsSearchOpen(true);
+              }}
+              onFocus={() => setIsSearchOpen(true)}
+              placeholder="Search questions, topics, or tags..."
+              className="w-full pl-12 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
             />
+            {/* Optional Keyboard Shortcut Hint */}
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-1">
+              <kbd className="px-2 py-1 text-[10px] font-bold text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md">⌘</kbd>
+              <kbd className="px-2 py-1 text-[10px] font-bold text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md">K</kbd>
+            </div>
+
+            {/* Dropdown with results */}
+            {isSearchOpen && debouncedQuery.length >= 2 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/50 overflow-hidden z-50">
+                <div className="max-h-96 overflow-y-auto w-full">
+                  {isSearching ? (
+                    <div className="p-4 text-center text-gray-500 dark:text-gray-400 text-sm">
+                      Searching...
+                    </div>
+                  ) : (usersData?.length === 0 && tagsData?.length === 0 && commentsData?.length === 0) ? (
+                    <div className="p-4 text-center text-gray-500 dark:text-gray-400 text-sm">
+                      No results found for "{debouncedQuery}".
+                    </div>
+                  ) : (
+                    <div className="py-2">
+                      {/* Users */}
+                      {usersData && usersData.length > 0 && (
+                        <div className="px-4 py-2">
+                          <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase flex items-center gap-2 mb-2">
+                            <FiUser /> Users
+                          </h3>
+                          <div className="space-y-1">
+                            {usersData.slice(0, 5).map(user => (
+                              <Link key={user.id || user.userId} to={`/profile/${user.id || user.userId}`} className="block px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-600 transition-colors">
+                                <span className="text-sm font-medium dark:text-gray-200">{user.displayName || user.username}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Tags */}
+                      {tagsData && tagsData.length > 0 && (
+                        <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-800">
+                          <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase flex items-center gap-2 mb-2">
+                            <FiHash /> Tags
+                          </h3>
+                          <div className="space-y-1">
+                            {tagsData.slice(0, 5).map(tag => (
+                              <Link key={tag.id} to={`/questions`} className="block px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-600 transition-colors" onClick={() => setIsSearchOpen(false)}>
+                                <span className="text-sm font-medium dark:text-gray-200">{tag.tagName}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Comments */}
+                      {commentsData && commentsData.length > 0 && (
+                        <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-800">
+                          <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase flex items-center gap-2 mb-2">
+                            <FiMessageSquare /> Comments
+                          </h3>
+                          <div className="space-y-1">
+                            {commentsData.slice(0, 5).map(comment => (
+                              <Link key={comment.id} to={`/question/${comment.postId}`} className="block px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-600 transition-colors" onClick={() => setIsSearchOpen(false)}>
+                                <span className="text-sm font-medium dark:text-gray-200 line-clamp-1">{comment.content}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
