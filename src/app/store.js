@@ -24,6 +24,6 @@ export const store = configureStore({
       postsApi.middleware,
       uploadApi.middleware,
       bookmarkApi.middleware,
-      voteApi.middleware
+      voteApi.middleware,
     ),
 });
