@@ -94,7 +94,7 @@ function MemberCard({ name, role, photo }) {
   const color = palette[name.charCodeAt(0) % palette.length];
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl px-10 py-12 flex flex-col items-center w-80">
+    <div className="bg-white dark:bg-[#121B31] border border-gray-200 dark:border-gray-700 rounded-2xl px-10 py-12 flex flex-col items-center w-80">
       <div className="rounded-full p-1 mb-6 bg-gradient-to-br from-[#4A7CFF] to-[#1a3fcc]">
         <div className="rounded-full overflow-hidden w-55 h-55 flex items-center justify-center bg-white dark:bg-gray-800">
           {photo ? (
@@ -208,7 +208,7 @@ export default function AboutPage() {
       </header>
 
       {/* Purpose */}
-      <div className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 max-w-6xl mx-auto text-center">
+      <div className="bg-white dark:bg-[#121B31] py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 max-w-8xl mx-auto text-center">
         <h2 className="text-[clamp(24px,3.5vw,44px)] font-bold tracking-tight mb-3 text-gray-900 dark:text-white">
           Our Purpose
         </h2>
@@ -219,7 +219,7 @@ export default function AboutPage() {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-6 sm:gap-y-8 text-left w-full max-w-[1100px]">
             {/* Mission Card */}
-            <div className="bg-slate-50 dark:bg-gray-800 w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
+            <div className="bg-slate-50 dark:bg-[#121B31] w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
               <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl mb-3 sm:mb-4">
                 <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[20px] sm:text-[25px]" />
               </div>
@@ -235,7 +235,7 @@ export default function AboutPage() {
             </div>
 
             {/* Vision Card */}
-            <div className="bg-slate-50 dark:bg-gray-800 w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
+            <div className="bg-slate-50 dark:dark:bg-[#121B31] w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
               <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl mb-3 sm:mb-4">
                 <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[24px] sm:text-[30px]" />
               </div>
@@ -254,7 +254,7 @@ export default function AboutPage() {
       </div>
 
       {/* Team */}
-      <div className="bg-blue-50/50 dark:bg-gray-800/50 py-14 sm:py-16 md:py-20 px-4 sm:px-6 pb-16 sm:pb-20 md:pb-25">
+      <div className="bg-white dark:bg-[#121B31] py-14 sm:py-16 md:py-20 px-4 sm:px-6 pb-16 sm:pb-20 md:pb-25">
         <div className="max-w-7xl mx-auto text-center">
           <p className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-black dark:text-white mb-2.5">
             <FiUsers className="text-sm" />
@@ -268,7 +268,7 @@ export default function AboutPage() {
               <MemberCard key={m.name} {...m} />
             ))}
           </div>
-          <h2 className="text-[clamp(20px,3vw,36px)] font-bold tracking-tight mb-6 sm:mb-8 md:mb-9 text-gray-900 dark:text-white">
+          <h2 className="text-[clamp(20px,3vw,36px)] font-bold tracking-tight mb-6 sm:mb-8 md:mb-9 text-gray-900  dark:text-white">
             Our Team
           </h2>
           <div className="flex justify-center gap-4 sm:gap-6 flex-wrap mb-4 sm:mb-6">

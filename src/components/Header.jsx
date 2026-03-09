@@ -110,7 +110,7 @@ export default function Header() {
           to="/questions"
           className="flex items-center gap-2 shrink-0 group"
         >
-          <div className="w-8 h-8  rounded-lg flex items-center justify-center text-white font-black text-lg ">
+          <div className="w-8 h-8  rounded-lg flex items-center justify-center text-white font-black text-lg t">
             <img src={MindStack} alt="" />
           </div>
           <span className="text-lg font-black text-gray-900 dark:text-white tracking-tight hidden sm:block">
