@@ -177,7 +177,6 @@ function QuestionRow({ q }) {
 function PageSkeleton() {
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Sidebar />
       <div className="flex-1 p-6 space-y-6 animate-pulse">
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 flex gap-6">
           <div className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700" />
@@ -279,7 +278,6 @@ export default function Account() {
   if (!isAuthenticated)
     return (
       <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-        <Sidebar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
@@ -390,7 +388,6 @@ export default function Account() {
   if (error || !profile)
     return (
       <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-        <Sidebar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="text-5xl mb-4">👾</div>
@@ -477,21 +474,37 @@ export default function Account() {
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 max-w-xl">
                   {profile.bio || "No bio yet."}
                 </p>
+
+                {/* Buttons — below bio on mobile only */}
+                <div className="flex sm:hidden items-center gap-2 mt-3">
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-semibold rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+                  >
+                    <FiEdit2 className="w-3 h-3" /> Edit Profile
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-500 border border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                  >
+                    <FiLogOut className="w-3 h-3" /> Sign out
+                  </button>
+                </div>
               </div>
 
-              {/* Edit + Sign Out buttons */}
-              <div className="flex items-center gap-2">
+              {/* Edit + Sign Out buttons — desktop only */}
+              <div className="hidden sm:flex items-center gap-2">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-semibold rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
                 >
-                  <FiEdit2 className="w-4 h-4" /> Edit Profile
+                  <FiEdit2 className="w-3 h-3" /> Edit Profile
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-red-500 border border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-500 border border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                 >
-                  <FiLogOut className="w-4 h-4" /> Sign out
+                  <FiLogOut className="w-3 h-3" /> Sign out
                 </button>
               </div>
             </div>
