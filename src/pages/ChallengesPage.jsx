@@ -2,10 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
-import Sidebar from "../layout/Sidebar";
 import { useGetPostsByUserQuery } from "../features/post/postsApi";
 import { selectCurrentUser } from "../features/auth/authSlice";
-import { LuSwords } from "react-icons/lu";
+
 import {
   FiEye,
   FiMessageSquare,
@@ -43,18 +42,15 @@ function getDifficultyMeta(score, views, comments) {
   const heat = score * 3 + comments + Math.floor(views / 10);
   if (heat >= 15)
     return {
-      label: "Hot 🔥",
       color:
         "text-orange-500 bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800",
     };
   if (heat >= 5)
     return {
-      label: "Active ⚡",
       color:
         "text-blue-500 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
     };
   return {
-    label: "New 🌱",
     color:
       "text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800",
   };
@@ -68,28 +64,9 @@ const TAG_PALETTE = [
   "bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300",
 ];
 
-// ─── Stat Card ────────────────────────────────────────────────────────────────
-
-function StatCard({ icon, label, value, sub, gradient }) {
-  return (
-    <div
-      className={`rounded-2xl p-5 flex items-center gap-4 shadow-sm border ${gradient}`}
-    >
-      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-white/30 dark:bg-white/10 text-white text-xl">
-        {icon}
-      </div>
-      <div>
-        <p className="text-white/75 text-xs font-medium">{label}</p>
-        <p className="text-white font-black text-2xl leading-tight">{value}</p>
-        {sub && <p className="text-white/60 text-[11px] mt-0.5">{sub}</p>}
-      </div>
-    </div>
-  );
-}
-
 // ─── Challenge Milestone Card ─────────────────────────────────────────────────
 
-function MilestoneCard({ icon, title, desc, current, target, xp, color }) {
+function MilestoneCard({ title, desc, current, target, xp, color }) {
   const pct =
     target === 0 ? 0 : Math.min(100, Math.round((current / target) * 100));
   const done = current >= target;
@@ -104,11 +81,6 @@ function MilestoneCard({ icon, title, desc, current, target, xp, color }) {
         </span>
       )}
       <div className="flex items-start gap-3">
-        <div
-          className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${color}`}
-        >
-          {icon}
-        </div>
         <div className="min-w-0">
           <p className="font-bold text-slate-900 dark:text-white text-[15px]">
             {title}
@@ -288,7 +260,6 @@ export default function ChallengesPage() {
   // ── Build milestones from real data ───────────────────────────────────
   const milestones = [
     {
-      icon: "📝",
       title: "First Question",
       desc: "Post your first question",
       current: Math.min(posts.length, 1),
@@ -297,7 +268,6 @@ export default function ChallengesPage() {
       color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
     },
     {
-      icon: "🔥",
       title: "Active Poster",
       desc: "Post 5 questions",
       current: Math.min(posts.length, 5),
@@ -307,7 +277,6 @@ export default function ChallengesPage() {
         "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
     },
     {
-      icon: "👁",
       title: "Attention Getter",
       desc: "Get 20 total views",
       current: Math.min(stats.totalViews, 20),
@@ -316,7 +285,6 @@ export default function ChallengesPage() {
       color: "bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400",
     },
     {
-      icon: "💬",
       title: "Discussion Starter",
       desc: "Receive 5 comments",
       current: Math.min(stats.totalComments, 5),
@@ -326,7 +294,6 @@ export default function ChallengesPage() {
         "bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400",
     },
     {
-      icon: "🏷",
       title: "Tag Explorer",
       desc: "Use 3 different tags",
       current: Math.min(stats.uniqueTags.length, 3),
@@ -336,7 +303,6 @@ export default function ChallengesPage() {
         "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400",
     },
     {
-      icon: "⭐",
       title: "Score Seeker",
       desc: "Earn a score on any post",
       current: posts.some((p) => (p.score ?? 0) > 0) ? 1 : 0,
@@ -382,7 +348,6 @@ export default function ChallengesPage() {
   if (!userId) {
     return (
       <div className="flex min-h-screen bg-slate-100 dark:bg-gray-900">
-        <Sidebar />
         <main className="flex-1 flex items-center justify-center p-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
@@ -405,10 +370,6 @@ export default function ChallengesPage() {
 
   return (
     <div className="flex min-h-screen bg-slate-100 dark:bg-gray-900 transition-colors duration-300">
-      <aside className="shrink-0">
-        <Sidebar />
-      </aside>
-
       <main className="flex-1 px-8 py-8 overflow-y-auto">
         {isLoading && <Skeleton />}
 
@@ -449,10 +410,10 @@ export default function ChallengesPage() {
                 </div>
                 <div className="flex items-center gap-4 shrink-0 text-sm font-semibold">
                   <span className="text-amber-600 dark:text-amber-400">
-                    ⭐ {stats.bestPost.score ?? 0} score
+                    {stats.bestPost.score ?? 0} score
                   </span>
                   <span className="text-slate-500 dark:text-gray-400">
-                    👁 {stats.bestPost.viewCount ?? 0} views
+                    {stats.bestPost.viewCount ?? 0} views
                   </span>
                 </div>
               </div>
@@ -468,7 +429,7 @@ export default function ChallengesPage() {
                   {completedMilestones} of {milestones.length} complete
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols- sm:grid-cols-2 lg:grid-cols-2 gap-4">
                 {milestones.map((m) => (
                   <MilestoneCard key={m.title} {...m} />
                 ))}

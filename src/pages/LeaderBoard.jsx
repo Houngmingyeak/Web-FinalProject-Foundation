@@ -1,5 +1,5 @@
 import { GoTrophy } from "react-icons/go";
-import Sidebar from "../layout/Sidebar";
+
 import { LuMedal, LuCrown } from "react-icons/lu";
 import { FiUser } from "react-icons/fi";
 import { useGetPostsSortedByScoreQuery } from "../features/post/postsApi";
@@ -210,10 +210,6 @@ export default function Leaderboard() {
 
   return (
     <div className="flex min-h-screen bg-slate-100 dark:bg-gray-900 font-sans transition-colors duration-300">
-      <aside>
-        <Sidebar />
-      </aside>
-
       <main className="flex-1 p-8 overflow-y-auto">
         {/* Page Header */}
         <div className="flex items-center justify-between mb-6">

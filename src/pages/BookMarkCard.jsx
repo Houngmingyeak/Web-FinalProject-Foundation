@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
-import Sidebar from "../layout/Sidebar";
+
 import {
   useGetBookmarksQuery,
   useRemoveBookmarkMutation,
@@ -234,8 +234,6 @@ export default function BookmarkCard() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-colors duration-300">
-      <Sidebar />
-
       <div className="flex-1 p-6 overflow-y-auto">
         {/* ── Profile Banner ──────────────────────────────────── */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">

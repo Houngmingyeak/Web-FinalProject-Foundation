@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import TagSelector from "../components/TagSelector";
-import Sidebar from "../layout/Sidebar";
 
 const QuestionForm = () => {
   const [title, setTitle] = useState("");
@@ -28,10 +27,7 @@ const QuestionForm = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <div>
-        <Sidebar />
-      </div>
-      <div className="m-8 w-full">
+      <div className="m-8">
         <div>
           <h2 className="text-gray-950 text-[24px] font-bold ">
             Ask a Question
@@ -114,6 +110,7 @@ const QuestionForm = () => {
 
           <div className="grid grid-cols-2 border-t-2 border-gray-200 p-4 mb-5">
             <span className="text-sm text-green-800">
+              {" "}
               +15 XP for asking a question
             </span>
             <button

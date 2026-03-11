@@ -35,7 +35,7 @@ import {
   selectCurrentUser,
   selectIsAuthenticated,
 } from "../features/auth/authSlice";
-import Sidebar from "../layout/Sidebar";
+
 
 // ── Loading skeleton ─────────────────────────────────────────────────────────
 function Skeleton() {
@@ -303,7 +303,7 @@ export default function QuestionDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300 flex">
-      <Sidebar />
+  
 
       {/* Main content — offset for sidebar (adjust ml-64 to match your sidebar width) */}
       <div className="flex-1 ml-2">

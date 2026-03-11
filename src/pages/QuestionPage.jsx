@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Sidebar from "../layout/Sidebar";
 import QuestionCard from "../components/QuestionCard";
 import { useGetPostsQuery } from "../features/post/postsApi";
 import { formatDistanceToNow } from "date-fns";
+import { useBookmarks } from "../hooks/useBookmarks";
 
 const TABS = ["Newest", "Active", "Unanswered", "Most Voted"];
 
@@ -45,6 +45,7 @@ function mapPost(post) {
 }
 
 export default function QuestionsPage() {
+  const { toggleBookmark, isBookmarked } = useBookmarks();
   const [activeTab, setActiveTab] = useState("Newest");
 
   const { data: posts, isLoading, isError } = useGetPostsQuery();
@@ -74,8 +75,6 @@ export default function QuestionsPage() {
 
   return (
     <div className="flex bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
-      <Sidebar className="hidden md:block" />
-
       <main className="flex-1">
         <div className="flex items-center justify-between pl-8 pr-6 pt-6 pb-2">
           <h1 className="text-gray-900 dark:text-white font-bold text-[24px]">

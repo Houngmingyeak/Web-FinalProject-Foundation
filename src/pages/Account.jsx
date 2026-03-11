@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { logout } from "../features/auth/authSlice";
+import { logout, selectIsAuthenticated } from "../features/auth/authSlice";
 import {
   useGetProfileQuery,
   useUploadProfileImageMutation,
@@ -45,8 +45,7 @@ import {
   FiUsers,
   FiBarChart2,
 } from "react-icons/fi";
-import Sidebar from "../layout/Sidebar";
-import mindstack from "../assets/mindstack.png"; // Import the logo
+import mindstack from "../assets/mindstack.png";
 
 // ── Navigation Item ───────────────────────────────────────────────────────
 function NavItem({ icon: Icon, label, to, active, onClick }) {
@@ -205,6 +204,7 @@ function PageSkeleton() {
 export default function Account() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const { data: profile, isLoading, error } = useGetProfileQuery();
   const [uploadImage, { isLoading: isUploading }] =
@@ -241,13 +241,10 @@ export default function Account() {
     new: false,
     confirm: false,
   });
-
-  // Avatar upload state
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  // Navigation items
   const navItems = [
     { id: "home", icon: FiHome, label: "Home", to: "/" },
     {
@@ -279,6 +276,29 @@ export default function Account() {
       });
   }, [profile]);
 
+  if (!isAuthenticated)
+    return (
+      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+        <Sidebar />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+              Sign in Required
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">
+              Log in to see your profile and activity.
+            </p>
+            <button
+              onClick={() => navigate("/login")}
+              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors"
+            >
+              Log In
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+
   // ── File helpers ──
   const processFile = (file) => {
     if (!file) return;
@@ -289,6 +309,7 @@ export default function Account() {
     setSelectedFile(file);
     setPreviewImage(URL.createObjectURL(file));
   };
+
   const closeAvatarModal = () => {
     setIsAvatarOpen(false);
     setPreviewImage(null);
@@ -362,7 +383,7 @@ export default function Account() {
   const handleLogout = () => {
     dispatch(logout());
     toast.info("Logged out");
-    navigate("/login");
+    navigate("/questions  ");
   };
 
   if (isLoading) return <PageSkeleton />;
@@ -397,15 +418,10 @@ export default function Account() {
     ? formatDistanceToNow(new Date(profile.lastAccessDate), { addSuffix: true })
     : "—";
 
-  // Mock data for demonstration (replace with actual data from API)
   const level = 12;
   const currentXP = 720;
   const maxXP = 1000;
-  const badges = {
-    gold: 3,
-    silver: 8,
-    bronze: 15,
-  };
+  const badges = { gold: 3, silver: 8, bronze: 15 };
   const stats = {
     xpEarned: 4720,
     questions: questions.length,
@@ -422,11 +438,6 @@ export default function Account() {
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      <div>
-        <Sidebar />
-      </div>
-
-      {/* Main Content */}
       <div className="flex-1 overflow-y-auto p-6">
         <div className="max-w-5xl mx-auto space-y-6">
           {/* Profile Header */}
@@ -468,13 +479,21 @@ export default function Account() {
                 </p>
               </div>
 
-              {/* Edit Button */}
-              <button
-                onClick={() => setIsEditing(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
-              >
-                <FiEdit2 className="w-4 h-4" /> Edit Profile
-              </button>
+              {/* Edit + Sign Out buttons */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+                >
+                  <FiEdit2 className="w-4 h-4" /> Edit Profile
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-red-500 border border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                >
+                  <FiLogOut className="w-4 h-4" /> Sign out
+                </button>
+              </div>
             </div>
           </div>
 
@@ -539,7 +558,6 @@ export default function Account() {
 
           {/* Tabs Section */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-            {/* Tab Bar */}
             <div className="flex border-b border-gray-200 dark:border-gray-700">
               {tabs.map((tab) => (
                 <button
@@ -556,7 +574,6 @@ export default function Account() {
               ))}
             </div>
 
-            {/* Tab Content */}
             <div className="p-4">
               {activeTab === "questions" && (
                 <div>
@@ -634,11 +651,10 @@ export default function Account() {
           </div>
         </div>
       </div>
-      {/* Modals remain the same as before... */}
-      {/* Edit Profile Modal */}
+
+      {/* ── Edit Profile Modal ── */}
       {isEditing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
-          {/* ... modal content (same as before) ... */}
           <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
@@ -712,10 +728,9 @@ export default function Account() {
         </div>
       )}
 
-      {/* Avatar Upload Modal */}
+      {/* ── Avatar Upload Modal ── */}
       {isAvatarOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
-          {/* ... modal content (same as before) ... */}
           <div className="bg-white dark:bg-gray-900 w-full max-w-sm rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
@@ -729,9 +744,7 @@ export default function Account() {
                 <FiX className="w-4 h-4" />
               </button>
             </div>
-
             <div className="p-6 flex flex-col items-center gap-5">
-              {/* Preview */}
               <div className="w-28 h-28 rounded-2xl overflow-hidden border-4 border-blue-100 dark:border-blue-900/40 shadow-md">
                 {previewImage ? (
                   <img
@@ -751,8 +764,6 @@ export default function Account() {
                   </div>
                 )}
               </div>
-
-              {/* Drop zone */}
               <label
                 onDragOver={(e) => {
                   e.preventDefault();
@@ -796,7 +807,6 @@ export default function Account() {
                 />
               </label>
             </div>
-
             <div className="flex justify-end gap-3 px-6 pb-6">
               <button
                 onClick={closeAvatarModal}
@@ -826,10 +836,9 @@ export default function Account() {
         </div>
       )}
 
-      {/* Change Password Modal */}
+      {/* ── Change Password Modal ── */}
       {isPwOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
-          {/* ... modal content (same as before) ... */}
           <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
@@ -842,7 +851,6 @@ export default function Account() {
                 <FiX className="w-4 h-4" />
               </button>
             </div>
-
             <form
               onSubmit={handleChangePassword}
               className="px-6 py-6 space-y-4"
@@ -852,8 +860,6 @@ export default function Account() {
                 Enter your current password to verify your identity, then set a
                 new password with at least 8 characters.
               </p>
-
-              {/* Current Password */}
               <div>
                 <label className="block text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wide mb-1.5">
                   Current Password
@@ -882,8 +888,6 @@ export default function Account() {
                   </button>
                 </div>
               </div>
-
-              {/* New Password */}
               <div>
                 <label className="block text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wide mb-1.5">
                   New Password
@@ -912,8 +916,6 @@ export default function Account() {
                   </button>
                 </div>
               </div>
-
-              {/* Confirm New Password */}
               <div>
                 <label className="block text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wide mb-1.5">
                   Confirm New Password
@@ -968,8 +970,6 @@ export default function Account() {
                     </p>
                   )}
               </div>
-
-              {/* Actions */}
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"

@@ -1,4 +1,3 @@
-import { useState, useContext } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa";
 import { CgMediaLive } from "react-icons/cg";
@@ -8,10 +7,10 @@ import CherPhengPic from "../assets/images/CherPhengPic.jpg";
 import CherCheatPic from "../assets/images/CherCheatPic.JPG";
 import YeakPic from "../assets/images/YeakPic.JPG";
 import SoriyaPic from "../assets/images/SoriyaPic.jpg";
-import VanPic from "../assets/images/LokbongPic.png";
+import VanPic from "../assets/images/LokBongPic.png";
 import SaveunPic from "../assets/images/SavaunPic.png";
 import LongfuPic from "../assets/images/LongfuPic.jpg";
-import ReachPic from "../assets/images/reachPic.jpg";
+import ReachPic from "../assets/images/ReachPic.JPG";
 import TeviPic from "../assets/images/TeviPic.png";
 import abtus_background from "../assets/images/abtus_background.png";
 
@@ -156,34 +155,30 @@ function MemberCard({ name, role, photo }) {
 
 export default function AboutPage() {
   return (
-    <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
-      <header className="relative">
-        <div className="relative">
-          {/* Background Image */}
-          <div className="w-full">
+    <div className="font-sans bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
+      {/* HERO */}
+
+      <div className="relative h-screen overflow-hidden">
+        <div className="relative h-full">
+          <div className="w-full h-full">
             <img
               src={abtus_background}
               alt="Developers collaborating"
-              className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-auto object-cover opacity-7"
+              className="w-full h-full object-cover opacity-7"
             />
           </div>
-
-          {/* Text Overlay */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center px-4 sm:px-6 md:px-8 w-full">
-              <h2 className="font-extrabold text-black leading-tight">
-                {/* First Line */}
+              <h2 className="font-extrabold text-black dark:text-white leading-tight">
                 <div className="text-[24px] sm:text-[40px] md:text-[56px] lg:text-[72px] whitespace-nowrap">
                   Ask Answer Collaborate Grow
                 </div>
-
-                {/* Second Line */}
                 <div className="text-[22px] sm:text-[34px] md:text-[50px] lg:text-[72px] whitespace-nowrap bg-[linear-gradient(90deg,rgba(60,131,246,1)_0%,rgba(245,159,10,1)_91%)] bg-clip-text text-transparent">
                   Built by learners, for learners
                 </div>
               </h2>
 
-              <p className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[20px] text-slate-600 mt-3 sm:mt-4 md:mt-6 max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto">
+              <p className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[20px] text-slate-600 dark:text-gray-400 mt-3 sm:mt-4 md:mt-6 max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto">
                 our community-driven forum encourages open discussion, knowledge
                 sharing, and continuous improvement in the world of technology.
               </p>
@@ -195,7 +190,7 @@ export default function AboutPage() {
                     <FaArrowRight className="mt-0.5 sm:mt-1" />
                   </a>
                 </div>
-                <div className="inline-flex items-center gap-2 border border-gray-200 text-black px-5 sm:px-7 md:px-8 py-2 sm:py-3 rounded-2xl font-semibold hover:bg-gray-100 transition text-sm sm:text-base">
+                <div className="inline-flex items-center gap-2 border border-gray-200 dark:border-gray-700 text-black dark:text-white px-5 sm:px-7 md:px-8 py-2 sm:py-3 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition text-sm sm:text-base">
                   <a href="#" className="flex items-center gap-2">
                     See how it works
                     <FaAngleRight className="mt-0.5 sm:mt-1" />
@@ -205,7 +200,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Purpose */}
       <div className="bg-white dark:bg-[#121B31] py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 max-w-8xl mx-auto text-center">
@@ -219,7 +214,7 @@ export default function AboutPage() {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-6 sm:gap-y-8 text-left w-full max-w-[1100px]">
             {/* Mission Card */}
-            <div className="bg-slate-50 dark:bg-[#121B31] w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
+            <div className="bg-slate-50 dark:bg-gray-950 w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
               <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl mb-3 sm:mb-4">
                 <RiShieldLine className="text-blue-600 dark:text-blue-400 text-[20px] sm:text-[25px]" />
               </div>
@@ -235,7 +230,7 @@ export default function AboutPage() {
             </div>
 
             {/* Vision Card */}
-            <div className="bg-slate-50 dark:dark:bg-[#121B31] w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
+            <div className="bg-slate-50 dark:bg-gray-950 w-full md:w-[380px] lg:w-[520px] min-h-[220px] md:min-h-[250px] lg:h-[275px] p-5 sm:p-6 md:p-8 rounded-xl border border-slate-200 dark:border-gray-700 flex flex-col mx-auto">
               <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl mb-3 sm:mb-4">
                 <CgMediaLive className="text-blue-600 dark:text-blue-400 text-[24px] sm:text-[30px]" />
               </div>
@@ -254,7 +249,7 @@ export default function AboutPage() {
       </div>
 
       {/* Team */}
-      <div className="bg-white dark:bg-[#121B31] py-14 sm:py-16 md:py-20 px-4 sm:px-6 pb-16 sm:pb-20 md:pb-25">
+      <div className="bg-blue-50/50 dark:bg-gray-950 py-14 sm:py-16 md:py-20 px-4 sm:px-6 pb-16 sm:pb-20 md:pb-25">
         <div className="max-w-7xl mx-auto text-center">
           <p className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-black dark:text-white mb-2.5">
             <FiUsers className="text-sm" />

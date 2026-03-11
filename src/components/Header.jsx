@@ -4,40 +4,44 @@ import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../features/auth/authSlice";
 import { useGetProfileQuery } from "../features/profile/profileApi";
 import { useAuthImage } from "../hooks/useAuthImage";
-import { FiSearch, FiMoon, FiSun, FiMenu } from "react-icons/fi";
+import { FiSearch, FiMoon, FiSun, FiMenu, FiLogOut } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
 import { SlNote } from "react-icons/sl";
 import MindStack from "../assets/mindstack.png";
 
-export default function Header() {
+export default function Header({ onMenuClick }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { data: profile } = useGetProfileQuery(undefined, {
     skip: !isAuthenticated,
   });
   const avatarSrc = useAuthImage(profile?.profileImage ?? null);
 
-  // Global theme from ThemeProvider (persisted in localStorage)
   const { theme, toggleTheme } = useTheme();
   const isDarkMode = theme === "dark";
 
-  const isHomePage = location.pathname === "/";
+  const isHomePage =
+    location.pathname === "/" || location.pathname === "/about-us";
 
-  const navLinks = [
-    { label: "Features", to: "/features " },
-    { label: "Testimonials", to: "/testimonials" },
-    { label: "About Us", to: "/aboutus" },
-  ];
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.info("Logged out");
+    navigate("/questions");
+  };
 
   if (isHomePage) {
     return (
       <header className="w-full bg-white dark:bg-gray-950 sticky top-0 z-50 transition-colors duration-300">
-        {/* Blue accent line at the very bottom */}
         <div className="relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
-            {/* ── Logo ─────────────────────────────── */}
             <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
-              <div className="w-9 h-9  rounded-lg flex items-center justify-center dark:shadow-blue-900/30 ">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center dark:shadow-blue-900/30">
                 <img src={MindStack} alt="" />
               </div>
               <span className="text-[22px] font-black text-gray-900 dark:text-white tracking-tight">
@@ -45,29 +49,42 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* ── Nav links (centre) ────────────────── */}
             <nav className="hidden md:flex items-center gap-7 flex-1 justify-center">
-              {navLinks.map(({ label, to }) => (
-                <Link
-                  key={label}
-                  to={to}
-                  className="text-[15px] font-medium text-gray-600 dark:text-gray-300
-        hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  {label}
-                </Link>
-              ))}
+              {[
+                { label: "Features", id: "features" },
+                { label: "Testimonials", id: "testimonials" },
+                { label: "About Us", id: null },
+              ].map(({ label, id }) =>
+                id ? (
+                  <button
+                    key={label}
+                    onClick={() =>
+                      document
+                        .getElementById(id)
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
+                    className="text-[15px] font-medium text-gray-600 dark:text-gray-300 transition-colors bg-transparent border-none cursor-pointer"
+                  >
+                    {label}
+                  </button>
+                ) : (
+                  <Link
+                    key={label}
+                    to="/about-us"
+                    className="text-[15px] font-medium text-gray-600 dark:text-gray-300 transition-colors"
+                  >
+                    {label}
+                  </Link>
+                ),
+              )}
             </nav>
 
-            {/* ── Right actions ─────────────────────── */}
             <div className="flex items-center gap-3 shrink-0">
-              {/* Theme toggle */}
               <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
-
               {isAuthenticated ? (
                 <Link
                   to="/questions"
-                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-[14px] font-bold rounded-full transition-all hover:-translate-y-0.5 shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
+                  className="px-5 py-2 bg-blue-600 text-white text-[14px] font-bold rounded-full transition-all shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
                 >
                   Question
                 </Link>
@@ -75,26 +92,18 @@ export default function Header() {
                 <>
                   <Link
                     to="/login"
-                    className="hidden sm:block text-[14px] font-semibold text-gray-700 dark:text-gray-200
-                      hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-2"
+                    className="hidden sm:block text-[14px] font-semibold text-gray-700 dark:text-gray-200 transition-colors px-2"
                   >
                     Log in
                   </Link>
                   <Link
                     to="/signup"
-                    className="hidden sm:flex items-center px-5 py-2 bg-blue-600 hover:bg-blue-700
-                      text-white text-[14px] font-bold rounded-full transition-all
-                      hover:-translate-y-0.5 shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
+                    className="hidden sm:flex items-center px-5 py-2 bg-blue-600 text-white text-[14px] font-bold rounded-full transition-all shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
                   >
                     Sign up free
                   </Link>
                 </>
               )}
-
-              {/* Mobile hamburger */}
-              <button className="md:hidden p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-                <FiMenu className="w-5 h-5" />
-              </button>
             </div>
           </div>
         </div>
@@ -102,42 +111,48 @@ export default function Header() {
     );
   }
 
+  // APP HEADER
   return (
     <header className="w-full bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* 1. Logo */}
-        <Link
-          to="/questions"
-          className="flex items-center gap-2 shrink-0 group"
-        >
-          <div className="w-8 h-8  rounded-lg flex items-center justify-center text-white font-black text-lg t">
-            <img src={MindStack} alt="" />
-          </div>
-          <span className="text-lg font-black text-gray-900 dark:text-white tracking-tight hidden sm:block">
-            MindStack
-          </span>
-        </Link>
+        {/* Left — hamburger + logo */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Hamburger — hidden on laptop, visible on mobile & tablet */}
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
+          >
+            <FiMenu className="w-5 h-5" />
+          </button>
 
-        {/* search */}
+          <Link to="/questions" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-lg transition-transform">
+              <img src={MindStack} alt="" />
+            </div>
+            <span className="text-lg font-black text-gray-900 dark:text-white tracking-tight hidden sm:block">
+              MindStack
+            </span>
+          </Link>
+        </div>
 
+        {/* Search */}
         <div className="flex-1 max-w-2xl px-2">
           <div className="relative group">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 group-focus-within:text-blue-500 transition-colors" />
             <input
               type="text"
-              placeholder="Search "
+              placeholder="Search"
               className="w-full pl-12 pr-4 py-1.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
             />
           </div>
         </div>
 
-        {/* 3, 4 & 5. Ask Button + Dark Mode + Avatar */}
+        {/* Right — ask + theme + avatar */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Ask Question CTA */}
           {isAuthenticated && (
             <Link
               to="/ask"
-              className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all hover:-translate-y-0.5 shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-xl transition-all shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
             >
               <span className="text-base leading-none">
                 <SlNote />
@@ -146,13 +161,11 @@ export default function Header() {
             </Link>
           )}
 
-          {/* Dark Mode Toggle */}
           <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
 
-          {/* User Avatar */}
           {isAuthenticated ? (
             <Link to="/account" className="relative group block">
-              <div className="w-10 h-10 rounded-full border-2 border-gray-200 dark:border-gray-800 overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all group-hover:border-blue-500 dark:group-hover:border-blue-400">
+              <div className="w-10 h-10 rounded-full border-2 border-gray-200 dark:border-gray-800 overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all">
                 {avatarSrc ? (
                   <img
                     src={avatarSrc}
@@ -165,13 +178,12 @@ export default function Header() {
                   </div>
                 )}
               </div>
-              {/* Online indicator */}
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-gray-950 rounded-full"></div>
             </Link>
           ) : (
             <Link
               to="/login"
-              className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-bold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors border border-transparent"
+              className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-bold rounded-xl transition-colors border border-transparent"
             >
               Log in
             </Link>
@@ -182,9 +194,6 @@ export default function Header() {
   );
 }
 
-// ─────────────────────────────────────────────────────────
-// Animated Dark / Light Mode Toggle Pill
-// ─────────────────────────────────────────────────────────
 function ThemeToggle({ isDarkMode, onToggle }) {
   return (
     <button
@@ -194,10 +203,10 @@ function ThemeToggle({ isDarkMode, onToggle }) {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center", // Centering the single icon
-        width: "40px", // Fixed width for a single icon
+        justifyContent: "center",
+        width: "40px",
         height: "40px",
-        borderRadius: "50%", // Circular button
+        borderRadius: "50%",
         border: isDarkMode ? "1.5px solid #374151" : "1.5px solid #e5e7eb",
         background: isDarkMode
           ? "linear-gradient(135deg, #1f2937 0%, #111827 100%)"
@@ -207,13 +216,12 @@ function ThemeToggle({ isDarkMode, onToggle }) {
         outline: "none",
       }}
     >
-      {/* Conditional Icon Rendering */}
       <span
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: isDarkMode ? "#fbbf24" : "#3b82f6", // Sun color or Moon color
+          color: isDarkMode ? "#fbbf24" : "#3b82f6",
           transition: "all 0.25s ease",
         }}
       >
