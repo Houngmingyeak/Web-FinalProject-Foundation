@@ -110,7 +110,7 @@ import { GoTrophy } from "react-icons/go";
 import { FiHome } from "react-icons/fi";
 import { FaRegBookmark } from "react-icons/fa6";
 
-const navItems = [
+export const navItems = [
   { label: "Home", path: "/", icon: <FiHome /> },
   { label: "Questions", path: "/questions", icon: <FaRegQuestionCircle /> },
   { label: "Leaderboard", path: "/leaderboard", icon: <GoTrophy /> },
@@ -119,21 +119,20 @@ const navItems = [
   { label: "Profile", path: "/profile", icon: <FaRegUser /> },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ className = "" }) {
   const location = useLocation();
 
   return (
-    <aside className="w-72 bg-white dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 flex flex-col py-4 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300 shrink-0">
+    <aside className={`w-72 bg-white dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 flex flex-col py-4 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300 shrink-0 ${className}`}>
       <nav className="flex flex-col gap-1 px-3 py-2">
         {navItems.map(({ label, path, icon }) => (
           <Link
             key={label}
             to={path}
-            className={`flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium text-sm transition-colors ${
-              location.pathname === path
-                ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200"
-            }`}
+            className={`flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium text-sm transition-colors ${location.pathname === path
+              ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+              : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200"
+              }`}
           >
             <span className="text-[18px]">{icon}</span>
             {label}

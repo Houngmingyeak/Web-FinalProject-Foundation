@@ -73,11 +73,10 @@ const ScoreBar = ({ score, max, isMe = false }) => {
   return (
     <div className="flex-1 h-1.5 bg-slate-200 dark:bg-gray-700 rounded-full overflow-hidden">
       <div
-        className={`h-full rounded-full transition-all duration-700 ${
-          isMe
+        className={`h-full rounded-full transition-all duration-700 ${isMe
             ? "bg-linear-to-r from-blue-500 to-violet-500"
             : "bg-linear-to-r from-slate-400 to-slate-500 dark:from-gray-500 dark:to-gray-400"
-        }`}
+          }`}
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -104,29 +103,29 @@ function MyScoreBanner({ user, maxScore }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-4 sm:mt-0 w-full sm:w-auto">
           <div className="text-center">
-            <p className="text-white/70 text-xs font-medium mb-0.5">Rank</p>
-            <p className="text-2xl font-black">#{user.rank}</p>
+            <p className="text-white/70 text-[10px] sm:text-xs font-medium mb-0.5">Rank</p>
+            <p className="text-xl sm:text-2xl font-black">#{user.rank}</p>
           </div>
-          <div className="w-px h-10 bg-white/20" />
+          <div className="w-px h-8 sm:h-10 bg-white/20" />
           <div className="text-center">
-            <p className="text-white/70 text-xs font-medium mb-0.5">
-              Total Score
+            <p className="text-white/70 text-[10px] sm:text-xs font-medium mb-0.5">
+              Score
             </p>
-            <p className="text-2xl font-black">
+            <p className="text-xl sm:text-2xl font-black">
               {user.totalScore.toLocaleString()}
             </p>
           </div>
-          <div className="w-px h-10 bg-white/20" />
+          <div className="w-px h-8 sm:h-10 bg-white/20" />
           <div className="text-center">
-            <p className="text-white/70 text-xs font-medium mb-0.5">Posts</p>
-            <p className="text-2xl font-black">{user.posts}</p>
+            <p className="text-white/70 text-[10px] sm:text-xs font-medium mb-0.5">Posts</p>
+            <p className="text-xl sm:text-2xl font-black">{user.posts}</p>
           </div>
-          <div className="w-px h-10 bg-white/20" />
-          <div className="text-center">
-            <p className="text-white/70 text-xs font-medium mb-0.5">Views</p>
-            <p className="text-2xl font-black">
+          <div className="w-px h-8 sm:h-10 bg-white/20 hidden sm:block" />
+          <div className="text-center hidden sm:block">
+            <p className="text-white/70 text-[10px] sm:text-xs font-medium mb-0.5">Views</p>
+            <p className="text-xl sm:text-2xl font-black">
               {user.totalViews.toLocaleString()}
             </p>
           </div>
@@ -158,7 +157,7 @@ function MyScoreBanner({ user, maxScore }) {
 const Skeleton = () => (
   <div className="flex flex-col gap-4 animate-pulse">
     <div className="h-32 bg-linear-to-r from-blue-200 to-violet-200 dark:from-blue-900/40 dark:to-violet-900/40 rounded-2xl mb-2" />
-    <div className="grid grid-cols-3 gap-4 mb-5">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
       {[0, 1, 2].map((i) => (
         <div
           key={i}
@@ -202,19 +201,19 @@ export default function Leaderboard() {
   // Find the logged-in user in the leaderboard
   const meInBoard = currentUser
     ? users.find(
-        (u) =>
-          u.id === currentUser.id ||
-          u.name?.toLowerCase() === currentUser.displayName?.toLowerCase(),
-      )
+      (u) =>
+        u.id === currentUser.id ||
+        u.name?.toLowerCase() === currentUser.displayName?.toLowerCase(),
+    )
     : null;
 
   return (
     <div className="flex min-h-screen bg-slate-100 dark:bg-gray-900 font-sans transition-colors duration-300">
       <aside>
-        <Sidebar />
+        <Sidebar className="hidden lg:flex" />
       </aside>
 
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
         {/* Page Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -264,7 +263,7 @@ export default function Leaderboard() {
             )}
 
             {/* ── Top 3 Podium ─────────────────────────────────── */}
-            <div className="grid grid-cols-3 gap-4 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
               {top3.map((user, i) => {
                 const rank = rankOrder[i] ?? i + 1;
                 const isMe = meInBoard?.id === user.id;
@@ -273,10 +272,9 @@ export default function Leaderboard() {
                     key={user.id}
                     className={`rounded-2xl px-5 py-6 flex flex-col items-center border 
                       transition-all duration-300 hover:-translate-y-2 
-                      ${
-                        isMe
-                          ? "bg-linear-to-br from-blue-50 to-violet-50 dark:from-blue-900/30 dark:to-violet-900/30 border-blue-300 dark:border-blue-600 hover:shadow-blue-200 dark:hover:shadow-blue-900/40"
-                          : "bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 "
+                      ${isMe
+                        ? "bg-linear-to-br from-blue-50 to-violet-50 dark:from-blue-900/30 dark:to-violet-900/30 border-blue-300 dark:border-blue-600 hover:shadow-blue-200 dark:hover:shadow-blue-900/40"
+                        : "bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 "
                       }`}
                   >
                     {/* Medal / Crown */}
@@ -339,10 +337,9 @@ export default function Leaderboard() {
                       id={isMe ? "my-leaderboard-row" : undefined}
                       className={`rounded-xl px-5 py-3.5 flex items-center gap-3.5 shadow-sm
                         transition-all duration-300 hover:-translate-y-1 hover:shadow-lg
-                        ${
-                          isMe
-                            ? "bg-linear-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border-2 border-blue-400 dark:border-blue-500 hover:border-blue-500 dark:hover:border-blue-400"
-                            : "bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-700"
+                        ${isMe
+                          ? "bg-linear-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border-2 border-blue-400 dark:border-blue-500 hover:border-blue-500 dark:hover:border-blue-400"
+                          : "bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-700"
                         }`}
                     >
                       {/* Rank badge */}

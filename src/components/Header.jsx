@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../features/auth/authSlice';
 import { useGetProfileQuery } from '../features/profile/profileApi';
 import { useAuthImage } from '../hooks/useAuthImage';
-import { FiSearch, FiMoon, FiSun, FiMenu, FiUser, FiHash, FiMessageSquare } from 'react-icons/fi';
+import { FiSearch, FiMoon, FiSun, FiMenu, FiX, FiUser, FiHash, FiMessageSquare } from 'react-icons/fi';
+import { SlNote } from 'react-icons/sl';
+import MindStack from '../assets/Mindstack.png';
 import { useTheme } from '../context/ThemeContext';
 import { useSearchUsersQuery, useSearchTagsQuery, useSearchCommentsQuery } from '../features/search/searchApi';
+import { navItems } from '../layout/Sidebar';
 
 export default function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { data: profile } = useGetProfileQuery(undefined, {
     skip: !isAuthenticated,
@@ -24,6 +28,16 @@ export default function Header() {
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchRef = useRef(null);
+
+  // Mobile Menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAppSidebarOpen, setIsAppSidebarOpen] = useState(false);
+
+  // Close mobile menus when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setIsAppSidebarOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -138,11 +152,75 @@ export default function Header() {
               )}
 
               {/* Mobile hamburger */}
-              <button className="md:hidden p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-                <FiMenu className="w-5 h-5" />
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                aria-label="Toggle Menu"
+              >
+                {isMobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
               </button>
             </div>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800 shadow-xl shadow-gray-200/50 dark:shadow-gray-950 flex flex-col pt-2 pb-6 px-6 gap-5 animate-in slide-in-from-top-2 z-40">
+              <nav className="flex flex-col gap-4">
+                {[
+                  { label: "Features", id: "features" },
+                  { label: "Testimonials", id: "testimonials" },
+                  { label: "About Us", id: null },
+                ].map(({ label, id }) =>
+                  id ? (
+                    <button
+                      key={label}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="text-left text-[16px] font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 border-b border-gray-100 dark:border-gray-800"
+                    >
+                      {label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={label}
+                      to="/about-us"
+                      className="text-left text-[16px] font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2 border-b border-gray-100 dark:border-gray-800"
+                    >
+                      {label}
+                    </Link>
+                  )
+                )}
+              </nav>
+
+              <div className="flex flex-col gap-3 mt-2">
+                {isAuthenticated ? (
+                  <Link
+                    to="/questions"
+                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-[15px] font-bold rounded-xl text-center transition-colors shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
+                  >
+                    Go to App
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="w-full py-3 bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200 text-[15px] font-bold rounded-xl text-center transition-colors border border-gray-200 dark:border-gray-700"
+                    >
+                      Log in
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-[15px] font-bold rounded-xl text-center transition-colors shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
+                    >
+                      Sign up free
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </header>
     );
@@ -151,19 +229,28 @@ export default function Header() {
   // APP HEADER
   return (
     <header className="w-full bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Logo */}
-        <Link
-          to="/questions"
-          className="flex items-center gap-2 shrink-0 group"
-        >
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-lg transition-transform group-hover:scale-105">
-            <img src={MindStack} alt="" />
-          </div>
-          <span className="text-lg font-black text-gray-900 dark:text-white tracking-tight hidden sm:block">
-            MindStack
-          </span>
-        </Link>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        {/* Hamburger + Logo */}
+        <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+          <button
+            onClick={() => setIsAppSidebarOpen(true)}
+            className="lg:hidden p-2 -ml-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          >
+            <FiMenu className="w-5 h-5" />
+          </button>
+
+          <Link
+            to="/"
+            className="flex items-center gap-2 shrink-0 group"
+          >
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-lg transition-transform group-hover:scale-105">
+              <img src={MindStack} alt="" />
+            </div>
+            <span className="text-lg font-black text-gray-900 dark:text-white tracking-tight hidden sm:block">
+              MindStack
+            </span>
+          </Link>
+        </div>
 
         {/* 2. Global Search Input */}
         <div className="flex-1 max-w-2xl px-4" ref={searchRef}>
@@ -272,21 +359,21 @@ export default function Header() {
           <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
 
           {isAuthenticated ? (
-            <Link to="/account" className="relative group block">
-              <div className="w-10 h-10 rounded-full border-2 border-gray-200 dark:border-gray-800 overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all group-hover:border-blue-500 dark:group-hover:border-blue-400">
+            <Link to="/account" className="relative group block shrink-0">
+              <div className="w-10 h-10 rounded-full border-2 border-gray-200 dark:border-gray-800 overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all group-hover:border-blue-500 dark:group-hover:border-blue-400 group-hover:shadow-lg group-hover:shadow-blue-500/10">
                 {avatarSrc ? (
                   <img
                     src={avatarSrc}
                     alt="User Avatar"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform group-hover:scale-110"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-sm">
+                  <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-blue-500 to-indigo-600 text-white font-bold text-sm">
                     {profile?.displayName?.charAt(0).toUpperCase() || "U"}
                   </div>
                 )}
               </div>
-              <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-gray-950 rounded-full"></div>
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-gray-950 rounded-full shadow-sm shadow-emerald-500/50"></div>
             </Link>
           ) : (
             <Link
@@ -298,6 +385,50 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      {/* App Mobile Sidebar Overlay */}
+      {isAppSidebarOpen && (
+        <div className="lg:hidden fixed inset-0 z-100 flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsAppSidebarOpen(false)}
+          />
+
+          {/* Slide-in Panel */}
+          <div className="relative w-72 max-w-[80vw] bg-white dark:bg-gray-950 h-full shadow-2xl flex flex-col animate-in slide-in-from-left-full duration-300">
+            {/* Header of Sidebar */}
+            <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 dark:border-gray-800">
+              <span className="text-[20px] font-black text-gray-900 dark:text-white tracking-tight">
+                Menu
+              </span>
+              <button
+                onClick={() => setIsAppSidebarOpen(false)}
+                className="p-2 -mr-2 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                <FiX className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Nav list */}
+            <nav className="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+              {navItems.map(({ label, path, icon }) => (
+                <Link
+                  key={label}
+                  to={path}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-[15px] transition-colors ${location.pathname === path
+                    ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200"
+                    }`}
+                >
+                  <span className="text-[20px]">{icon}</span>
+                  {label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

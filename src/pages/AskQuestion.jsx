@@ -15,7 +15,10 @@ import {
   FiCheckCircle,
   FiLoader,
   FiX,
+  FiImage,
 } from "react-icons/fi";
+import { useUploadSingleImageMutation } from "../features/upload/uploadApi";
+import { renderMarkdown } from "../utils/markdownRenderer";
 
 const MAX_TAGS = 5;
 const MIN_TITLE = 15;
@@ -28,12 +31,11 @@ function TagChip({ tag, selected, onClick, disabled }) {
       onClick={onClick}
       disabled={disabled}
       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-medium border transition-all duration-200
-        ${
-          selected
-            ? "bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
-            : disabled
-              ? "bg-gray-50 dark:bg-gray-800 text-gray-300 dark:text-gray-600 border-gray-200 dark:border-gray-700 cursor-not-allowed"
-              : "bg-white dark:bg-gray-800 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
+        ${selected
+          ? "bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-200 dark:shadow-blue-900/30"
+          : disabled
+            ? "bg-gray-50 dark:bg-gray-800 text-gray-300 dark:text-gray-600 border-gray-200 dark:border-gray-700 cursor-not-allowed"
+            : "bg-white dark:bg-gray-800 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
         }`}
     >
       {selected && <FiX className="w-3 h-3" />}
@@ -51,6 +53,7 @@ export default function AskQuestion() {
   const navigate = useNavigate();
   const [createPost, { isLoading }] = useCreatePostMutation();
   const [createTag, { isLoading: creatingTag }] = useCreateTagMutation();
+  const [uploadImage, { isLoading: isUploadingImage }] = useUploadSingleImageMutation();
   const { data: availableTags = [], isLoading: tagsLoading } =
     useGetTagsQuery();
 
@@ -99,6 +102,21 @@ export default function AskQuestion() {
     }
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const result = await uploadImage(file).unwrap();
+      if (result && result.uri) {
+        setBody((prev) => prev + `\n![${file.name}](${result.uri})\n`);
+        toast.success("Image uploaded!");
+      }
+    } catch (err) {
+      toast.error("Failed to upload image");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
@@ -117,38 +135,6 @@ export default function AskQuestion() {
         err?.data?.message ?? "Failed to post question. Please try again.",
       );
     }
-  };
-
-  const renderPreview = (text) => {
-    if (!text)
-      return "<p class='text-slate-400 dark:text-gray-500 italic'>Nothing to preview yet...</p>";
-    return text
-      .replace(
-        /```([\s\S]*?)```/g,
-        "<pre class='bg-slate-100 dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg p-4 overflow-x-auto text-sm my-3'><code>$1</code></pre>",
-      )
-      .replace(
-        /`([^`]+)`/g,
-        "<code class='bg-slate-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 px-1.5 py-0.5 rounded text-sm font-mono'>$1</code>",
-      )
-      .replace(
-        /\*\*(.+?)\*\*/g,
-        "<strong class='font-semibold text-slate-900 dark:text-white'>$1</strong>",
-      )
-      .replace(/\*(.+?)\*/g, "<em>$1</em>")
-      .replace(
-        /^## (.+)$/gm,
-        "<h2 class='text-xl font-bold text-slate-900 dark:text-white mt-4 mb-2'>$1</h2>",
-      )
-      .replace(
-        /^# (.+)$/gm,
-        "<h1 class='text-2xl font-bold text-slate-900 dark:text-white mt-4 mb-2'>$1</h1>",
-      )
-      .replace(
-        /^- (.+)$/gm,
-        "<li class='ml-4 list-disc text-slate-700 dark:text-gray-300'>$1</li>",
-      )
-      .replace(/\n/g, "<br/>");
   };
 
   return (
@@ -176,16 +162,15 @@ export default function AskQuestion() {
               onSubmit={handleSubmit}
               className="flex-1 flex flex-col gap-5 min-w-0"
             >
-              {/* ── ONE SINGLE CARD FOR EVERYTHING ── */}
+              {/* Card Container */}
               <div className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
-                {/* ── 1. Title ── */}
+                {/* 1. Title */}
                 <div className="p-6">
                   <label className="block text-sm font-semibold text-slate-800 dark:text-white mb-1.5">
                     Title <span className="text-red-500">*</span>
                   </label>
                   <p className="text-xs text-slate-400 dark:text-gray-500 mb-3">
-                    Be specific and imagine you're asking a question to another
-                    person.
+                    Be specific and imagine you're asking a question to another person.
                   </p>
                   <div className="relative">
                     <input
@@ -194,12 +179,11 @@ export default function AskQuestion() {
                       onChange={(e) => setTitle(e.target.value)}
                       maxLength={150}
                       className={`w-full px-4 py-3 rounded-xl text-sm bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 border transition-all outline-none
-                        ${
-                          submitted && titleState !== "ok"
-                            ? "border-red-400 dark:border-red-500 focus:ring-2 focus:ring-red-400/30"
-                            : titleState === "ok"
-                              ? "border-emerald-400 dark:border-emerald-600 focus:ring-2 focus:ring-emerald-400/20"
-                              : "border-slate-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400"
+                        ${submitted && titleState !== "ok"
+                          ? "border-red-400 dark:border-red-500 focus:ring-2 focus:ring-red-400/30"
+                          : titleState === "ok"
+                            ? "border-emerald-400 dark:border-emerald-600 focus:ring-2 focus:ring-emerald-400/20"
+                            : "border-slate-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400"
                         }`}
                     />
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -231,33 +215,55 @@ export default function AskQuestion() {
 
                 <div className="border-t border-slate-100 dark:border-gray-700" />
 
-                {/* ── 2. Description ── */}
+                {/* 2. Description */}
                 <div className="p-6">
                   <label className="block text-sm font-semibold text-slate-800 dark:text-white mb-1.5">
                     Description <span className="text-red-500">*</span>
                   </label>
 
-                  <div className="flex gap-1 bg-slate-100 dark:bg-gray-900 rounded-xl p-1 mb-3 w-fit">
-                    {["write", "preview"].map((tab) => (
-                      <button
-                        key={tab}
-                        type="button"
-                        onClick={() => setBodyTab(tab)}
-                        className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all capitalize
-                          ${
-                            bodyTab === tab
+                  <div className="flex justify-between items-center mb-3">
+                    <div className="flex gap-1 bg-slate-100 dark:bg-gray-900 rounded-xl p-1 w-fit">
+                      {["write", "preview"].map((tab) => (
+                        <button
+                          key={tab}
+                          type="button"
+                          onClick={() => setBodyTab(tab)}
+                          className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-semibold capitalize
+                            ${bodyTab === tab
                               ? "bg-white dark:bg-gray-700 text-slate-900 dark:text-white shadow-sm"
                               : "text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300"
-                          }`}
-                      >
-                        {tab === "write" ? (
-                          <FiEdit3 className="w-3 h-3" />
-                        ) : (
-                          <FiEye className="w-3 h-3" />
-                        )}
-                        {tab}
-                      </button>
-                    ))}
+                            }`}
+                        >
+                          {tab === "write" ? (
+                            <FiEdit3 className="w-3 h-3" />
+                          ) : (
+                            <FiEye className="w-3 h-3" />
+                          )}
+                          {tab}
+                        </button>
+                      ))}
+                    </div>
+
+                    {bodyTab === "write" && (
+                      <div className="relative border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-slate-50 dark:hover:bg-gray-700 rounded-lg shadow-sm transition-colors overflow-hidden">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          disabled={isUploadingImage}
+                          title="Upload image"
+                        />
+                        <button
+                          type="button"
+                          disabled={isUploadingImage}
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-gray-300"
+                        >
+                          {isUploadingImage ? <FiLoader className="w-3 h-3 animate-spin" /> : <FiImage className="w-3 h-3 text-blue-500" />}
+                          {isUploadingImage ? "Uploading..." : "Add Image"}
+                        </button>
+                      </div>
+                    )}
                   </div>
                   {bodyTab === "write" ? (
                     <textarea
@@ -266,18 +272,17 @@ export default function AskQuestion() {
                       placeholder={"Describe your problem in detail..."}
                       rows={12}
                       className={`w-full px-4 py-3 rounded-xl text-sm font-mono bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500  transition-all 
-                        ${
-                          submitted && bodyState !== "ok"
-                            ? "border-red-400 dark:border-red-500 focus:ring-2 focus:ring-red-400/30"
-                            : bodyState === "ok"
-                              ? "border-emerald-400 dark:border-emerald-600 focus:ring-2 focus:ring-emerald-400/20"
-                              : "border-slate-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400"
+                        ${submitted && bodyState !== "ok"
+                          ? "border-red-400 dark:border-red-500 focus:ring-2 focus:ring-red-400/30"
+                          : bodyState === "ok"
+                            ? "border-emerald-400 dark:border-emerald-600 focus:ring-2 focus:ring-emerald-400/20"
+                            : "border-slate-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400"
                         }`}
                     />
                   ) : (
                     <div
                       className="w-full min-h-[200px] px-4 py-3 rounded-xl text-sm bg-slate-50 dark:bg-gray-900 text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-gray-700 prose prose-sm dark:prose-invert max-w-none"
-                      dangerouslySetInnerHTML={{ __html: renderPreview(body) }}
+                      dangerouslySetInnerHTML={{ __html: renderMarkdown(body) }}
                     />
                   )}
                   <div className="flex justify-between mt-2">
@@ -298,7 +303,7 @@ export default function AskQuestion() {
 
                 <div className="border-t border-slate-100 dark:border-gray-700" />
 
-                {/* ── 3. Tags ── */}
+                {/* 3. Tags with Creation Support */}
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="text-sm font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
@@ -307,24 +312,21 @@ export default function AskQuestion() {
                     </label>
                     <span
                       className={`text-xs font-medium px-2 py-0.5 rounded-full
-                      ${
-                        tags.length >= MAX_TAGS
+                      ${tags.length >= MAX_TAGS
                           ? "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400"
                           : "bg-slate-100 dark:bg-gray-700 text-slate-500 dark:text-gray-400"
-                      }`}
+                        }`}
                     >
-                      {tags.length}/{MAX_TAGS}
+                      {tags.length}/{MAX_TAGS} Selected
                     </span>
                   </div>
                   <p className="text-xs text-slate-400 dark:text-gray-500 mb-4">
-                    Add up to 5 tags to describe what your question is about.
+                    Select existing tags or create a new one to describe your question.
                   </p>
 
+                  {/* Selected Tags Area */}
                   {tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl">
-                      <span className="text-xs text-blue-500 dark:text-blue-400 font-medium self-center">
-                        Selected:
-                      </span>
                       {tags.map((tagObj) => (
                         <button
                           key={tagObj.id}
@@ -339,54 +341,71 @@ export default function AskQuestion() {
                     </div>
                   )}
 
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {tagsLoading ? (
-                      <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-gray-500 py-1">
-                        <FiLoader className="w-3.5 h-3.5 animate-spin" />
-                        Loading tags…
-                      </div>
-                    ) : (
-                      availableTags.map((tagObj) => (
-                        <TagChip
-                          key={tagObj.id}
-                          tag={tagObj.tagName}
-                          selected={tags.some((t) => t.id === tagObj.id)}
-                          onClick={() => toggleTag(tagObj)}
-                          disabled={
-                            !tags.some((t) => t.id === tagObj.id) &&
-                            tags.length >= MAX_TAGS
-                          }
-                        />
-                      ))
-                    )}
+                  {/* Tag Selection and Creation Input */}
+                  <div className="space-y-4">
+                    {/* Create New Tag Input */}
+                    <div className="flex gap-2">
+                       <input 
+                         type="text"
+                         value={newTagInput}
+                         onChange={(e) => setNewTagInput(e.target.value)}
+                         placeholder="Can't find a tag? Create one..."
+                         className="flex-1 px-4 py-2 text-sm rounded-xl bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white border border-slate-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-400/30 outline-none transition-all"
+                       />
+                       <button
+                         type="button"
+                         onClick={handleCreateTag}
+                         disabled={creatingTag || !newTagInput.trim()}
+                         className="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-white disabled:opacity-50 transition-all"
+                       >
+                         {creatingTag ? <FiLoader className="animate-spin" /> : "Create Tag"}
+                       </button>
+                    </div>
+
+                    {/* Available Tags list */}
+                    <div className="flex flex-wrap gap-2">
+                      {tagsLoading ? (
+                        <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-gray-500 py-1">
+                          <FiLoader className="w-3.5 h-3.5 animate-spin" />
+                          Loading…
+                        </div>
+                      ) : (
+                        availableTags.map((tagObj) => (
+                          <TagChip
+                            key={tagObj.id}
+                            tag={tagObj.tagName}
+                            selected={tags.some((t) => t.id === tagObj.id)}
+                            onClick={() => toggleTag(tagObj)}
+                            disabled={
+                              !tags.some((t) => t.id === tagObj.id) &&
+                              tags.length >= MAX_TAGS
+                            }
+                          />
+                        ))
+                      )}
+                    </div>
                   </div>
 
                   {submitted && tags.length === 0 && (
-                    <p className="text-xs text-red-500 mt-2 flex items-center gap-1">
-                      <FiAlertCircle className="w-3 h-3" /> Please add at least
-                      one tag
+                    <p className="text-xs text-red-500 mt-4 flex items-center gap-1">
+                      <FiAlertCircle className="w-3 h-3" /> Please add at least one tag
                     </p>
                   )}
                 </div>
 
-                <div className="border-t border-slate-100 dark:border-gray-700" />
-
-                {/* ── 4. Submit Row ── */}
+                {/* 4. Submit Row */}
                 <div className="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-gray-900/40">
-                  <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-gray-400">
-                    <span className="font-medium">
-                      +15 XP for asking a question
-                    </span>
+                  <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-gray-400 font-medium">
+                    +15 XP for asking a question
                   </div>
                   <div className="flex items-center gap-3">
                     <button
                       type="submit"
                       disabled={isLoading}
                       className={`flex items-center gap-2 px-6 py-2.5 text-sm font-bold rounded-xl text-white transition-all
-                        ${
-                          isLoading
-                            ? "bg-blue-400 dark:bg-blue-700 cursor-not-allowed"
-                            : "bg-blue-600  hover:-translate-y-0.5 active:translate-y-0"
+                        ${isLoading
+                          ? "bg-blue-400 dark:bg-blue-700 cursor-not-allowed"
+                          : "bg-blue-600 hover:-translate-y-0.5 active:translate-y-0 shadow-md shadow-blue-500/20"
                         }`}
                     >
                       {isLoading ? (
@@ -405,6 +424,7 @@ export default function AskQuestion() {
                 </div>
               </div>
             </form>
+            
           </div>
         </div>
       </main>

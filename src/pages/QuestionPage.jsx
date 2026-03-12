@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Sidebar from "../layout/Sidebar";
 import QuestionCard from "../components/QuestionCard";
 import { useGetPostsQuery } from "../features/post/postsApi";
 import { formatDistanceToNow } from "date-fns";
 import { useBookmarks } from "../hooks/useBookmarks";
+import { useSearchParams } from "react-router-dom";
 
 const TABS = ["Newest", "Active", "Unanswered", "Most Voted"];
 
@@ -46,24 +47,33 @@ function mapPost(post) {
 }
 
 export default function QuestionsPage() {
+  const [searchParams] = useSearchParams();
+  const searchFilter = searchParams.get("search")?.toLowerCase() || "";
+  
   const { toggleBookmark, isBookmarked } = useBookmarks();
   const [activeTab, setActiveTab] = useState("Newest");
 
   const { data: posts, isLoading, isError } = useGetPostsQuery();
 
-  // Sort / filter based on active tab
-  const sorted = (() => {
+  // Sort / filter based on active tab AND search filter
+  const sorted = useMemo(() => {
     if (!posts) return [];
-    const list = [...posts];
-    if (activeTab === "Newest") {
-      return list.sort(
-        (a, b) => new Date(b.creationDate) - new Date(a.creationDate),
+    let list = [...posts];
+
+    // Apply Search Filter if present
+    if (searchFilter) {
+      list = list.filter(p => 
+        p.title?.toLowerCase().includes(searchFilter) || 
+        p.body?.toLowerCase().includes(searchFilter) ||
+        p.tagResponses?.some(t => t.tagName.toLowerCase().includes(searchFilter))
       );
     }
+
+    if (activeTab === "Newest") {
+      return list.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+    }
     if (activeTab === "Active") {
-      return list.sort(
-        (a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate),
-      );
+      return list.sort((a, b) => new Date(b.lastActivityDate) - new Date(a.lastActivityDate));
     }
     if (activeTab === "Unanswered") {
       return list.filter((p) => (p.comments?.length ?? 0) === 0);
@@ -72,14 +82,14 @@ export default function QuestionsPage() {
       return list.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
     }
     return list;
-  })();
+  }, [posts, activeTab, searchFilter]);
 
   return (
     <div className="flex bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
-      <Sidebar className="hidden md:block" />
+      <Sidebar className="hidden lg:flex" />
 
-      <main className="flex-1">
-        <div className="flex items-center justify-between pl-8 pr-6 pt-6 pb-2">
+      <main className="flex-1 min-w-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-6 lg:px-8 pt-6 pb-2 gap-3">
           <h1 className="text-gray-900 dark:text-white font-bold text-[24px]">
             Questions
           </h1>
@@ -90,18 +100,17 @@ export default function QuestionsPage() {
           )}
         </div>
 
-        <div className="px-6 py-4">
+        <div className="px-4 sm:px-6 lg:px-8 py-4">
           {/* Tab Bar */}
-          <div className="flex w-fit mb-5 bg-gray-200 dark:bg-gray-800 rounded-2xl p-1">
+          <div className="flex mb-5 bg-gray-200 dark:bg-gray-800 rounded-2xl p-1 overflow-x-auto w-full md:w-fit scrollbar-hide">
             {TABS.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150
-                  ${
-                    activeTab === tab
-                      ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                      : "text-slate-400 dark:text-gray-500 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200"
+                className={`rounded-2xl px-4 py-1.5 text-sm font-medium transition-all duration-150 whitespace-nowrap
+                  ${activeTab === tab
+                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                    : "text-slate-400 dark:text-gray-500 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200"
                   }`}
               >
                 {tab}

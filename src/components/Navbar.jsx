@@ -7,16 +7,16 @@ const NavBar = () => {
         DevLevel
       </a>
       <div className="flex gap-8 items-center">
-        <a href="#" className="text-slate-700 font-medium hover:text-blue-600 transition">
+        <a href="/" className="text-slate-700 font-medium hover:text-blue-600 transition">
           Home
         </a>
-        <a href="#" className="text-slate-700 font-medium hover:text-blue-600 transition">
+        <a href="/leaderboard" className="text-slate-700 font-medium hover:text-blue-600 transition">
           Leaderboard
         </a>
-        <a href="#" className="text-slate-700 font-medium hover:text-blue-600 transition">
+        <a href="/challenges" className="text-slate-700 font-medium hover:text-blue-600 transition">
           Challenges
         </a>
-        <a href="#" className="text-slate-700 font-medium hover:text-blue-600 transition">
+        <a href="/badges" className="text-slate-700 font-medium hover:text-blue-600 transition">
           Badges
         </a>
         <button className="bg-blue-600 text-white px-5 py-2 rounded-md font-semibold hover:bg-blue-700 transition"><a href="/login">

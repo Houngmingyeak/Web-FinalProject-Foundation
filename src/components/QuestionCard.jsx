@@ -22,7 +22,7 @@ export default function QuestionCard({ question, isBookmarked, onToggleBookmark 
                    rounded-lg px-5 py-4 hover:border-gray-300 dark:hover:border-gray-600 
                    hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
       >
-      
+
 
         {/* Title */}
         <h3 className="text-[18px] font-bold text-gray-900 dark:text-white hover:text-blue-600 
@@ -32,7 +32,7 @@ export default function QuestionCard({ question, isBookmarked, onToggleBookmark 
 
         {/* Excerpt */}
         <p className="text-[16px] text-gray-500 dark:text-gray-400 leading-relaxed mb-3 line-clamp-1">
-          {question.excerpt}
+          {question.excerpt?.replace(/!\[.*?\]\(.*?\)/g, '')}
         </p>
 
         {/* Tags */}
@@ -48,19 +48,19 @@ export default function QuestionCard({ question, isBookmarked, onToggleBookmark 
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2">
           <div className="flex items-center gap-2">
             <span className={`w-6 h-6 rounded-full ${author.color || "bg-gray-400"} 
                              flex items-center justify-center text-[13px] font-bold text-white shrink-0`}>
               {author.initials || "?"}
             </span>
-            <span className="text-[14px] text-gray-600 dark:text-gray-300 font-medium">
+            <span className="text-[14px] text-gray-600 dark:text-gray-300 font-medium line-clamp-1">
               {author.name || "Unknown"}
             </span>
           </div>
-          <div className="flex items-center gap-4 text-gray-400 dark:text-gray-500 text-[14px]">
-            <span className="flex items-center gap-1"><ChatIcon />{comments}</span>
-            <span className="flex items-center gap-1">
+          <div className="flex items-center gap-3 sm:gap-4 text-gray-500 dark:text-gray-400 text-[13px] sm:text-[14px]">
+            <span className="flex items-center gap-1 shrink-0"><ChatIcon />{comments}</span>
+            <span className="flex items-center gap-1 shrink-0">
               <EyeIcon />
               {typeof views === "number" ? views.toLocaleString() : views}
             </span>

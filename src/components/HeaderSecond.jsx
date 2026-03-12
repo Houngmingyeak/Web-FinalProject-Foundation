@@ -9,10 +9,12 @@ export default function HeaderSecond() {
     <header className="w-full bg-white border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-3 px-6 md:px-16">
         {/* Logo Section */}
+        <Link to="/">
         <div className="flex items-center space-x-2">
           <img src={MindStack} alt="" className="w-8 h-8" />
           <p className="text-xl font-bold text-gray-900">MindStack</p>
         </div>
+        </Link>
 
         {/* Search Bar Section */}
         {/* <form className="w-lg h-10 ">

@@ -27,3 +27,5 @@ dist-ssr
 
 # Personal files / notes
 myNpm.md
+.vercel
+.env*.local

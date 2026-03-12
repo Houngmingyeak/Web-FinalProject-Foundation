@@ -230,7 +230,7 @@ function PostRow({ post, index }) {
 function Skeleton() {
   return (
     <div className="animate-pulse space-y-5">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
@@ -238,7 +238,7 @@ function Skeleton() {
           />
         ))}
       </div>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
@@ -382,8 +382,10 @@ export default function ChallengesPage() {
   if (!userId) {
     return (
       <div className="flex min-h-screen bg-slate-100 dark:bg-gray-900">
-        <Sidebar />
-        <main className="flex-1 flex items-center justify-center p-8">
+        <aside className="shrink-0">
+          <Sidebar className="hidden lg:flex" />
+        </aside>
+        <main className="flex-1 flex items-center justify-center p-4 sm:p-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
               Sign in Required
@@ -406,10 +408,10 @@ export default function ChallengesPage() {
   return (
     <div className="flex min-h-screen bg-slate-100 dark:bg-gray-900 transition-colors duration-300">
       <aside className="shrink-0">
-        <Sidebar />
+        <Sidebar className="hidden lg:flex" />
       </aside>
 
-      <main className="flex-1 px-8 py-8 overflow-y-auto">
+      <main className="flex-1 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 overflow-y-auto min-w-0">
         {isLoading && <Skeleton />}
 
         {isError && (
@@ -432,11 +434,48 @@ export default function ChallengesPage() {
 
         {!isLoading && !isError && (
           <>
+            {/* ── Page Header ────────────────────────────────────── */}
+            <div className="mb-6">
+              <h1 className="text-[26px] font-black text-slate-900 dark:text-white flex items-center gap-3">
+                <LuSwords className="text-indigo-500" /> Dashboard & Challenges
+              </h1>
+              <p className="text-sm text-slate-500 dark:text-gray-400 mt-1">
+                Track your progress, stats, and climb through the milestones!
+              </p>
+            </div>
+
+            {/* ── Stats Overview ──────────────────────────────────── */}
+            <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <StatCard
+                icon={<FiStar />}
+                label="Total Score"
+                value={stats.totalScore}
+                gradient="bg-linear-to-br from-amber-400 to-orange-500 border-transparent shadow-orange-500/20"
+              />
+              <StatCard
+                icon={<FiEye />}
+                label="Total Views"
+                value={stats.totalViews}
+                gradient="bg-linear-to-br from-blue-400 to-blue-600 border-transparent shadow-blue-500/20"
+              />
+              <StatCard
+                icon={<FiMessageSquare />}
+                label="Comments Received"
+                value={stats.totalComments}
+                gradient="bg-linear-to-br from-violet-400 to-purple-600 border-transparent shadow-purple-500/20"
+              />
+              <StatCard
+                icon={<FiTag />}
+                label="Unique Tags Used"
+                value={stats.uniqueTags.length}
+                gradient="bg-linear-to-br from-emerald-400 to-teal-500 border-transparent shadow-emerald-500/20"
+              />
+            </div>
             {/* ── Best Post Banner ──────────────────────────────── */}
             {stats.bestPost && (
-              <div className="mb-6 bg-linear-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl px-6 py-4 flex items-center gap-4">
+              <div className="mb-6 bg-linear-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <span className="text-2xl shrink-0">🏆</span>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 w-full sm:w-auto">
                   <p className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
                     Your Best Post
                   </p>
@@ -459,7 +498,7 @@ export default function ChallengesPage() {
             )}
 
             {/* ── Milestones ────────────────────────────────────── */}
-            <div className="mb-7">
+            <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-[17px] font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <FiAward className="text-amber-500" /> Milestones
@@ -473,6 +512,70 @@ export default function ChallengesPage() {
                   <MilestoneCard key={m.title} {...m} />
                 ))}
               </div>
+            </div>
+
+            {/* ── Posts / Activity ──────────────────────────────── */}
+            <div className="mb-7">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                <h2 className="text-[17px] font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <FiFileText className="text-indigo-500" /> Your Posts
+                </h2>
+
+                {/* Search & Filters */}
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <div className="relative shrink-0 flex-1 sm:flex-none sm:w-64">
+                    <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search posts..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="w-full pl-9 pr-4 py-2 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-slate-900 dark:text-white"
+                    />
+                  </div>
+                  <select
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value)}
+                    className="shrink-0 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 py-2 px-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-slate-900 dark:text-white"
+                  >
+                    {SORT_OPTIONS.map(opt => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Tag Filters */}
+              {allTags.length > 1 && (
+                <div className="flex items-center gap-2 mb-5 overflow-x-auto pb-2 scrollbar-hide">
+                  {allTags.map(tag => (
+                    <button
+                      key={tag}
+                      onClick={() => setTagFilter(tag)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors border ${tagFilter === tag
+                          ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800"
+                          : "bg-white dark:bg-gray-800 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-700 hover:bg-slate-50 dark:hover:bg-gray-700"
+                        }`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Post List */}
+              {filtered.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {filtered.map((p, i) => (
+                    <PostRow key={p.id} post={p} index={i} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl border border-dashed border-slate-300 dark:border-gray-700 flex flex-col items-center">
+                  <div className="text-4xl mb-3">📭</div>
+                  <p className="text-slate-500 dark:text-gray-400 font-medium text-[15px]">No posts match your filters</p>
+                </div>
+              )}
             </div>
           </>
         )}

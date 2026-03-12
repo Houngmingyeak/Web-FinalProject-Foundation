@@ -211,8 +211,10 @@ export default function BookmarkCard() {
   if (!currentUser) {
     return (
       <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-        <Sidebar />
-        <main className="flex-1 flex items-center justify-center p-8">
+        <aside className="shrink-0">
+          <Sidebar className="hidden lg:flex" />
+        </aside>
+        <main className="flex-1 flex items-center justify-center p-4 sm:p-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
               Sign in Required
@@ -234,11 +236,13 @@ export default function BookmarkCard() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-colors duration-300">
-      <Sidebar />
+      <aside className="shrink-0">
+        <Sidebar className="hidden lg:flex" />
+      </aside>
 
-      <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto min-w-0">
         {/* ── Profile Banner ──────────────────────────────────── */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="flex items-center gap-4">
             <div
               className="w-14 h-14 rounded-xl bg-linear-to-br from-blue-500 to-violet-500

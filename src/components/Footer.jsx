@@ -1,9 +1,11 @@
 import React from "react";
-import Img from "../assets/Istad.png";
+import Img from "../assets/istad.png";
 import { CiFacebook, CiLinkedin } from "react-icons/ci";
 import { PiTelegramLogo } from "react-icons/pi";
 import { CgMail } from "react-icons/cg";
-import imgMindStack from "../assets/mindstack.png";
+import imgMindStack from "../assets/Mindstack.png";
+import { Link } from "react-router-dom";
+import { RiTiktokLine } from "react-icons/ri";
 
 const Footer = () => {
   return (
@@ -26,22 +28,28 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Column 2: About Us */}
+          {/* Column 2: Navigation */}
           <div className="flex flex-col items-center sm:items-start md:ml-48">
             <h3 className="text-blue-600 dark:text-blue-400 text-xl font-bold mb-4">
-              About us
+              Navigation
             </h3>
             <ul className="space-y-2 text-center sm:text-left">
-              {["Blog", "Career", "Contact", "Press", "Follow Us"].map(
-                (item) => (
-                  <li
-                    key={item}
+              {[
+                { label: "Home", to: "/" },
+                { label: "Questions", to: "/questions" },
+                { label: "Leaderboard", to: "/leaderboard" },
+                { label: "Challenges", to: "/challenges" },
+                { label: "About Us", to: "/about-us" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link
+                    to={item.to}
                     className="hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition"
                   >
-                    {item}
-                  </li>
-                ),
-              )}
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -49,10 +57,10 @@ const Footer = () => {
           <div className="flex flex-col items-center">
             <h3 className="text-xl font-bold mb-4">Get in touch</h3>
             <div className="flex gap-6 mb-4">
-              <CiFacebook className="text-2xl hover:text-blue-600 transition cursor-pointer" />
-              <PiTelegramLogo className="text-2xl hover:text-blue-600 transition cursor-pointer" />
-              <CgMail className="text-2xl hover:text-blue-600 transition cursor-pointer" />
-              <CiLinkedin className="text-2xl hover:text-blue-600 transition cursor-pointer" />
+              <a href="https://www.facebook.com/istad.co"><CiFacebook className="text-2xl hover:text-blue-600 transition cursor-pointer" /></a>
+              <a href="https://t.me/istadkh?fbclid=IwY2xjawQfH4xleHRuA2FlbQIxMABicmlkETEzcnRBWjViVVNybXU3QW9Bc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHqIeprktCrU_pyCvaxh8LJBs8WKEcH4NhlTRGpOdFS8uwMX62sFYUZumziVf_aem_r1x1Ymf6_ZL14nJUp5WuJw"><PiTelegramLogo className="text-2xl hover:text-blue-600 transition cursor-pointer" /></a>
+              <a href="info.istad@gmail.com"><CgMail className="text-2xl hover:text-blue-600 transition cursor-pointer" /></a>
+              <a href="https://www.tiktok.com/@istad369"><RiTiktokLine  className="text-2xl hover:text-blue-600 transition cursor-pointer" /></a>
             </div>
             <form className="w-full max-w-xs">
               <input
